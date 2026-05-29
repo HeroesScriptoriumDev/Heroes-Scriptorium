@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+11_BACKEND/node_modules/
+
+# Environment variables
+.env
+11_BACKEND/.env
+
+# Build output
+dist/
+build/
+
+# Electron output
+win-unpacked/
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# OS files
+Thumbs.db

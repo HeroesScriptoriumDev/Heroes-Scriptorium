@@ -1,0 +1,41 @@
+<!Doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heroes Scriptorium: Home Page</title>
+  <link rel="stylesheet" href="../02_CSS/home_en.css"/>
+
+</head>
+<body>
+  <div class="background">
+    <div class="background-glow"></div>
+    <div class="background-vignette"></div>  
+  </div>
+  
+  <!-- Top Navigation-->
+  <nav class="top-navigation">
+    <button class="navigation-btn" id="home-btn" onclick="navigate('home')"></button>
+    <button class="navigation-btn" id="player-switch-btn" onclick="navigate('player')"></button>
+    <button class="navigation-btn" id="profile-btn" onclick="navigate('profile')"></button>
+    <button class="navigation-btn" id="settings-btn" onclick="navigate('settings')"></button>
+  </nav>
+  <!-- End Top Navigation-->
+  
+  <!-- Hub Navigation-->
+  <div class="hub-navigation">
+    <button class="hub-btn" id="library-btn" onclick="navigate('library')"></button>
+    <button class="hub-btn" id="tavern-btn" onclick="navigate('tavern')"></button>
+    <button class="hub-btn" id="characters-btn" onclick="navigate('character')"></button>
+    <button class="hub-btn" id="vtt-btn" onclick="navigate('vtt')"></button>
+    <button class="hub-btn" id="marketplace-btn" onclick="navigate('marketplace')"></button>
+    <button class="hub-btn" id="community-btn" onclick="navigate('community')"></button>
+  </div>
+  <!-- End Hub Navigation-->
+  
+  <div class="tooltip" id="tooltip"></div>
+
+  <!-- MAIN JS -->
+  <script src="../03_JS/home_en.js"></script>
+</body>
+</html>

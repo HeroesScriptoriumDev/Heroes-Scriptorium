@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heroes Scriptorium — 3.5e Characters</title>
+  <link rel="stylesheet" href="../02_CSS/characters_35e_home_en.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- BACKGROUND -->
+  <div class="hs-bg"></div>
+  <div class="hs-bg-overlay"></div>
+
+  <!-- =====================================================
+       TOP NAVIGATION
+       ===================================================== -->
+  <nav class="top-navigation">
+    <button class="navigation-btn" id="home-btn"          onclick="navigate('home')"></button>
+    <button class="navigation-btn" id="player-switch-btn" onclick="navigate('player')"></button>
+    <button class="navigation-btn" id="profile-btn"       onclick="navigate('profile')"></button>
+    <button class="navigation-btn" id="settings-btn"      onclick="navigate('settings')"></button>
+  </nav>
+
+  <!-- =====================================================
+       PAGE WRAPPER
+       ===================================================== -->
+  <div class="page-wrapper">
+
+    <!-- MAIN CONTENT: CHARACTER LIST + QUICK ACTIONS -->
+    <div class="content-grid">
+
+      <!-- ===================================================
+           LEFT — CHARACTER LIST
+           =================================================== -->
+      <div class="p-card character-list-card">
+
+        <!-- LIST HEADER -->
+        <div class="list-header">
+          <h2 class="list-title">Your 3.5e Characters</h2>
+          <div class="list-controls">
+            <select class="filter-select" id="filterSelect">
+              <option value="all">All Characters</option>
+              <option value="active">Active</option>
+              <option value="archived">Archived</option>
+            </select>
+            <div class="search-wrap">
+              <span class="search-icon">🔍</span>
+              <input
+                class="search-input"
+                id="searchInput"
+                type="text"
+                placeholder="Search..."
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- CHARACTER ROWS — populated by JS -->
+        <div class="character-rows" id="characterRows">
+
+          <!-- EMPTY STATE — shown when no characters exist -->
+          <div class="empty-state" id="emptyState" style="display:none;">
+            <div class="empty-icon">⚔️</div>
+            <div class="empty-title">No Characters Yet</div>
+            <div class="empty-desc">Your legend begins when you create your first character.</div>
+            <button class="btn-create-first" onclick="openNewCharacterModal()">
+              + Create Your First Character
+            </button>
+          </div>
+
+          <!-- LOADING STATE -->
+          <div class="loading-state" id="loadingState">
+            <div class="loading-text">Loading your characters...</div>
+          </div>
+
+        </div>
+
+        <!-- LIST FOOTER — character count -->
+        <div class="list-footer" id="listFooter">
+          <div class="footer-divider"></div>
+          <span class="character-count" id="characterCount">0 Characters</span>
+          <div class="footer-divider"></div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================
+           RIGHT — QUICK ACTIONS + STORAGE INFO
+           =================================================== -->
+      <div class="right-column">
+
+        <!-- QUICK ACTIONS -->
+        <div class="p-card quick-actions-card">
+          <h2 class="card-section-title">Quick Actions</h2>
+          <div class="card-title-rule"></div>
+
+          <div class="action-list">
+
+            <button class="action-row" onclick="createNewCharacter()">
+              <div class="action-icon">➕</div>
+              <div class="action-info">
+                <div class="action-name">New Character</div>
+                <div class="action-desc">Create a brand new character</div>
+              </div>
+            </button>
+
+            <button class="action-row" onclick="importCharacter()">
+              <div class="action-icon">⬆️</div>
+              <div class="action-info">
+                <div class="action-name">Import Character</div>
+                <div class="action-desc">Import from JSON or file</div>
+              </div>
+            </button>
+
+            <button class="action-row" onclick="exportAllCharacters()">
+              <div class="action-icon">⬇️</div>
+              <div class="action-info">
+                <div class="action-name">Export Characters</div>
+                <div class="action-desc">Backup your characters</div>
+              </div>
+            </button>
+
+            <button class="action-row" onclick="viewArchived()">
+              <div class="action-icon">🗄️</div>
+              <div class="action-info">
+                <div class="action-name">Archived Characters</div>
+                <div class="action-desc">View archived characters</div>
+              </div>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- STORAGE INFO -->
+        <div class="p-card storage-card">
+          <h2 class="card-section-title">Storage Info</h2>
+          <div class="card-title-rule"></div>
+
+          <div class="storage-rows">
+            <div class="storage-row">
+              <span class="storage-icon">👤</span>
+              <span class="storage-label">Total Characters:</span>
+              <span class="storage-val" id="totalCount">0</span>
+            </div>
+            <div class="storage-row">
+              <span class="storage-icon">⚔️</span>
+              <span class="storage-label">Active Characters:</span>
+              <span class="storage-val" id="activeCount">0</span>
+            </div>
+            <div class="storage-row">
+              <span class="storage-icon">🗄️</span>
+              <span class="storage-label">Archived:</span>
+              <span class="storage-val" id="archivedCount">0</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TIP OF THE SAGE -->
+    <div class="sage-tip" id="sageTip">
+      <span class="sage-icon">🪶</span>
+      <div class="sage-content">
+        <div class="sage-title">Tip of the Sage</div>
+        <div class="sage-text" id="sageTipText">Regularly back up your characters. Adventures are safer when prepared.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- =====================================================
+       NEW CHARACTER MODAL
+       ===================================================== -->
+  <div class="modal-overlay" id="newCharModal" aria-hidden="true">
+    <div class="modal-box">
+
+      <div class="modal-header">
+        <h2 class="modal-title">✦ New Character</h2>
+        <button class="modal-close" onclick="closeNewCharacterModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-desc">Give your character a name to begin. You can fill in all the details on the character sheet.</p>
+
+        <div class="modal-form-group">
+          <label class="modal-label">Character Name</label>
+          <input
+            class="modal-input"
+            id="newCharName"
+            type="text"
+            placeholder="Enter character name..."
+            maxlength="60"
+          >
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-label">Class (Optional)</label>
+          <input
+            class="modal-input"
+            id="newCharClass"
+            type="text"
+            placeholder="e.g. Fighter, Wizard, Rogue..."
+            maxlength="40"
+          >
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeNewCharacterModal()">Cancel</button>
+        <button class="btn-primary" onclick="createNewCharacter()">Create Character →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =====================================================
+       DELETE CONFIRM MODAL
+       ===================================================== -->
+  <div class="modal-overlay" id="deleteModal" aria-hidden="true">
+    <div class="modal-box modal-box-sm">
+
+      <div class="modal-header">
+        <h2 class="modal-title">🗑 Delete Character</h2>
+        <button class="modal-close" onclick="closeDeleteModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-desc">Are you sure you want to delete <strong id="deleteCharName">this character</strong>? This cannot be undone.</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+        <button class="btn-danger" onclick="confirmDelete()">Delete Forever</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HIDDEN FILE INPUT for import -->
+  <input type="file" id="importFileInput" accept=".json" style="display:none;">
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="../03_JS/characters_35e_home_en.js"></script>
+</body>
+</html>

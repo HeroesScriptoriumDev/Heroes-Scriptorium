@@ -1,0 +1,982 @@
+/* =========================================================
+   HEROES SCRIPTORIUM — PROFILE PAGE
+   FILE: profile_en.css
+
+   DESIGN SYSTEM: Matches settings_en.css exactly.
+   The only difference from settings is:
+   --card-bg uses rgba(0,0,0,0.72) instead of the brownish
+   rgba(25,20,16,0.92) so cards appear blacker while still
+   letting the background image show through.
+
+   TABLE OF CONTENTS:
+   01. CSS Variables
+   02. Reset
+   03. Body & Background
+   04. Background Layers
+   05. Top Navigation
+   06. Page Layout
+   07. Card System (.p-card)
+   08. Hero Banner
+   09. Row Layouts
+   10. Sidebar — Identity Block
+   11. Sidebar — Stats Block
+   12. Sidebar — Currently Active
+   13. Sidebar — Favorite Editions
+   14. Sidebar — Edit Profile Button
+   15. Active Campaigns
+   16. Recent Activity
+   17. Vault / Notes / Loot Cards
+   18. Upcoming Sessions
+   19. Achievements
+   20. Badges
+   21. Forum Notifications
+   22. Empty States & Placeholders
+   23. View All Button
+   24. Bottom Bar
+   25. Toast
+   26. Responsive
+   ========================================================= */
+
+
+/* =========================================================
+   01. CSS VARIABLES
+   ---------------------------------------------------------
+   Inherits the same token names as settings_en.css so the
+   two pages feel like one coherent design system.
+   Card backgrounds are blacker (pure black + alpha) so the
+   fantasy background image bleeds through more visibly.
+   ========================================================= */
+
+:root {
+
+  /* BACKGROUNDS */
+  --bg-main:      #0f0c0a;
+  --bg-secondary: #171310;
+  --bg-tertiary:  #221b16;
+
+  /* CARD BACKGROUNDS
+     rgba(0,0,0,X) = pure black semi-transparent
+     Increase alpha (0.72 → 0.85) for more opaque cards
+     Decrease alpha (0.72 → 0.50) for more see-through cards */
+  --card-bg:          rgba(0, 0, 0, 0.72);
+  --card-bg-hover:    rgba(0, 0, 0, 0.82);
+  --card-border:      rgba(212, 175, 55, 0.18);
+  --card-border-hover:rgba(212, 175, 55, 0.32);
+
+  /* TEXT */
+  --text-primary:   #f4ede2;
+  --text-secondary: #c8b89a;
+  --text-muted:     #8f7c67;
+
+  /* GOLD PALETTE */
+  --gold-primary:   #d4af37;
+  --gold-secondary: #b8922f;
+  --gold-hover:     #f0cc62;
+
+  /* STATUS */
+  --success: #4caf50;
+  --danger:  #b44747;
+
+  /* SHADOWS */
+  --shadow-soft: 0 4px 28px rgba(0, 0, 0, 0.55);
+  --shadow-gold: 0 0 16px rgba(212, 175, 55, 0.12);
+
+  /* RADII */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  /* LAYOUT */
+  --sidebar-w:    320px;
+  --nav-h:        165px;
+  --bottom-bar-h: 58px;
+
+  /* TRANSITIONS */
+  --transition-fast:   0.15s ease;
+  --transition-normal: 0.25s ease;
+
+}
+
+
+/* =========================================================
+   02. RESET
+   ========================================================= */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   03. BODY & BACKGROUND
+   ---------------------------------------------------------
+   The background image is applied directly to body so it
+   fills the full viewport and stays fixed as you scroll.
+   ========================================================= */
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0f0c0a 0%, #16110d 100%);
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  color: var(--text-primary);
+  font-family: "Crimson Text", serif;
+  overflow-x: hidden;
+}
+
+body.mode-player {
+  background-image: url('../07_ASSETS/01_IMAGES/01_BACKGROUNDS/62245C55-9A94-4AAA-BA38-B17FCD771F9E.png');
+}
+
+body.mode-dm-home {
+  background-image: url('../07_ASSETS/01_IMAGES/01_BACKGROUNDS/40AF5108-6948-4407-813F-EE9E7AF8C0DA.png');
+}
+
+body.mode-dm {
+  background-image: url('../07_ASSETS/01_IMAGES/01_BACKGROUNDS/5D0ECE72-97FE-4456-8014-6CD4A6B50FAA.png');
+}
+
+.hs-bg {
+  position: fixed;
+  inset: 0;
+  /* Very subtle warm glow at top of screen */
+  background: radial-gradient(circle at top, rgba(212,175,55,0.07), transparent 55%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+.hs-bg-overlay {
+
+  position: fixed;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(0,0,0,0.12) 0%,
+      rgba(0,0,0,0.35) 100%
+    );
+
+  z-index: -1;
+
+  pointer-events: none;
+}
+
+.top-navigation {
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 165px;
+
+  z-index: 50;
+
+  pointer-events: none;
+}
+
+/* Individual hit-zone buttons — pointer-events re-enabled */
+.navigation-btn {
+  position: absolute;
+  pointer-events: all;
+  width: 120px;
+  height: 40px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navigation-btn:hover {
+  background: rgba(200, 164, 90, 0.05);
+  box-shadow: 0 0 16px rgba(200, 164, 90, 0.15);
+}
+
+/* Button positions — must match your nav image layout */
+#home-btn          { top: 47px; left: 90px;   width: 290px; height: 73px; }
+#player-switch-btn { top: 47px; left: 440px;  width: 290px; height: 73px; }
+#profile-btn       { top: 47px; left: 1827px; width: 290px; height: 73px; }
+#settings-btn      { top: 47px; left: 2175px; width: 290px; height: 73px; }
+
+
+/* =========================================================
+   06. PAGE LAYOUT
+   ---------------------------------------------------------
+   Two-column grid identical to settings_en.css page-body.
+   Left column = fixed-width sidebar.
+   Right column = fluid main content area.
+   padding-top clears the fixed nav bar.
+   ========================================================= */
+
+.page-layout {
+  position: relative;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  gap: 24px;
+  padding: 24px 32px;
+  padding-top: 180px; /* clears the fixed nav */
+  align-items: start;
+}
+
+/* Sidebar: vertical stack of cards, sticky on scroll */
+.profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: sticky;
+  top: calc(var(--nav-h) + 16px);
+}
+
+/* Main area: vertical stack of row grids */
+.main-area {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+
+/* =========================================================
+   07. CARD SYSTEM (.p-card)
+   ---------------------------------------------------------
+   Every panel on the page uses this base class.
+   Matches the .s-card style from settings_en.css but with
+   the blacker --card-bg variable defined above.
+   ========================================================= */
+
+.p-card {
+  position: relative;
+  background: var(--card-bg);         /* BLACK semi-transparent */
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(12px);        /* frosted glass effect */
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+  overflow: hidden;
+}
+
+/* Subtle highlight line at top of each card */
+.p-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+  pointer-events: none;
+}
+
+/* Hover: slightly brighter border + gold glow + lift */
+.p-card:hover {
+  border-color: var(--card-border-hover);
+  box-shadow: var(--shadow-soft), var(--shadow-gold);
+  transform: translateY(-2px);
+}
+
+/* Card header: title left, action button right */
+.p-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+/* Card section title — matches .s-card-title from settings */
+.p-card-title,
+.sidebar-section-title {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gold-primary);
+  letter-spacing: 0.5px;
+}
+
+/* Right-side header actions (View All + icon button) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* =========================================================
+   08. HERO BANNER
+   ---------------------------------------------------------
+   Full-width banner at the top of the main area.
+   Left panel = bio quote text.
+   Right panel = atmospheric image slice.
+   ========================================================= */
+
+.hero-banner {
+  display: flex;
+  min-height: 160px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Left text area — black semi-transparent */
+.banner-inner {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  padding: 32px 40px;
+}
+
+/* Right decorative image panel */
+.banner-image-side {
+  width: 260px;
+  flex-shrink: 0;
+  background-image: url('');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.6;
+}
+
+/* Italic quote text in the banner */
+.banner-quote {
+  font-family: "Cinzel Decorative", serif;
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.7;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.6);
+}
+
+/* Gold decorative quote marks */
+.quote-mark {
+  color: var(--gold-primary);
+  font-size: 1.6rem;
+  line-height: 0;
+  vertical-align: -0.35em;
+  opacity: 0.75;
+  margin: 0 3px;
+}
+
+
+/* =========================================================
+   09. ROW LAYOUTS
+   ---------------------------------------------------------
+   Three grid patterns used inside .main-area.
+   ========================================================= */
+
+/* Row 2: Active Campaigns (60%) + Recent Activity (40%) */
+.row-campaigns-activity {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 20px;
+}
+
+/* Row 3: 4 equal columns for vault/notes/loot/sessions */
+.row-four {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Row 4: Achievements + Badges (wider) + Forum */
+.row-three {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 20px;
+}
+
+
+/* =========================================================
+   10. SIDEBAR — IDENTITY BLOCK
+   ---------------------------------------------------------
+   Avatar, level badge, name, title, status, roles.
+   Matches the left sidebar style in settings_en.css.
+   ========================================================= */
+
+.identity-card {
+  text-align: center;
+}
+
+/* Wrapper holds avatar ring + level badge together */
+.avatar-wrap {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto 16px;
+}
+
+/* Circular avatar with gold ring glow */
+.avatar-ring {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: radial-gradient(circle, rgba(212,175,55,0.18), rgba(212,175,55,0.04));
+  border: 2px solid rgba(212,175,55,0.28);
+  box-shadow: var(--shadow-gold);
+}
+
+/* Gold pill badge overlaid on bottom-right of avatar */
+.level-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -10px;
+  background: var(--gold-primary);
+  color: #1b140d;
+  font-weight: 700;
+  font-size: 0.78rem;
+  font-family: "Cinzel", serif;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* Display name — responsive font size prevents overflow */
+.profile-name {
+  font-family: "Cinzel", serif;
+  font-size: clamp(0.9rem, 2vw, 1.3rem);
+  font-weight: 700;
+  margin-bottom: 6px;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  color: var(--text-primary);
+}
+
+/* Title below name — gold italic */
+.profile-title-text {
+  color: var(--gold-primary);
+  font-style: italic;
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+}
+
+/* Online/offline status row */
+.profile-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Colored dot — matches .status-dot in settings_en.css */
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.status-dot.online  { background: var(--success); box-shadow: 0 0 6px var(--success); }
+.status-dot.offline { background: #666; }
+
+/* Role badge pills */
+.roles-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.role-tag {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(212,175,55,0.1);
+  border: 1px solid rgba(212,175,55,0.2);
+  color: var(--gold-primary);
+  font-size: 0.82rem;
+}
+
+
+/* =========================================================
+   11. SIDEBAR — STATS BLOCK
+   ---------------------------------------------------------
+   Row list of member stats. Matches .stats-block in
+   settings_en.css pattern.
+   ========================================================= */
+
+.stats-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 14px 18px;
+}
+
+/* Each row: icon + label + value */
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.stat-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.stat-icon  { font-size: 0.9rem; width: 20px; text-align: center; flex-shrink: 0; }
+.stat-label { flex: 1; color: var(--text-secondary); font-size: 0.9rem; }
+.stat-val   { color: var(--gold-primary); font-weight: 600; font-size: 0.9rem; }
+
+
+/* =========================================================
+   12. SIDEBAR — CURRENTLY ACTIVE
+   ---------------------------------------------------------
+   Shows the campaign the user is actively running/playing.
+   ========================================================= */
+
+.active-campaign-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  margin-top: 8px;
+}
+.active-campaign-row:hover { background: rgba(212,175,55,0.07); }
+
+.active-campaign-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: rgba(212,175,55,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.active-campaign-name { font-weight: 600; font-size: 0.85rem; margin-bottom: 2px; }
+.active-campaign-meta { color: var(--text-muted); font-size: 0.78rem; line-height: 1.4; }
+.active-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 5px var(--success);
+  flex-shrink: 0; margin-left: auto;
+}
+
+
+/* =========================================================
+   13. SIDEBAR — FAVORITE EDITIONS
+   ========================================================= */
+
+.editions-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.edition-badge {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(212,175,55,0.1);
+  border: 1px solid rgba(212,175,55,0.2);
+  color: var(--gold-primary);
+  font-size: 0.8rem;
+  transition: border-color var(--transition-fast);
+}
+.edition-badge:hover { border-color: rgba(212,175,55,0.45); }
+
+
+/* =========================================================
+   14. SIDEBAR — EDIT PROFILE BUTTON
+   ---------------------------------------------------------
+   Matches .sidebar-secondary-btn from settings_en.css
+   ========================================================= */
+
+.btn-edit-profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(212,175,55,0.2);
+  background: rgba(0, 0, 0, 0.50);
+  color: var(--text-secondary);
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(6px);
+}
+.btn-edit-profile:hover {
+  background: rgba(212,175,55,0.1);
+  color: var(--gold-primary);
+  border-color: rgba(212,175,55,0.35);
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   15. ACTIVE CAMPAIGNS
+   ---------------------------------------------------------
+   List of campaigns the user is participating in.
+   ========================================================= */
+
+.campaigns-list { display: flex; flex-direction: column; gap: 10px; }
+
+.campaign-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+.campaign-row:hover { background: rgba(212,175,55,0.05); }
+
+.campaign-thumb {
+  width: 50px; height: 50px;
+  border-radius: var(--radius-sm);
+  background: rgba(212,175,55,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0; overflow: hidden;
+}
+.campaign-info { flex: 1; min-width: 0; }
+.campaign-name {
+  font-family: "Cinzel", serif;
+  font-size: 0.88rem; font-weight: 600; margin-bottom: 3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.campaign-meta { color: var(--text-muted); font-size: 0.78rem; }
+.campaign-active-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--success); box-shadow: 0 0 5px var(--success); flex-shrink: 0;
+}
+
+
+/* =========================================================
+   16. RECENT ACTIVITY
+   ========================================================= */
+
+.activity-list { display: flex; flex-direction: column; }
+
+.activity-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.activity-row:last-child { border-bottom: none; }
+
+.activity-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(212,175,55,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; flex-shrink: 0; margin-top: 2px;
+}
+.activity-text { flex: 1; font-size: 0.85rem; line-height: 1.45; color: var(--text-secondary); }
+.activity-time { color: var(--text-muted); font-size: 0.76rem; flex-shrink: 0; white-space: nowrap; }
+
+/* Small + icon button in activity header */
+.btn-icon-sm {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1px solid rgba(212,175,55,0.2);
+  background: rgba(0,0,0,0.4);
+  color: var(--gold-primary); font-size: 0.9rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition-fast);
+}
+.btn-icon-sm:hover:not(:disabled) { background: rgba(212,175,55,0.15); }
+.btn-icon-sm:disabled { opacity: 0.35; cursor: default; }
+
+
+/* =========================================================
+   17. VAULT / NOTES / LOOT CARDS
+   ---------------------------------------------------------
+   Cards with a centered big-number stat + breakdown list.
+   ========================================================= */
+
+.vault-stat-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 12px 0 10px; margin-bottom: 10px;
+}
+.vault-icon { font-size: 2rem; margin-bottom: 8px; }
+.vault-big-num {
+  font-family: "Cinzel", serif; font-size: 2.2rem; font-weight: 700;
+  color: var(--gold-primary); line-height: 1; margin-bottom: 4px;
+}
+.vault-label { color: var(--text-muted); font-size: 0.78rem; letter-spacing: 0.8px; text-transform: uppercase; }
+
+/* Sub-breakdown row list */
+.sub-breakdown { display: flex; flex-direction: column; gap: 0; }
+.sub-row {
+  display: flex; justify-content: space-between; font-size: 0.8rem;
+  color: var(--text-secondary); padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.sub-row:last-child { border-bottom: none; }
+.sub-row-val { color: var(--text-primary); font-weight: 600; }
+
+
+/* =========================================================
+   18. UPCOMING SESSIONS
+   ========================================================= */
+
+.sessions-list { display: flex; flex-direction: column; gap: 8px; }
+
+.session-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.03);
+}
+.session-date-block {
+  background: rgba(212,175,55,0.1); border-radius: var(--radius-sm);
+  padding: 5px 9px; text-align: center; flex-shrink: 0; min-width: 44px;
+}
+.session-month { font-size: 0.62rem; text-transform: uppercase; color: var(--gold-primary); letter-spacing: 1px; line-height: 1; }
+.session-day   { font-family: "Cinzel", serif; font-size: 1.2rem; font-weight: 700; line-height: 1.1; }
+.session-info  { flex: 1; min-width: 0; }
+.session-name  { font-weight: 600; font-size: 0.83rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.session-type  { color: var(--text-muted); font-size: 0.76rem; }
+.session-time  { color: var(--text-secondary); font-size: 0.78rem; flex-shrink: 0; white-space: nowrap; }
+.session-active-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 5px var(--success); flex-shrink: 0; }
+
+
+/* =========================================================
+   19. ACHIEVEMENTS
+   ========================================================= */
+
+.achievement-wrap { display: flex; flex-direction: column; align-items: center; padding: 10px 0 8px; }
+.achievement-icon-big { font-size: 2.2rem; margin-bottom: 6px; }
+.achievement-count { font-family: "Cinzel", serif; font-size: 2.2rem; font-weight: 700; color: var(--gold-primary); line-height: 1; margin-bottom: 4px; }
+.achievement-label { color: var(--text-muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+.last-earned { font-size: 0.8rem; color: var(--text-muted); text-align: center; font-style: italic; padding: 8px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+
+/* =========================================================
+   20. BADGES
+   ========================================================= */
+
+.badges-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding-top: 4px; }
+.badge-item {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.2);
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+  cursor: pointer; transition: all var(--transition-fast);
+}
+.badge-item:hover { background: rgba(212,175,55,0.2); box-shadow: 0 0 10px rgba(212,175,55,0.2); }
+.badge-more {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: rgba(212,175,55,0.06); border: 1px dashed rgba(212,175,55,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; color: var(--gold-primary); font-family: "Cinzel", serif; font-weight: 600;
+}
+
+
+/* =========================================================
+   21. FORUM NOTIFICATIONS
+   ========================================================= */
+
+.forum-list { display: flex; flex-direction: column; }
+.forum-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer; transition: background var(--transition-fast); border-radius: var(--radius-sm);
+}
+.forum-row:last-child { border-bottom: none; }
+.forum-row:hover { background: rgba(212,175,55,0.04); }
+.forum-icon { font-size: 0.9rem; width: 26px; height: 26px; border-radius: 50%; background: rgba(212,175,55,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.forum-info  { flex: 1; min-width: 0; }
+.forum-title { font-weight: 600; font-size: 0.83rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.forum-replies { color: var(--text-muted); font-size: 0.76rem; }
+.forum-time  { color: var(--text-muted); font-size: 0.73rem; flex-shrink: 0; white-space: nowrap; }
+
+
+/* =========================================================
+   22. EMPTY STATES & PLACEHOLDERS
+   ---------------------------------------------------------
+   Matches .empty-state and .placeholder-panel from
+   settings_en.css for visual consistency.
+   ========================================================= */
+
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 8px; padding: 20px 12px;
+}
+.empty-state-sm { padding: 10px 0; text-align: center; }
+.empty-icon  { font-size: 2rem; opacity: 0.4; }
+.empty-title { font-family: "Cinzel", serif; font-size: 0.85rem; color: var(--text-secondary); }
+.empty-desc  { color: var(--text-muted); font-size: 0.8rem; font-style: italic; }
+
+/* Inline muted text */
+.placeholder-text { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+
+/* Panel-style placeholder block */
+.placeholder-panel {
+  padding: 10px; border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.02);
+  color: var(--text-muted); font-style: italic; font-size: 0.8rem; text-align: center;
+}
+
+
+/* =========================================================
+   23. VIEW ALL BUTTON
+   ---------------------------------------------------------
+   Matches .btn-secondary small style from settings_en.css.
+   ========================================================= */
+
+.btn-view-all {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: none; border: none;
+  cursor: pointer; font-family: "Crimson Text", serif;
+  transition: color var(--transition-fast);
+  padding: 0; white-space: nowrap;
+}
+.btn-view-all:hover:not(:disabled) { color: var(--gold-primary); }
+.btn-view-all:disabled { opacity: 0.4; cursor: default; }
+
+
+/* =========================================================
+   24. BOTTOM BAR
+   ---------------------------------------------------------
+   Fixed floating bar at the bottom of the screen.
+   Left: status + mail + bell
+   Center: next session info
+   Right: Launch VTT button
+   ========================================================= */
+
+.bottom-bar {
+  position: fixed;
+  bottom: 16px; left: 32px; right: 32px;
+  height: var(--bottom-bar-h);
+  /* Black semi-transparent — matches card style */
+  background: rgba(0, 0, 0, 0.82);
+  border: 1px solid rgba(212,175,55,0.14);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; z-index: 500;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.45);
+}
+
+.bottom-left  { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+.bottom-right { flex-shrink: 0; }
+.bottom-center { flex: 1; text-align: center; font-size: 0.85rem; }
+.bottom-session-label { color: var(--text-muted); font-style: italic; }
+
+/* Clickable status pill */
+.bottom-status {
+  display: flex; align-items: center; gap: 7px; cursor: pointer;
+  padding: 5px 12px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  font-size: 0.83rem; transition: background var(--transition-fast);
+}
+.bottom-status:hover { background: rgba(255,255,255,0.08); }
+.bottom-chevron { color: var(--text-muted); font-size: 0.65rem; }
+
+/* Mail / bell icon buttons */
+.bottom-icon-btn,
+.bottom-notif-btn {
+  position: relative; background: none; border: none;
+  color: var(--text-secondary); font-size: 1rem; cursor: pointer;
+  padding: 4px 6px; border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+}
+.bottom-icon-btn:hover, .bottom-notif-btn:hover { color: var(--gold-primary); }
+
+/* Red notification count badge */
+.notif-badge {
+  position: absolute; top: -2px; right: -2px;
+  min-width: 16px; height: 16px; border-radius: 999px;
+  background: var(--danger); color: white;
+  font-size: 0.62rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; padding: 0 3px;
+}
+
+/* Launch VTT — red button matching the mockup */
+.btn-launch-vtt {
+  padding: 9px 20px; border-radius: var(--radius-md);
+  border: 1px solid rgba(212,175,55,0.3);
+  background: rgba(160, 30, 30, 0.75);
+  color: var(--text-primary); font-family: "Cinzel", serif;
+  font-size: 0.8rem; letter-spacing: 0.5px; cursor: pointer;
+  transition: all var(--transition-fast); white-space: nowrap;
+}
+.btn-launch-vtt:hover:not(:disabled) {
+  background: rgba(200, 40, 40, 0.85);
+  box-shadow: 0 0 16px rgba(200,40,40,0.35);
+}
+.btn-launch-vtt:disabled { opacity: 0.45; cursor: default; }
+
+
+/* =========================================================
+   25. TOAST
+   ---------------------------------------------------------
+   Matches .toast from settings_en.css exactly.
+   ========================================================= */
+
+.toast {
+  position: fixed;
+  bottom: calc(var(--bottom-bar-h) + 24px);
+  right: 24px;
+  background: rgba(20, 16, 13, 0.95);
+  border: 1px solid rgba(212,175,55,0.18);
+  color: var(--text-primary);
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  z-index: 600;
+  max-width: 280px;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+
+/* =========================================================
+   26. RESPONSIVE BREAKPOINTS
+   ---------------------------------------------------------
+   Mirrors the breakpoints in settings_en.css.
+   ========================================================= */
+
+/* Below 1500px: 4-col row collapses to 2 columns */
+@media (max-width: 1500px) {
+  .row-four { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Below 1300px: sidebar stacks above main content */
+@media (max-width: 1300px) {
+  .page-layout { grid-template-columns: 1fr; }
+  .profile-sidebar { position: static; }
+  .row-campaigns-activity { grid-template-columns: 1fr; }
+  .row-three { grid-template-columns: 1fr; }
+  .bottom-bar { left: 12px; right: 12px; }
+}
+
+/* Below 700px: single column everything, hide banner image */
+@media (max-width: 700px) {
+  .row-four { grid-template-columns: 1fr; }
+  .banner-image-side { display: none; }
+  .bottom-center { display: none; }
+  .page-layout { padding: 190px 12px 32px; }
+}

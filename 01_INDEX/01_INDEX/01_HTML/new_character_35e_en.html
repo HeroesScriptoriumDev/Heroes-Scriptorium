@@ -1,0 +1,1452 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Heroes Scriptorium 3.5e - New Character</title>
+    <link rel="stylesheet" href="../02_CSS/new_character_35e_en.css">
+
+  </head>
+    
+  <body>
+  <!-- Banner Section -->
+<div class="banner-section">
+  <div class="top-banner">
+    <div class="top-banner-content">
+
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+       TOP NAVIGATION
+       ===================================================== -->
+  <nav class="top-navigation">
+    <button class="navigation-btn" id="home-btn"          onclick="navigate('home')"></button>
+    <button class="navigation-btn" id="player-switch-btn" onclick="navigate('player')"></button>
+    <button class="navigation-btn" id="profile-btn"       onclick="navigate('profile')"></button>
+    <button class="navigation-btn" id="settings-btn"      onclick="navigate('settings')"></button>
+  </nav>
+
+<!-- End Banner Section -->
+
+<!-- Layout Section -->
+<div class="layout-section">
+  <div class="layout">
+    <!-- Top Section -->
+    <div class="top">
+    </div>
+    <!-- End Top Section -->
+
+    <!-- Bar Section -->
+    <div class="bar">
+    </div>
+    <!-- End Bar Section -->
+
+    <!-- Left Sidebar Modal Section -->
+    <div class="left">
+      <div class="left-sidebar-modal-section">
+        <div class="left-sidebar-modal">
+          <!-- Sources Section -->
+          <div class="left-sidebar-modal-btn color-sources" role="button" tabindex="0" onclick="openSourcesList()">
+            <div class="icons8-sources"></div>
+            <p class="order-1 google-font margin-sources">Sources</p>
+          </div>
+          <!-- End Sources Section -->
+
+          <!-- Skills Section -->
+          <div class="left-sidebar-modal-btn color-skills" role="button" tabindex="0" onclick="openExtendedSkillsList()">
+            <div class="icons8-skills"></div>
+            <p class="order-1 google-font margin-skills">Skills</p>
+          </div>
+          <!-- End Skills Section -->
+
+          <!-- Inventory Section -->
+          <div class="left-sidebar-modal-btn color-inventory" role="button" tabindex="0" onclick="OpenInventoryModal()">
+            <div class="icons8-inventory"></div>
+            <p class="order-1 google-font margin-inventory">Inventory</p>
+          </div>
+          <!-- End Inventory Section -->
+
+          <!-- Feats Section -->
+          <div class="left-sidebar-modal-btn color-feats" role="button" tabindex="0" onclick="openFeatsList()">
+            <div class="icons8-feats"></div>
+            <p class="order-1 google-font margin-feats">Feats</p>
+          </div>
+          <!-- End Feats Section -->
+
+          <!-- Spellbook Section -->
+          <div class="left-sidebar-modal-btn color-spellbook" role="button" tabindex="0" onclick="openSpellbookModal()">
+            <div class="icons8-spellbook"></div>
+            <p class="order-1 google-font margin-spellbook">Spellbook</p>
+          </div>
+          <!-- End Spellbook Section -->
+
+          <!-- Journal Section -->
+          <div class="left-sidebar-modal-btn color-journal" role="button" tabindex="0" onclick="openJournalModal()">
+            <div class="icons8-journal"></div>
+            <p class="order-1 google-font margin-journal">Journal</p>
+          </div>
+          <!-- End Journal Section -->
+        </div>
+      </div>
+    </div>
+    <!-- End Left Sidebar Modal Section -->
+
+    <!-- Middle Section -->
+    <div class="middle">
+      <div class="middle-section">
+        <!-- Sheet Section -->
+        <div class="sheet">
+
+          <!-- Sheet Header Section -->
+          <div class="header-section">
+            <div class="header-row row-1">
+              <!-- Character Name Section -->
+              <div class="labeled-input">
+                <input type="text" class="line-style-input" id="character-name" name="character-name" aria-label="character-name" placeholder="Character Name" maxlength="30" autocomplete="off">
+                <label for="character-name">Character Name</label>
+              </div>
+              <!-- End Character Name Section -->
+              <!-- Player Name Section -->
+              <div class="labeled-input">
+                <input type="text" class="line-style-input" id="player-name" name="player-name" aria-label="player-name" placeholder="Player Name" maxlength="30" autocomplete="off">
+                <label for="player-name">Player Name</label>
+              </div>
+              <!-- End Player Name Section -->
+            </div>
+
+            <div class="header-row row-2">
+              <!-- Class Selection -->
+              <div class="labeled-input">
+                <select class="line-style-input" id="classSelect" name="classSelect" aria-label="Class Selection">
+                  <option value="">Class</option>
+                </select>
+                <label for="classSelect">Class</label>
+              </div>
+              <!-- End Class Selection -->
+              <!-- Level Selection -->
+              <div class="labeled-input">
+                <select class="line-style-input" id="levelSelect" name="levelSelect" aria-label="Level Selection">
+                  <option value="">Level</option>
+                </select>
+                <label for="levelSelect">Level</label>
+              </div>
+              <!-- End Level Selection -->
+              <!-- Race Selection -->
+              <div class="labeled-input">
+                <select class="line-style-input" id="raceSelect" name="raceSelect" aria-label="Race Selection">
+                  <option value="">Race</option>
+                </select>
+                <label for="raceSelect">Race</label>
+              </div>
+              <!-- End Race Selection -->
+              <!-- Alignment Selection -->
+              <div class="labeled-input">
+                <select class="line-style-input" id="alignmentSelect" name="alignmentSelect" aria-label="Alignment Selection">
+                  <option value="">Alignment</option>
+                </select>
+                <label for="alignmentSelect">Alignment</label>
+              </div>
+              <!-- End Alignment Selection -->
+              <!-- Deity Selection -->
+              <div class="labeled-input">
+                <select class="line-style-input" id="deitySelect" name="deitySelect" aria-label="Deity Selection">
+                  <option value="">Deity</option>
+                </select>
+                <label for="deitySelect">Deity</label>
+              </div>
+              <!-- End Deity Selection -->
+            </div>
+
+            <div class="header-row row-3">
+              <!-- Size Field Selection -->
+              <div class="labeled-input">
+                <input class="line-style-input" id="sizeField" name="sizeField" aria-label="Racial Size" placeholder="Racial Size" readonly>
+                <label for="sizeField">Size</label>
+              </div>
+              <!-- End Size Field Selection -->
+              <!-- Age Field Selection -->
+              <div class="labeled-input">
+                <select class="line-style-input" id="ageSelect" name="ageSelect" aria-label="Age Selection">
+                  <option value="">Age</option>
+                </select>
+                <label for="ageSelect">Age</label>
+              </div>
+              <!-- End Age Field Selection -->
+              <!-- Gender Selection -->
+              <div class="labeled-input">
+                <input class="line-style-input" type="text" id="genderField" name="genderField" aria-label="Gender Selection" placeholder="Gender">
+                <label for="genderField">Gender</label>
+              </div>
+              <!-- End Gender Field Selection -->
+              <!-- Height Selection -->
+              <div class="labeled-input">
+                <select class="line-style-input" id="heightSelect" name="heightSelect" aria-label="Height Selection">
+                  <option value="">Height</option>
+                </select>
+                <label for="heightSelect">Height</label>
+              </div>
+              <!-- End Height Selection -->
+              <!-- Weight Selection -->
+              <div class="labeled-input">
+                <select class="line-style-input" id="weightSelect" name="weightSelect" aria-label="Weight Selection">
+                  <option value="">Weight</option>
+                </select>
+                <label for="weightSelect">Weight</label>
+              </div>
+              <!-- End Weight Selection -->
+              <!-- Eye Color Selection -->
+              <div class="labeled-input">
+                <input class="line-style-input" type="text" id="eyeColorField" name="eyeColorField" aria-label="Eye Color" placeholder="Eye Color">
+                <label for="eyeColorField">Eye Color</label>
+              </div>
+              <!-- End Eye Color Field Selection -->
+              <!-- Hair Color Selection -->
+              <div class="labeled-input">
+                <input class="line-style-input" type="text" id="hairColorField" name="hairColorField" aria-label="Hair Color" placeholder="Hair Color">
+                <label for="hairColorField">Hair Color</label>
+              </div>
+              <!-- End Hair Color Field Selection -->
+              <!-- Skin Color Selection -->
+              <div class="labeled-input">
+                <input class="line-style-input" type="text" id="skinColorField" name="skinColorField" aria-label="Skin Color" placeholder="Skin Color">
+                <label for="skinColorField">Skin Color</label>
+              </div>
+              <!-- End Skin Color Field Selection -->
+            </div>
+          </div>
+          <!-- End Sheet Header Section -->
+
+          <!-- Sheet Abilities Section -->
+          <div class="ability-section">
+            <div class="abilities-section">
+              <!-- Sheet Abilities Label Section -->
+              <div class="ability-section-label">
+                <label for="ability">Name</label>
+                <label for="ability-total">Total</label>
+                <label for="ability-total-modifier">Mod</label>
+                <label for="ability-temporary-total">Temp</label>
+                <label for="ability-temporary-modifier">T-Mod</label>
+              </div>
+              <!-- End Sheet ABilities Label Section -->
+
+              <!-- Sheet Abilities Strength Row -->
+              <div class="strength-section">
+                <div class="ability-strength-row">
+                  <button type="button" class="ability-name" title="Click To Access Strength Functions" onclick="openAbilityModal('STRENGTH')">STR</button>
+                  <!-- Sheet Abilities Hidden Permanent Strength Row Inputs -->
+                  <input type="hidden" id="strengthPermanentCalculatedTotal">
+                  <input type="hidden" id="strengthPermanentCalculatedModifier">
+                  <input type="hidden" id="strengthTemporaryCalculatedTotal">
+                  <input type="hidden" id="strengthTemporaryCalculatedModifier">
+                  <input type="hidden" id="strengthBase">
+                  <input type="hidden" id="strengthRacial">
+                  <input type="hidden" id="strengthLevel">
+                  <input type="hidden" id="strengthAge">
+                  <input type="hidden" id="strengthInherent1">
+                  <input type="hidden" id="strengthInherent2">
+                  <input type="hidden" id="strengthInherent3">
+                  <input type="hidden" id="strengthFeat1">
+                  <input type="hidden" id="strengthFeat2">
+                  <input type="hidden" id="strengthFeat3">
+                  <!-- End Sheet Abilities Hidden Permanent Strength Row Inputs -->
+
+                  <!-- Sheet Abilities Hidden Temporary Strength Row Inputs -->
+                  <input type="hidden" id="strengthAttunement1">
+                  <input type="hidden" id="strengthAttunement2">
+                  <input type="hidden" id="strengthAttunement3">
+                  <input type="hidden" id="strengthSpell1">
+                  <input type="hidden" id="strengthSpell2">
+                  <input type="hidden" id="strengthSpell3">
+                  <input type="hidden" id="strengthRage">
+                  <input type="hidden" id="strengthHaste">
+                  <input type="hidden" id="strengthBardicInspiration">
+                  <input type="hidden" id="strengthFatigued">
+                  <input type="hidden" id="strengthExhausted">
+                  <!-- End Sheet Abilities Hidden Temporary Strength Row Inputs -->
+
+                  <!-- Sheet Abilities Regular Strength Row Inputs -->
+                  <input type="number" id="strengthTotal" name="strengthTotal" aria-label="Strength Total" title="Strength Total" placeholder="10" readonly>
+                  <input type="number" id="strengthModifier" name="strengthModifier" aria-label="Strength Modifier" title="Strength Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Regular Strength Row Inputs -->
+
+                  <!-- Sheet Abilities Temporay Strength Row Inputs -->
+                  <input type="number" id="strengthTemporaryTotal" name="strengthTemporaryTotal" aria-label="Strength Temporary Total" title="Strength Temporary Total" placeholder="10" readonly>
+                  <input type="number" id="strengthTemporaryModifier" name="strengthTemporaryModifier" aria-label="Strength Temporary Modifier" title="Strength Temporary Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Temporary Strength Row Inputs -->
+                </div>
+              </div>
+              <!-- End Sheet Abilities Strength Row -->
+
+              <!-- Sheet Abilities Dexterity Row -->
+              <div class="dexterity-section">
+                <div class="ability-dexterity-row">
+                  <button type="button" class="ability-name" title="Click To Access Dexterity Functions" onclick="openAbilityModal('DEXTERITY')">DEX</button>
+                  <!-- Sheet Abilities Hidden Permanent Dexterity Row Inputs -->
+                  <input type="hidden" id="dexterityPermanentCalculatedTotal">
+                  <input type="hidden" id="dexterityPermanentCalculatedModifier">
+                  <input type="hidden" id="dexterityTemporaryCalculatedTotal">
+                  <input type="hidden" id="dexterityTemporaryCalculatedModifier">
+                  <input type="hidden" id="dexterityBase">
+                  <input type="hidden" id="dexterityRacial">
+                  <input type="hidden" id="dexterityLevel">
+                  <input type="hidden" id="dexterityAge">
+                  <input type="hidden" id="dexterityInherent1">
+                  <input type="hidden" id="dexterityInherent2">
+                  <input type="hidden" id="dexterityInherent3">
+                  <input type="hidden" id="dexterityFeat1">
+                  <input type="hidden" id="dexterityFeat2">
+                  <input type="hidden" id="dexterityFeat3">
+                  <!-- End Sheet Abilities Hidden Permanent Dexterity Row Inputs -->
+
+                  <!-- Sheet Abilities Hidden Temporary Dexterity Row Inputs -->
+                  <input type="hidden" id="dexterityAttunement1">
+                  <input type="hidden" id="dexterityAttunement2">
+                  <input type="hidden" id="dexterityAttunement3">
+                  <input type="hidden" id="dexteritySpell1">
+                  <input type="hidden" id="dexteritySpell2">
+                  <input type="hidden" id="dexteritySpell3">
+                  <input type="hidden" id="dexterityRage">
+                  <input type="hidden" id="dexterityHaste">
+                  <input type="hidden" id="dexterityBardicInspiration">
+                  <input type="hidden" id="dexterityFatigued">
+                  <input type="hidden" id="dexterityExhausted">
+                  <!-- End Sheet Abilities Hidden Temporary Dexterity Row Inputs -->
+
+                  <!-- Sheet Abilities Regular Dexterity Row Inputs -->
+                  <input type="number" id="dexterityTotal" name="dexterityTotal" aria-label="Dexterity Total" title="Dexterity Total" placeholder="10" readonly>
+                  <input type="number" id="dexterityModifier" name="dexterityModifier" aria-label="Dexterity Modifier" title="Dexterity Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Regular Dexterity Row Inputs -->
+
+                  <!-- Sheet Abilities Temporay Dexterity Row Inputs -->
+                  <input type="number" id="dexterityTemporaryTotal" name="dexterityTemporaryTotal" aria-label="Dexterity Temporary Total" title="Dexterity Temporary Total" placeholder="10" readonly>
+                  <input type="number" id="dexterityTemporaryModifier" name="dexterityTemporaryModifier" aria-label="Dexterity Temporary Modifier" title="Dexterity Temporary Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Temporary Dexterity Row Inputs -->
+                </div>
+              </div>
+              <!-- End Sheet Abilities Dexterity Row -->
+
+              <!-- Sheet Abilities Constitution Row -->
+              <div class="constitution-section">
+                <div class="ability-constitution-row">
+                  <button type="button" class="ability-name" title="Click To Access Constitution Functions" onclick="openAbilityModal('CONSTITUTION')">CON</button>
+                  <!-- Sheet Abilities Hidden Permanent Strength Row Inputs -->
+                  <input type="hidden" id="constitutionPermanentCalculatedTotal">
+                  <input type="hidden" id="constitutionPermanentCalculatedModifier">
+                  <input type="hidden" id="constitutionTemporaryCalculatedTotal">
+                  <input type="hidden" id="constitutionTemporaryCalculatedModifier">
+                  <input type="hidden" id="constitutionBase">
+                  <input type="hidden" id="constitutionRacial">
+                  <input type="hidden" id="constitutionLevel">
+                  <input type="hidden" id="constitutionAge">
+                  <input type="hidden" id="constitutionInherent1">
+                  <input type="hidden" id="constitutionInherent2">
+                  <input type="hidden" id="constitutionInherent3">
+                  <input type="hidden" id="constitutionFeat1">
+                  <input type="hidden" id="constitutionFeat2">
+                  <input type="hidden" id="constitutionFeat3">
+                  <!-- End Sheet Abilities Hidden Permanent Constitution Row Inputs -->
+
+                  <!-- Sheet Abilities Hidden Temporary Constitution Row Inputs -->
+                  <input type="hidden" id="constitutionAttunement1">
+                  <input type="hidden" id="constitutionAttunement2">
+                  <input type="hidden" id="constitutionAttunement3">
+                  <input type="hidden" id="constitutionSpell1">
+                  <input type="hidden" id="constitutionSpell2">
+                  <input type="hidden" id="constitutionSpell3">
+                  <input type="hidden" id="constitutionRage">
+                  <input type="hidden" id="constitutionHaste">
+                  <input type="hidden" id="constitutionBardicInspiration">
+                  <input type="hidden" id="constitutionFatigued">
+                  <input type="hidden" id="constitutionExhausted">
+                  <!-- End Sheet Abilities Hidden Temporary Constitution Row Inputs -->
+
+                  <!-- Sheet Abilities Regular Constitution Row Inputs -->
+                  <input type="number" id="constitutionTotal" name="constitutionTotal" aria-label="Constitution Total" title="Constitution Total" placeholder="10" readonly>
+                  <input type="number" id="constitutionModifier" name="constitutionModifier" aria-label="Constitution Modifier" title="Constitution Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Regular Constitution Row Inputs -->
+
+                  <!-- Sheet Abilities Temporay Constitution Row Inputs -->
+                  <input type="number" id="constitutionTemporaryTotal" name="constitutionTemporaryTotal" aria-label="Constitution Temporary Total" title="Constitution Temporary Total" placeholder="10" readonly>
+                  <input type="number" id="constitutionTemporaryModifier" name="constitutionTemporaryModifier" aria-label="Constitution Temporary Modifier" title="Constitution Temporary Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Temporary Constitution Row Inputs -->
+                </div>
+              </div>
+              <!-- End Sheet Abilities Constitution Row -->
+
+              <!-- Sheet Abilities Intelligence Row -->
+              <div class="intelligence-section">
+                <div class="ability-intelligence-row">
+                  <button type="button" class="ability-name" title="Click To Access Intelligence Functions" onclick="openAbilityModal('INTELLIGENCE')">INT</button>
+                  <!-- Sheet Abilities Hidden Permanent Intelligence Row Inputs -->
+                  <input type="hidden" id="intelligencePermanentCalculatedTotal">
+                  <input type="hidden" id="intelligencePermanentCalculatedModifier">
+                  <input type="hidden" id="intelligenceTemporaryCalculatedTotal">
+                  <input type="hidden" id="intelligenceTemporaryCalculatedModifier">
+                  <input type="hidden" id="intelligenceBase">
+                  <input type="hidden" id="intelligenceRacial">
+                  <input type="hidden" id="intelligenceLevel">
+                  <input type="hidden" id="intelligenceAge">
+                  <input type="hidden" id="intelligenceInherent1">
+                  <input type="hidden" id="intelligenceInherent2">
+                  <input type="hidden" id="intelligenceInherent3">
+                  <input type="hidden" id="intelligenceFeat1">
+                  <input type="hidden" id="intelligenceFeat2">
+                  <input type="hidden" id="intelligenceFeat3">
+                  <!-- End Sheet Abilities Hidden Permanent Intelligence Row Inputs -->
+
+                  <!-- Sheet Abilities Hidden Temporary Intelligence Row Inputs -->
+                  <input type="hidden" id="intelligenceAttunement1">
+                  <input type="hidden" id="intelligenceAttunement2">
+                  <input type="hidden" id="intelligenceAttunement3">
+                  <input type="hidden" id="intelligenceSpell1">
+                  <input type="hidden" id="intelligenceSpell2">
+                  <input type="hidden" id="intelligenceSpell3">
+                  <input type="hidden" id="intelligenceRage">
+                  <input type="hidden" id="intelligenceHaste">
+                  <input type="hidden" id="intelligenceBardicInspiration">
+                  <input type="hidden" id="intelligenceFatigued">
+                  <input type="hidden" id="intelligenceExhausted">
+                  <!-- End Sheet Abilities Hidden Temporary Intelligence Row Inputs -->
+
+                  <!-- Sheet Abilities Regular Intelligence Row Inputs -->
+                  <input type="number" id="intelligenceTotal" name="intelligenceTotal" aria-label="Intelligence Total" title="Intelligence Total" placeholder="10" readonly>
+                  <input type="number" id="intelligenceModifier" name="intelligenceModifier" aria-label="Intelligence Modifier" title="Intelligence Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Regular Intelligence Row Inputs -->
+
+                  <!-- Sheet Abilities Temporay Intelligence Row Inputs -->
+                  <input type="number" id="intelligenceTemporaryTotal" name="intelligenceTemporaryTotal" aria-label="Intelligence Temporary Total" title="Intelligence Temporary Total" placeholder="10" readonly>
+                  <input type="number" id="intelligenceTemporaryModifier" name="intelligenceTemporaryModifier" aria-label="Intelligence Temporary Modifier" title="Intelligence Temporary Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Temporary Intelligence Row Inputs -->
+                </div>
+              </div>
+              <!-- End Sheet Abilities Intelligence Row -->
+
+              <!-- Sheet Abilities Wisdom Row -->
+              <div class="wisdom-section">
+                <div class="ability-wisdom-row">
+                  <button type="button" class="ability-name" title="Click To Access Wisdom Functions" onclick="openAbilityModal('WISDOM')">WIS</button>
+                  <!-- Sheet Abilities Hidden Permanent Wisdom Row Inputs -->
+                  <input type="hidden" id="wisdomPermanentCalculatedTotal">
+                  <input type="hidden" id="wisdomPermanentCalculatedModifier">
+                  <input type="hidden" id="wisdomTemporaryCalculatedTotal">
+                  <input type="hidden" id="wisdomTemporaryCalculatedModifier">
+                  <input type="hidden" id="wisdomBase">
+                  <input type="hidden" id="wisdomRacial">
+                  <input type="hidden" id="wisdomLevel">
+                  <input type="hidden" id="wisdomAge">
+                  <input type="hidden" id="wisdomInherent1">
+                  <input type="hidden" id="wisdomInherent2">
+                  <input type="hidden" id="wisdomInherent3">
+                  <input type="hidden" id="wisdomFeat1">
+                  <input type="hidden" id="wisdomFeat2">
+                  <input type="hidden" id="wisdomFeat3">
+                  <!-- End Sheet Abilities Hidden Permanent Wisdom Row Inputs -->
+
+                  <!-- Sheet Abilities Hidden Temporary Wisdom Row Inputs -->
+                  <input type="hidden" id="wisdomAttunement1">
+                  <input type="hidden" id="wisdomAttunement2">
+                  <input type="hidden" id="wisdomAttunement3">
+                  <input type="hidden" id="wisdomSpell1">
+                  <input type="hidden" id="wisdomSpell2">
+                  <input type="hidden" id="wisdomSpell3">
+                  <input type="hidden" id="wisdomRage">
+                  <input type="hidden" id="wisdomHaste">
+                  <input type="hidden" id="wisdomBardicInspiration">
+                  <input type="hidden" id="wisdomFatigued">
+                  <input type="hidden" id="wisdomExhausted">
+                  <!-- End Sheet Abilities Hidden Temporary Wisdom Row Inputs -->
+
+                  <!-- Sheet Abilities Regular Wisdom Row Inputs -->
+                  <input type="number" id="wisdomTotal" name="wisdomTotal" aria-label="Wisdom Total" title="Wisdom Total" placeholder="10" readonly>
+                  <input type="number" id="wisdomModifier" name="wisdomModifier" aria-label="Wisdom Modifier" title="Wisdom Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Regular Wisdom Row Inputs -->
+
+                  <!-- Sheet Abilities Temporay wisdom Row Inputs -->
+                  <input type="number" id="wisdomTemporaryTotal" name="wisdomTemporaryTotal" aria-label="Wisdom Temporary Total" title="Wisdom Temporary Total" placeholder="10" readonly>
+                  <input type="number" id="wisdomTemporaryModifier" name="wisdomTemporaryModifier" aria-label="Wisdom Temporary Modifier" title="Wisdom Temporary Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Temporary Wisdom Row Inputs -->
+                </div>
+              </div>
+              <!-- End Sheet Abilities Wisdom Row -->
+
+              <!-- Sheet Abilities Charisma Row -->
+              <div class="charisma-section">
+                <div class="ability-charisma-row">
+                  <button type="button" class="ability-name" title="Click To Access Charisma Functions" onclick="openAbilityModal('CHARISMA')">CHA</button>
+                  <!-- Sheet Abilities Hidden Permanent Charisma Row Inputs -->
+                  <input type="hidden" id="charismaPermanentCalculatedTotal">
+                  <input type="hidden" id="charismaPermanentCalculatedModifier">
+                  <input type="hidden" id="charismaTemporaryCalculatedTotal">
+                  <input type="hidden" id="charismaTemporaryCalculatedModifier">
+                  <input type="hidden" id="charismaBase">
+                  <input type="hidden" id="charismaRacial">
+                  <input type="hidden" id="charismaLevel">
+                  <input type="hidden" id="charismaAge">
+                  <input type="hidden" id="charismaInherent1">
+                  <input type="hidden" id="charismaInherent2">
+                  <input type="hidden" id="charismaInherent3">
+                  <input type="hidden" id="charismaFeat1">
+                  <input type="hidden" id="charismaFeat2">
+                  <input type="hidden" id="charismaFeat3">
+                  <!-- End Sheet Abilities Hidden Permanent Charisma Row Inputs -->
+
+                  <!-- Sheet Abilities Hidden Temporary Charisma Row Inputs -->
+                  <input type="hidden" id="charismaAttunement1">
+                  <input type="hidden" id="charismaAttunement2">
+                  <input type="hidden" id="charismaAttunement3">
+                  <input type="hidden" id="charismaSpell1">
+                  <input type="hidden" id="charismaSpell2">
+                  <input type="hidden" id="charismaSpell3">
+                  <input type="hidden" id="charismaRage">
+                  <input type="hidden" id="charismaHaste">
+                  <input type="hidden" id="charismaBardicInspiration">
+                  <input type="hidden" id="charismaFatigued">
+                  <input type="hidden" id="charismaExhausted">
+                  <!-- End Sheet Abilities Hidden Temporary Charisma Row Inputs -->
+
+                  <!-- Sheet Abilities Regular Charisma Row Inputs -->
+                  <input type="number" id="charismaTotal" name="charismaTotal" aria-label="Charisma Total" title="Charisma Total" placeholder="10" readonly>
+                  <input type="number" id="charismaModifier" name="charismaModifier" aria-label="Charisma Modifier" title="Charisma Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Regular Charisma Row Inputs -->
+
+                  <!-- Sheet Abilities Temporay Charisma Row Inputs -->
+                  <input type="number" id="charismaTemporaryTotal" name="charismaTemporaryTotal" aria-label="Charisma Temporary Total" title="Charisma Temporary Total" placeholder="10" readonly>
+                  <input type="number" id="charismaTemporaryModifier" name="charismaTemporaryModifier" aria-label="Charisma Temporary Modifier" title="Charisma Temporary Modifier" placeholder="10" readonly>
+                  <!-- End Sheet Abilities Temporary Charisma Row Inputs -->
+                </div>
+              </div>
+              <!-- End Sheet Abilities Charisma Row -->
+
+            </div>
+          </div>
+          <!-- End Sheet Abilities Section-->
+
+          <!-- Sheet Armor Class Block & Hit Points Section -->
+          <div class="armor-class-block-hit-point-section">
+            <!-- Hit Points Grid Section -->
+            <div class="hp-speed-section">
+              <div class="hp-grid">
+                <!-- Armor Class and Regular Hit Points Label Section -->
+                <div class="label"></div>
+                <div class="label">Name</div>
+                <div class="label">Total</div>
+                <div class="label">Wounds/Current HP</div>
+                <div class="label">Nonlethal Damage</div>
+                <div></div>
+                <div class="label">Speed</div>
+                <!-- End Armor Class & Hit Points Section -->
+
+                <!-- Hit Points Row Section -->
+                <div></div>
+                <button type="button" class="hp-btn" aria-label="Click to Access Hit Points Functions" title="Click to Access Hit Points Functions" onclick="openHPModal()">HP</button>
+                <div class="hp-cell"><input class="hp-input" type="number" id="hitPointsTotal" aria-label="Hit Points Total" title="Hit Points Total" placeholder="0" readonly></div>
+                <div class="hp-cell"><input class="hp-input" type="number" id="hitPointsWounds" aria-label="Hit Points Wounded Level" title="Hit Points Wounds" placeholder="0"></div>
+                <div class="hp-cell"><input class="hp-input" type="number" id="hitPointsNonLethalTotal" aria-label="Hit Points Nonlethal Total" title="Hit Points Nonlethal Total" placeholder="0"></div>
+                <div></div>
+                <div class="speed-cell"><input class="speed-input" type="text" id="speedTotal" aria-label="Speed Total" title="Speed Total" placeholder="30 ft." readonly></div>
+                <!-- End Hit Points Row Section -->
+              </div>
+            </div>
+            <!-- End Hit Points Grid Section -->
+
+            <!-- Armor Class Grid Section -->
+            <div class="ac-section">
+              <!-- Regular Armor Class Grid Section -->
+              <div></div>
+              <button class="ac-btn" type="button" aria-label="Click to Access Armor Class Functions" title="Click to Access Armor Class Functions" onclick="openACModal()">AC</button>
+              <div class="ac-cell"><input class="ac-input" type="number" id="acTotal" name="acTotal" aria-label="Armor Class Total" title="Armor Class Total" placeholder="10" readonly></div>
+              <div><span class="op" aria-label="Base Armor Class" title="Base Armor Class (10)">= 10 +</span></div>
+              <div class="ac-cell"><input class="ac-input" type="number" id="armorBonus" name="armorBonus" aria-label="Armor Modifier" title="Armor Modifier" placeholder="0" readonly></div>
+              <div class="ac-cell"><input class="ac-input" type="number" id="shieldBonus" name="shieldBonus" aria-label="Shield Modifier" title="Shield Modifier" placeholder="0" readonly></div>
+              <div class="ac-cell"><input class="ac-input" type="number" id="acDexterityModifier" name="acDexterityModifier" aria-label="Dexterity Modifier" title="Dexterity Modifier" placeholder="0" readonly></div>
+              <div class="ac-cell"><input class="ac-input" type="number" id="acSizeModifier" name="acSizeModifier" aria-label="Size Modifier" title="Size Modifier" placeholder="0" readonly></div>
+              <div class="ac-cell"><input class="ac-input" type="number" id="acMiscModifier" name="acMiscModifier" aria-label="Miscellaneous Modifier" title="Miscellaneous Modifier" placeholder="0" readonly></div>
+              <div class="arcane-cell"><input class="arcane-input" type="text" id="arcaneSpellFailureModifier" name="arcaneSpellFailureModifier" aria-label="Arcane Spell Failure Percentage" title="Arcane Spell Failure Percentage" placeholder="0%" readonly></div>
+              <div class="armor-check-cell"><input class="armor-check-input" type="number" id="armorCheckPenaltyModifier" name="armorCheckPenaltyModifier" aria-label="Armor Check Penalty" title="Armor Check Penalty" placeholder="0" readonly></div>
+              <div class="ac-cell"><input class="ac-input" type="text" id="armorType" name="armorType" aria-label="Armor Type" title="Armor Type" placeholder="Armor Type" readonly></div>
+              <!-- End Regular Armor Class Grid Section -->
+
+              <!-- Armor Class Label Section -->
+              <div></div>
+              <div></div>
+              <div class="armor-label">Total</div>
+              <div></div>
+              <div class="armor-label">Armor</div>
+              <div class="armor-label">Shield</div>
+              <div class="armor-label">Dex</div>
+              <div class="armor-label">Size</div>
+              <div class="armor-label">Misc.</div>
+              <div class="armor-label">Arcane</div>
+              <div class="armor-label">Check</div>
+              <div class="armor-label">Armor Type</div>
+              <!-- End Armor Class Label Section -->
+            </div>
+            <!-- End Armor Class Grid Section -->
+          </div>
+          <!-- End Sheet Armor Class Block & Hit Points Section -->
+
+          <!-- Initiative & Base Attack Bonus Section -->
+          <div class="initiative-base-attack-bonus-section">
+            <div class="initiative-bab-section">
+              <!-- Initiative Section -->
+              <div class="initiative-section">
+                <div></div>
+                <button class="init-btn" type="button" aria-label="Click to Access Initiative Functions" title="Click to Access Initiative Functions" onclick="OpenInitiativeModal()">Initiative</button>
+                <div class="init-cell"><input class="init-input" type="number" id="initiativeTotal" name="initiativeTotal" aria-label="Initiative Total" title="Initiative Total" placeholder="0" readonly></div>
+              </div>
+              <!-- End Initiative Section -->
+
+              <!-- Base Attack Bonus Section -->
+              <div class="base-attack-bonus-section">
+                <div></div>
+                <button class="bab-btn" type="button" aria-label="Click to Access Base Attack Bonus Functions" title="Click to Access Base Attack Bonus Functions" onclick="OpenBaseAttackBonusModal()">Base Attack Bonus</button>
+                <div class="bab-cell"><input class="bab-input" type="number" id="baseAttackBonusTotal" name="baseAttackBonusTotal" aria-label="Base Attack Bonus Total" title="Base Attack Bonus Total" placeholder="0" readonly></div>
+              </div>
+            </div>
+            <!-- End Base Attack Bonus Section -->
+          </div>
+          <!-- End Initiative & Base Attack Bonus Section -->
+
+          <!-- Skills Section -->
+          <div class="skills">
+            <div class="skills-section">
+              <!-- Skills Label Section -->
+              <div class="skill-upper-label-section">
+                <div class="skill-label">Skills</div>
+                <div class="skill-label">Max Skill Ranks:</div>
+                <div class="skill-cell"><input class="skill-input" id="maxSkillRanksTotal" name="maxSkillRanksTotal" aria-label="Max Skill Ranks" title="Max Skill Ranks" placeholder="0 / 0" readonly></div>
+              </div>
+
+              <div class="skill-lower-label-section">
+                <div class="skill-label">Skill Name</div>
+                <div class="skill-label">Ability</div>
+                <div class="skill-label">Skill Mod</div>
+                <div class="skill-label">Ability Mod</div>
+                <div class="skill-label">Ranks Mod</div>
+                <div class="skill-label">Synergy Mod</div>
+              </div>
+              <!-- End Skills Label Section -->
+
+              <!-- Skill Appraise Section -->
+              <div class="skill-appraise-section">
+                <button class="skill-btn" aria-label="Click to Access Appraise Skill Functions" title="Click to Access Appraise Skill Functions" onclick="OpenSkillsModal('APPRAISE')">Appraise</button>
+                <span class="skill-ability-code">INT</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="appraiseSkillModifier" name="appraiseSkillModifier" aria-label="Appraise Skill Modifier" title="Appraise Skill Modifier" value="0" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="appraiseAbilityModifier" name="appraiseAbilityModifier" aria-label="Appraise Ability Modifier" title="Appraise Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="appraiseRanks" name="appraiseRanks" aria-label="Appraise Ranks" title="Appraise Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="appraiseSynergyModifier" name="appraiseSynergyModifier" aria-label="Appraise Synergy Modifier" title="Appraise Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Appraise Section -->
+
+              <!-- Skill Balance Section -->
+              <div class="skill-balance-section">
+                <button class="skill-btn" aria-label="Click to Access Balance Skill Functions" title="Click to Access Balance Skill Functions" onclick="OpenSkillsModal('BALANCE')">Balance</button>
+                <span class="skill-ability-code">DEX</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="balanceSkillModifier" name="balanceSkillModifier" aria-label="Balance Skill Modifier" title="Balance Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="balanceAbilityModifier" name="balanceAbilityModifier" aria-label="Balance Ability Modifier" title="Balance Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="balanceRanks" name="balanceRanks" aria-label="Balance Ranks" title="Balance Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="balanceSynergyModifier" name="balanceSynergyModifier" aria-label="Balance Synergy Modifier" title="Balance Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Balance Section -->
+
+              <!-- Skill Bluff Section -->
+              <div class="skill-bluff-section">
+                <button class="skill-btn" aria-label="Click to Access Bluff Skill Functions" title="Click to Access Bluff Skill Functions" onclick="OpenSkillModal('BLUFF')">Bluff</button>
+                <span class="skill-ability-code">CHA</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="bluffSkillModifier" name="bluffSkillModifier" aria-label="Bluff Skill Modifier" title="Bluff Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="bluffAbilityModifier" name="bluffAbilityModifier" aria-label="Bluff Ability Modifier" title="Bluff Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="bluffRanks" name="bluffRanks" aria-label="Bluff Ranks" title="Bluff Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="bluffSynergyModifier" name="bluffSynergyModifier" aria-label="Bluff Synergy Modifier" title="Bluff Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Bluff Section -->
+
+              <!-- Skill Climb Section -->
+              <div class="skill-climb-section">
+                <button class="skill-btn" aria-label="Click to Access Climb Skill Functions" title="Click to Access Climb Skill Functions" onclick="OpenSkillsModal('CLIMB')">Climb</button>
+                <span class="skill-ability-code">INT</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="climbSkillModifier" name="climbSkillModifier" aria-label="Climb Skill Modifier" title="Climb Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="climbAbilityModifier" name="climbAbilityModifier" aria-label="Climb Ability Modifier" title="Climb Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="climbRanks" name="climbRanks" aria-label="Climb Ranks" title="Climb Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="climbSynergyModifier" name="climbSynergyModifier" aria-label="Climb Synergy Modifier" title="Climb Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Climb Section -->
+
+              <!-- Skill Concentration Section -->
+              <div class="skill-concentration-section">
+                <button class="skill-btn" aria-label="Click to Access Concentration Skill Functions" title="Click to Access Concentration Skill Functions" onclick="OpenSkillsModal('CONCENTRATION')">Concentration</button>
+                <span class="skill-ability-code">INT</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="concentrationSkillModifier" name="concentrationSkillModifier" aria-label="Concentration Skill Modifier" title="Concentration Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="concentrationAbilityModifier" name="concentrationAbilityModifier" aria-label="Concentration Ability Modifier" title="Concentration Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="concentrationRanks" name="concentrationRanks" aria-label="Concentration Ranks" title="Concentration Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="concentrationSynergyModifier" name="concentrationSynergyModifier" aria-label="Concentration Synergy Modifier" title="Concentration Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Concentration Section -->
+
+              <!-- Skill Craft Section -->
+              <div class="skill-craft-section">
+                <button class="skill-btn" aria-label="Click to Access Craft Skill Functions" title="Click to Access Craft Skill Functions" onclick="OpenSkillsModal('CRAFT')">Craft</button>
+                <span class="skill-ability-code">INT</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="craftSkillModifier" name="craftSkillModifier" aria-label="Craft Skill Modifier" title="Craft Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="craftAbilityModifier" name="craftAbilityModifier" aria-label="Craft Ability Modifier" title="Craft Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="craftRanks" name="craftRanks" aria-label="Craft Ranks" title="Craft Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="craftSynergyModifier" name="craftSynergyModifier" aria-label="Craft Synergy Modifier" title="Craft Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Craft Section -->
+
+              <!-- Skill Decipher Script Section -->
+              <div class="skill-decipher-script-section">
+                <button class="skill-btn" aria-label="Click to Access Decipher Script Skill Functions" title="Click to Access Decipher Script Skill Functions" onclick="OpenSkillsModal('DECIPHER_SCRIPT')">Decipher Script</button>
+                <span class="skill-ability-code">INT</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="decipherScriptSkillModifier" name="decipherScriptSkillModifier" aria-label="Decipher Script Skill Modifier" title="Decipher Script Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="decipherScriptAbilityModifier" name="decipherScriptAbilityModifier" aria-label="Decipher Script Ability Modifier" title="Decipher Script Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="decipherScriptRanks" name="decipherScriptRanks" aria-label="Decipher Script Skill Ranks" title="Decipher Script Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="decipherScriptSynergyModifier" name="decipherScriptSynergyModifier" aria-label="Decipher Script Synergy Modifier" title="Decipher Script Syngergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Decipher Script Section -->
+
+              <!-- Skill Diplomacy Section -->
+              <div class="skill-diplomacy-section">
+                <button class="skill-btn" aria-label="Click to Access Diplomacy Skill Functions" title="Click to Access Diplomacy Script Skill Functions" onclick="OpenSkillsModal('DIPLOMACY')">Diplomacy</button>
+                <span class="skill-ability-code">CHA</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="diplomacySkillModifier" name="diplomacySkillModifier" aria-label="Diplomacy Skill Modifier" title="Diplomacy Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="diplomacyAbilityModifier" name="diplomacyAbilityModifier" aria-label="Diplomacy Ability Modifier" title="Diplomacy Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="diplomacyRanks" name="diplomacyRanks" aria-label="Diplomacy Skill Ranks" title="Diplomacy Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="diplomacySynergyModifier" name="diplomacySynergyModifier" aria-label="Diplomacy Synergy Modifier" title="Diplomacy Syngergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Diplomacy Section -->
+
+              <!-- Skill Disable Device Section -->
+              <div class="skill-disable-device-section">
+                <button class="skill-btn" aria-label="Click to Access Disable Device Skill Functions" title="Click to Access Disable Device Skill Functions" onclick="OpenSkillsModal('DISABLE_DEVICE')">Disable Device</button>
+                <span class="skill-ability-code">INT</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="disableDeviceSkillModifier" name="disableDeviceSkillModifier" aria-label="Disable Device Skill Modifier" title="Disable Device Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="disableDeviceAbilityModifier" name="disableDeviceAbilityModifier" aria-label="Disable Device Ability Modifier" title="Disable Device Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="disableDeviceRanks" name="disableDeviceRanks" aria-label="Disable Device Skill Ranks" title="Disable Device Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="disableDeviceSynergyModifier" name="disableDeviceSynergyModifier" aria-label="Disable Device Synergy Modifier" title="Disable Device Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Disable Device Section -->
+
+              <!-- Skill Disguise Section -->
+              <div class="skill-disguise-section">
+                <button class="skill-btn" aria-label="Click to Access Disguise Skill Functions" title="Click to Access Disguise Skill Functions" onclick="OpenSkillsModal('DISGUISE')">Disguise</button>
+                <span class="skill-ability-code">CHA</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="disguiseSkillModifier" name="disguiseSkillModifier" aria-label="Disguise Skill Modifier" title="Disguise Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="disguiseAbilityModifier" name="disguiseAbilityModifier" aria-label="Disguise Ability Modifier" title="Disguise Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="disguiseRanks" name="disguiseRanks" aria-label="Disguise Skill Ranks" title="Disguise Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="disguiseSynergyModifier" name="disguiseSynergyModifier" aria-label="Disguise Synergy Modifier" title="Disguise Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Disguise Section -->
+
+              <!-- Skill Escape Artist Section -->
+              <div class="skill-escape-artist-section">
+                <button class="skill-btn" aria-label="Click to Access Escape Artist Skill Functions" title="Click to Access Escape Artist Skill Functions" onclick="OpenSkillsModal('ESCAPE_ARTIST')">Escape Artist</button>
+                <span class="skill-ability-code">DEX</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="escapeArtistSkillModifier" name="escapeArtistSkillModifier" aria-label="Escape Artist Skill Modifier" title="Escape Artist Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="escapeArtistAbilityModifier" name="escapeArtistAbilityModifier" aria-label="Escape Artist Ability Modifier" title="Escape Artist Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="escapeArtistRanks" name="escapeArtistRanks" aria-label="Escape Artist Skill Ranks" title="Escape Artist Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="escapeArtistSynergyModifier" name="escapeArtistSynergyModifier" aria-label="Escape Artist Synergy Modifier" title="Escape Artist Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Escape Artist Section -->
+
+              <!-- Skill Forgery Section -->
+              <div class="skill-forgery-section">
+                <button class="skill-btn" aria-label="Click to Access Forgery Skill Functions" title="Click to Access Forgery Skill Functions" onclick="OpenSkillsModal('FORGERY')">Forgery</button>
+                <span class="skill-ability-code">INT</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="forgerySkillModifier" name="forgerySkillModifier" aria-label="Forgery Skill Modifier" title="Forgery Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="forgeryAbilityModifier" name="forgeryAbilityModifier" aria-label="Forgery Ability Modifier" title="Forgery Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="forgeryRanks" name="forgeryRanks" aria-label="Forgery Skill Ranks" title="Forgery Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="forgerySynergyModifier" name="forgerySynergyModifier" aria-label="Forgery Synergy Modifier" title="Forgery Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Forgery Section -->
+
+              <!-- Skill Gather Information Section -->
+              <div class="skill-gather-information-section">
+                <button class="skill-btn" aria-label="Click to Access Gather Information Skill Functions" title="Click to Access Gather Information Skill Functions" onclick="OpenSkillsModal('GATHER_INFORMATION')">Gather Information</button>
+                <span class="skill-ability-code">CHA</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="gatherInformationSkillModifier" name="gatherInformationSkillModifier" aria-label="Gather Information Skill Modifier" title="Gather Information Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="gatherInformationAbilityModifier" name="gatherInformationAbilityModifier" aria-label="Gather Information Ability Modifier" title="Gather Information Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="gatherInformationRanks" name="gatherInformationRanks" aria-label="Gather Information Skill Ranks" title="Gather Information Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="gatherInformationSynergyModifier" name="gatherInformationSynergyModifier" aria-label="Gather Information Synergy Modifier" title="Gather Information Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Gather Information Section -->
+
+              <!-- Skill Handle Animal Section -->
+              <div class="skill-handle-animal-section">
+                <button class="skill-btn" aria-label="Click to Access Handle Animal Skill Functions" title="Click to Access Handle Animal Skill Functions" onclick="OpenSkillsModal('HANDLE_ANIMAL')">Handle Animal</button>
+                <span class="skill-ability-code">CHA</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="handleAnimalSkillModifier" name="handleAnimalSkillModifier" aria-label="Handle Animal Skill Modifier" title="Handle Animal Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="handleAnimalAbilityModifier" name="handleAnimalAbilityModifier" aria-label="Handle Animal Ability Modifier" title="Handle Animal Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="handleAnimalRanks" name="handleAnimalRanks" aria-label="Handle Animal Skill Ranks" title="Handle Animal Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="handleAnimalSynergyModifier" name="handleAnimalSynergyModifier" aria-label="Handle Animal Synergy Modifier" title="Handle Animal Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill -->
+
+              <!-- Skill Heal Section-->
+              <div class="skill-heal-section">
+                <button class="skill-btn" aria-label="Click to Access Heal Skill Functions" title="Click to Access Heal Skill Functions" onclick="OpenSkillsModal('HEAL')">Heal</button>
+                <span class="skill-ability-code">WIS</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="healSkillModifier" name="healSkillModifier" aria-label="Heal Skill Modifier" title="Heal Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="healAbilityModifier" name="healAbilityModifier" aria-label="Heal Ability Modifier" title="Heal Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="healRanks" name="healRanks" aria-label="Heal Skill Ranks" title="Heal Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="healSynergyModifier" name="healSynergyModifier" aria-label="Heal Synergy Modifier" title="Heal Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Handle Animal Section -->
+
+              <!-- Skill Hide Section -->
+              <div class="skill-hide-section">
+                <button class="skill-btn" aria-label="Click to Access Hide Skill Functions" title="Click to Access Hide Skill Functions" onclick="OpenSkillsModal('HIDE')">Hide</button>
+                <span class="skill-ability-code">DEX</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="hideSkillModifier" name="hideSkillModifier" aria-label="Hide Skill Modifier" title="Hide Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="hideAbilityModifier" name="hideAbilityModifier" aria-label="Hide Ability Modifier" title="Hide Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="hideRanks" name="hideRanks" aria-label="Hide Skill Ranks" title="Hide Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="hideSynergyModifier" name="hideSynergyModifier" aria-label="Hide Synergy Modifier" title="Hide Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Hide Section  -->
+
+              <!-- Skill Intimidate Section -->
+              <div class="skill-intimidate-section">
+                <button class="skill-btn" aria-label="Click to Access Intimidate Skill Functions" title="Click to Access Intimidate Skill Functions" onclick="OpenSkillsModal('INTIMIDATE')">Intimidate</button>
+                <span class="skill-ability-code">CHA</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="intimidateSkillModifier" name="intimidateSkillModifier" aria-label="Intimidate Skill Modifier" title="Intimidate Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="intimidateAbilityModifier" name="intimidateAbilityModifier" aria-label="Intimidate Ability Modifier" title="Intimidate Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="intimidateRanks" name="intimidateRanks" aria-label="Intimidate Skill Ranks" title="Intimidate Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="intimidateSynergyModifier" name="intimidateSynergyModifier" aria-label="Intimidate Synergy Modifier" title="Intimidate Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Intimidate Section -->
+
+              <!-- Skill Jump Section -->
+              <div class="skill-jump-section">
+                <button class="skill-btn" aria-label="Click to Access Jump Skill Functions" title="Click to Access Jump Skill Functions" onclick="OpenSkillsModal('JUMP')">Jump</button>
+                <span class="skill-ability-code">STR</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="jumpSkillModifier" name="jumpSkillModifier" aria-label="Jump Skill Modifier" title="Jump Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="jumpAbilityModifier" name="jumpAbilityModifier" aria-label="Jump Ability Modifier" title="Jump Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="jumpRanks" name="jumpRanks" aria-label="Jump Skill Ranks" title="Jump Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="jumpSynergyModifier" name="jumpSynergyModifier" aria-label="Jump Synergy Modifier" title="Jump Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Jump Section -->
+
+              <!-- Skill Knowledge Section -->
+              <div class="skill-knowledge-section">
+                <button class="skill-btn" aria-label="Click to Access Knowledge Skill Functions" title="Click to Access Knowledge Skill Functions" onclick="OpenSkillsModal('KNOWLEDGE')">Knowledge</button>
+                <span class="skill-ability-code">INT</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="knowledgeSkillModifier" name="knowledgeSkillModifier" aria-label="Knowledge Skill Modifier" title="Knowledge Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="knowledgeAbilityModifier" name="knowledgeAbilityModifier" aria-label="Knowledge Ability Modifier" title="Knowledge Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="knowledgeRanks" name="knowledgeRanks" aria-label="Knowledge Skill Ranks" title="Knowledge Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="knowledgeSynergyModifier" name="knowledgeSynergyModifier" aria-label="Knowledge Synergy Modifier" title="Knowledge Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Knowledge Section -->
+
+              <!-- Skill Listen Section -->
+              <div class="skill-listen-section">
+                <button class="skill-btn" aria-label="Click to Access Listen Skill Functions" title="Click to Access Listen Skill Functions" onclick="OpenSkillsModal('LISTEN')">Listen</button>
+                <span class="skill-ability-code">WIS</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="listenSkillModifier" name="listenSkillModifier" aria-label="Listen Skill Modifier" title="Listen Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="listenAbilityModifier" name="listenAbilityModifier" aria-label="Listen Ability Modifier" title="Listen Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="listenRanks" name="listenRanks" aria-label="Listen Skill Ranks" title="Listen Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="listenSynergyModifier" name="listenSynergyModifier" aria-label="Listen Synergy Modifier" title="Listen Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Listen Section -->
+
+              <!-- Skill Move Silently Section -->
+              <div class="skill-move-silently-section">
+                <button class="skill-btn" aria-label="Click to Access Move Silently Skill Functions" title="Click to Access Move Silently Skill Functions" onclick="OpenSkillsModal('MOVE_SILENTLY')">Move Silently</button>
+                <span class="skill-ability-code">DEX</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="moveSilentlySkillModifier" name="moveSilentlySkillModifier" aria-label="Move Silently Skill Modifier" title="Move Silently Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="moveSilentlyAbilityModifier" name="moveSilentlyAbilityModifier" aria-label="Move Silently Ability Modifier" title="Move Silently Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="moveSilentlyRanks" name="moveSilentlyRanks" aria-label="Move Silently Skill Ranks" title="Move Silently Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="moveSilentlySynergyModifier" name="moveSilentlySynergyModifier" aria-label="Move Silently Synergy Modifier" title="Move Silently Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Move Silently Section -->
+
+              <!-- Skill Open Lock Section -->
+              <div class="skill-open-lock-section">
+                <button class="skill-btn" aria-label="Click to Access Open Lock Skill Functions" title="Click to Access Open Lock Skill Functions" onclick="OpenSkillsModal('OPEN_LOCK')">Open Lock</button>
+                <span class="skill-ability-code">DEX</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="openLockSkillModifier" name="openLockSkillModifier" aria-label="Open Lock Skill Modifier" title="Open Lock Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="openLockAbilityModifier" name="openLockAbilityModifier" aria-label="Open Lock Ability Modifier" title="Open Lock Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="openLockRanks" name="openLockRanks" aria-label="Open Lock Skill Ranks" title="Open Lock Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="openLockSynergyModifier" name="openLockSynergyModifier" aria-label="Open Lock Synergy Modifier" title="Open Lock Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Open Lock Section -->
+
+              <!-- Skill Perform Section -->
+              <div class="skill-perform-section">
+                <button class="skill-btn" aria-label="Click to Access Perform Skill Functions" title="Click to Access Perform Skill Functions" onclick="OpenSkillsModal('PERFORM')">Perform</button>
+                <span class="skill-ability-code">CHA</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="performSkillModifier" name="performSkillModifier" aria-label="Perform Skill Modifier" title="Perform Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="performAbilityModifier" name="performAbilityModifier" aria-label="Perform Ability Modifier" title="Perform Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="performRanks" name="performRanks" aria-label="Perform Skill Ranks" title="Perform Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="performSynergyModifier" name="performSynergyModifier" aria-label="Perform Synergy Modifier" title="Perform Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Perform Section -->
+
+              <!-- Skill Profession Section -->
+              <div class="skill-profession-section">
+                <button class="skill-btn" aria-label="Click to Access Profession Skill Functions" title="Click to Access Profession Skill Functions" onclick="OpenSkillsModal('PROFESSION')">Profession</button>
+                <span class="skill-ability-code">WIS</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="professionSkillModifier" name="professionSkillModifier" aria-label="Profession Skill Modifier" title="Profession Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="professionAbilityModifier" name="professionAbilityModifier" aria-label="Profession Ability Modifier" title="Profession Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="professionRanks" name="professionRanks" aria-label="Profession Skill Ranks" title="Profession Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="professionSynergyModifier" name="professionSynergyModifier" aria-label="Profession Synergy Modifier" title="Profession Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Profession Section -->
+
+              <!-- Skill Ride Section -->
+              <div class="skill-ride-section">
+                <button class="skill-btn" aria-label="Click to Access Ride Skill Functions" title="Click to Access Ride Skill Functions" onclick="OpenSkillsModal('RIDE')">Ride</button>
+                <span class="skill-ability-code">DEX</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="rideSkillModifier" name="rideSkillModifier" aria-label="Ride Skill Modifier" title="Ride Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="rideAbilityModifier" name="rideAbilityModifier" aria-label="Ride Ability Modifier" title="Ride Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="rideRanks" name="rideRanks" aria-label="Ride Skill Ranks" title="Ride Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="rideSynergyModifier" name="rideSynergyModifier" aria-label="Ride Synergy Modifier" title="Ride Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Ride Section -->
+
+              <!-- Skill Search Section -->
+              <div class="skill-search-section">
+                <button class="skill-btn" aria-label="Click to Access Search Skill Functions" title="Click to Access Search Skill Functions" onclick="OpenSkillsModal('SEARCH')">Search</button>
+                <span class="skill-ability-code">INT</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="searchSkillModifier" name="searchSkillModifier" aria-label="Search Skill Modifier" title="Search Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="searchAbilityModifier" name="searchAbilityModifier" aria-label="Search Ability Modifier" title="Search Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="searchRanks" name="searchRanks" aria-label="Search Skill Ranks" title="Search Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="searchSynergyModifier" name="searchSynergyModifier" aria-label="Search Synergy Modifier" title="Search Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Search Section -->
+
+              <!-- Skill Sense Motive Section -->
+              <div class="skill-sense-motive-section">
+                <button class="skill-btn" aria-label="Click to Access Sense Motive Skill Functions" title="Click to Access Sense Motive Skill Functions" onclick="OpenSkillsModal('SENSE_MOTIVE')">Sense Motive</button>
+                <span class="skill-ability-code">WIS</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="senseMotiveSkillModifier" name="senseMotiveSkillModifier" aria-label="Sense Motive Skill Modifier" title="Sense Motive Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="senseMotiveAbilityModifier" name="senseMotiveAbilityModifier" aria-label="Sense Motive Ability Modifier" title="Sense Motive Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="senseMotiveRanks" name="sense-MotiveRanks" aria-label="Sense Motive Skill Ranks" title="Sense Motive Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="senseMotiveSynergyModifier" name="senseMotiveSynergyModifier" aria-label="Sense Motive Synergy Modifier" title="Sense Motive Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Sense Motive Section -->
+
+              <!-- Skill Sleight of Hand Section -->
+              <div class="skill-sleight-of-hand-section">
+                <button class="skill-btn" aria-label="Click to Access Sleight of Hand Skill Functions" title="Click to Access Sleight of Hand Skill Functions" onclick="OpenSkillsModal('SLEIGHT_OF_HAND')">Sleight of Hand</button>
+                <span class="skill-ability-code">DEX</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="sleightOfHandSkillModifier" name="sleightOfHandSkillModifier" aria-label="Sleight of Hand Skill Modifier" title="Sleight of Hand Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="sleightOfHandAbilityModifier" name="sleightOfHandAbilityModifier" aria-label="Sleight of Hand Ability Modifier" title="Sleight of Hand Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="sleightOfHandRanks" name="sleightOfHandRanks" aria-label="Sleight of Hand Skill Ranks" title="Sleight of Hand Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="sleightOfHandSynergyModifier" name="sleightOfHandSynergyModifier" aria-label="Sleight of Hand Synergy Modifier" title="Sleight of Hand Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Sleight of Hand Section -->
+
+              <!-- Skill Spellcraft Section -->
+              <div class="skill-spellcraft-section">
+                <button class="skill-btn" aria-label="Click to Access Spellcraft Skill Functions" title="Click to Access Spellcraft Skill Functions" onclick="OpenSkillsModal('SPELLCRAFT')">Spellcraft</button>
+                <span class="skill-ability-code">INT</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="spellcraftSkillModifier" name="spellcraftSkillModifier" aria-label="Spellcraft Skill Modifier" title="Spellcraft Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="spellcraftAbilityModifier" name="spellcraftAbilityModifier" aria-label="Spellcraft Ability Modifier" title="Spellcraft Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="spellcraftRanks" name="spellcraftRanks" aria-label="Spellcraft Skill Ranks" title="Spellcraft Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="spellcraftSynergyModifier" name="spellcraftSynergyModifier" aria-label="Spellcraft Synergy Modifier" title="Spellcraft Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Spellcraft Section -->
+
+              <!-- Skill Spot Section -->
+              <div class="skill-spot-section">
+                <button class="skill-btn" aria-label="Click to Access Spot Skill Functions" title="Click to Access Spot Skill Functions" onclick="OpenSkillsModal('SPOT')">Spot</button>
+                <span class="skill-ability-code">WIS</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="spotSkillModifier" name="spotSkillModifier" aria-label="Spot Skill Modifier" title="Spot Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="spotAbilityModifier" name="spotAbilityModifier" aria-label="Spot Ability Modifier" title="Spot Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="spotRanks" name="spotRanks" aria-label="Spot Skill Ranks" title="Spot Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="spotSynergyModifier" name="spotSynergyModifier" aria-label="Spot Synergy Modifier" title="Spot Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Spot Section -->
+
+              <!-- Skill Survival Section -->
+              <div class="skill-survival-section">
+                <button class="skill-btn" aria-label="Click to Access Survival Skill Functions" title="Click to Access Survival Skill Functions" onclick="OpenSkillsModal('SURVIVAL')">Survival</button>
+                <span class="skill-ability-code">WIS</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="survivalSkillModifier" name="survivalSkillModifier" aria-label="Survival Skill Modifier" title="Survival Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="survivalAbilityModifier" name="survivalAbilityModifier" aria-label="Survival Ability Modifier" title="Survival Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="survivalRanks" name="survivalRanks" aria-label="Survival Skill Ranks" title="Survival Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="survivalSynergyModifier" name="survivalSynergyModifier" aria-label="Survival Synergy Modifier" title="Survival Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Survival Section -->
+
+              <!-- Skill Swim Section -->
+              <div class="skill-swim-section">
+                <button class="skill-btn" aria-label="Click to Access Swim Skill Functions" title="Click to Access Swim Skill Functions" onclick="OpenSkillsModal('SWIM')">Swim</button>
+                <span class="skill-ability-code">STR</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="swimSkillModifier" name="swimSkillModifier" aria-label="Swim Skill Modifier" title="Swim Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="swimAbilityModifier" name="swimAbilityModifier" aria-label="Swim Ability Modifier" title="Swim Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="swimRanks" name="swimRanks" aria-label="Swim Skill Ranks" title="Swim Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="swimSynergyModifier" name="swimSynergyModifier" aria-label="Swim Synergy Modifier" title="Swim Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Swim Section -->
+
+              <!-- Skill Tumble Section -->
+              <div class="skill-tumble-section">
+                <button class="skill-btn" aria-label="Click to Access Tumble Skill Functions" title="Click to Access Tumble Skill Functions" onclick="OpenSkillsModal('TUMBLE')">Tumble</button>
+                <span class="skill-ability-code">DEX</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="tumbleSkillModifier" name="tumbleSkillModifier" aria-label="Tumble Skill Modifier" title="Tumble Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="tumbleAbilityModifier" name="tumbleAbilityModifier" aria-label="Tumble Ability Modifier" title="Tumble Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="tumbleRanks" name="tumbleRanks" aria-label="Tumble Skill Ranks" title="Tumble Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="tumbleSynergyModifier" name="tumbleSynergyModifier" aria-label="Tumble Synergy Modifier" title="Tumble Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Tumble Section -->
+
+              <!-- Skill Use Magic Device Section -->
+              <div class="skill-use-magic-device-section">
+                <button class="skill-btn" aria-label="Click to Access Use Magic Device Skill Functions" title="Click to Access Use Magic Device Skill Functions" onclick="OpenSkillsModal('USE_MAGIC_DEVICE')">Use Magic Device</button>
+                <span class="skill-ability-code">CHA</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="useMagicDeviceSkillModifier" name="useMagicDeviceSkillModifier" aria-label="Use Magic Device Skill Modifier" title="Use Magic Device Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="useMagicDeviceAbilityModifier" name="useMagicDeviceAbilityModifier" aria-label="Use Magic Device Ability Modifier" title="Use Magic Device Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="useMagicDeviceRanks" name="useMagicDeviceRanks" aria-label="Use Magic Device Skill Ranks" title="Use Magic Device Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="useMagicDeviceSynergyModifier" name="useMagicDeviceSynergyModifier" aria-label="Use Magic Device Synergy Modifier" title="Use Magic Device Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Use Magic Device Section -->
+
+              <!-- Skill Use Rope Section -->
+              <div class="skill-use-rope-section">
+                <button class="skill-btn" aria-label="Click to Access Use Rope Skill Functions" title="Click to Access Use Rope Skill Functions" onclick="OpenSkillsModal('USE_ROPE')">Use Rope</button>
+                <span class="skill-ability-code">DEX</span>
+                <div class="skill-cell"><input class="skill-input" type="number" id="useRopeSkillModifier" name="useRopeSkillModifier" aria-label="Use Rope Skill Modifier" title="Use Rope Skill Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="useRopeAbilityModifier" name="useRopeAbilityModifier" aria-label="Use Rope Ability Modifier" title="Use Rope Ability Modifier" placeholder="10" readonly></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="useRopeRanks" name="useRopeRanks" aria-label="Use Rope Skill Ranks" title="Use Rope Skill Ranks" value="0" min="0" step="0.5"></div>
+                <div class="skill-cell"><input class="skill-input" type="number" id="useRopeSynergyModifier" name="useRopeSynergyModifier" aria-label="Use Rope Synergy Modifier" title="Use Rope Synergy Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Skill Use Rope Section -->
+            </div>
+          </div>
+          <!-- End Skills Section -->
+
+          <!-- Saving Throw Section -->
+          <div class="saving-throw-section">
+            <div class="saving-throws">
+              <!-- Saving Throw Label Section -->
+              <div class="saving-throw-labels">
+                <label for="saving-throw-Name">Saving Throw Name</label>
+                <label for="saving-throw-total">Total</label>
+                <label for="saving-throw-base">Base</label>
+                <label for="saving-throw-ability-modifier">Mod.</label>
+                <label for="saving-throw-magic-modifier">Magic</label>
+                <label for="saving-throw-miscellaneous-modifier">Misc.</label>
+                <label for="saving-throw-temporary-modifier">Temp.</label>
+              </div>
+              <!-- End Saving Throw Label Section -->
+
+              <!-- Saving Thorw: Fortitude Section -->
+              <div class="saving-throw-fortitude-section">
+                <button type="button" class="saving-throw-btn" aria-label="Click to Access Fortitude Save Functions" title="Click to Access Fortitude Save Functions" onclick="OpenSavingThrowModal('FORTITUDE')">Fortitude</button>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowFortitudeTotal" name="savingThrowFortitudeTotal" aria-label="Fortitude Total" title="Fortitude Total" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowFortitudeBase" name="saving-ThrowFortitudeBase" aria-label="Fortitude Base" title="Fortitude Base" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowFortitudeAbilityModifier" name="savingThrowFortitudeAbilityModifier" aria-label="Fortitude Ability Modifier" title="Fortitude Ability Modifier" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowFortitudeMagicModifier" name="savingThrowFortitudeMagicModifier" aria-label="Fortitude Magic Modifier" title="Fortitude Magic Modifier" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowFortitudeMiscModifier" name="savingThrowFortitudeMiscModifier" aria-label="Fortitude Misc. Modifier" title="Fortitude Misc. Modifier" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowFortitudeTemporaryModifier" name="savingThrowFortitudeTemporaryModifier" aria-label="Fortitude Temp. Modifier" title="Fortitude Temp. Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Saving Throw: Fortitude Section -->
+
+              <!-- Saving Thorw: Reflex Section -->
+              <div class="saving-throw-reflex-section">
+                <button type="button" class="saving-throw-btn" aria-label="Click to Access Reflex Save Functions" title="Click to Access Reflex Save Functions" onclick="OpenSavingThrowModal('REFLEX')">Reflex</button>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowReflexTotal" name="savingThrowReflexTotal" aria-label="Reflex Total" title="Reflex Total" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowReflexBase" name="savingThrowReflexBase" aria-label="Reflex Base" title="Reflex Base" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowReflexAbilityModifier" name="savingThrowReflexAbilityModifier" aria-label="Reflex Ability Modifier" title="Reflex Ability Modifier" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowReflexMagicModifier" name="savingThrowReflexMagicModifier" aria-label="Reflex Magic Modifier" title="Reflex Magic Modifier" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowReflexMiscModifier" name="savingThrowReflexMiscModifier" aria-label="Fortitude Misc. Modifier" title="Fortitude Misc. Modifier" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowReflexTemporaryModifier" name="savingThrowReflexTemporaryModifier" aria-label="Reflex Temp. Modifier" title="Reflex Temp. Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Saving Throw: Reflex Section -->
+
+              <!-- Saving Thorw: Will Section -->
+              <div class="saving-throw-will-section">
+                <button type="button" class="saving-throw-btn" aria-label="Click to Access Will Save Functions" title="Click to Access Will Save Functions" onclick="OpenSavingThrowModal('WILL')">Will</button>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowWillTotal" name="savingThrowWillTotal" aria-label="Will Total" title="Will Total" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowWillBase" name="savingThrowWillBase" aria-label="Will Base" title="Will Base" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowWillAbilityModifier" name="savingThrowWillAbilityModifier" aria-label="Will Ability Modifier" title="Will Ability Modifier" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowWillMagicModifier" name="savingThrowWillMagicModifier" aria-label="Will Magic Modifier" title="Will Magic Modifier" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowWillMiscModifier" name="savingThrowWillMiscModifier" aria-label="Will Misc. Modifier" title="Will Misc. Modifier" placeholder="10" readonly></div>
+                <div class="saving-throw-cell"><input class="saving-throw-input" type="number" id="savingThrowWillTemporaryModifier" name="savingThrowWillTemporaryModifier" aria-label="Will Temp. Modifier" title="Will Temp. Modifier" placeholder="10" readonly></div>
+              </div>
+              <!-- End Saving Throw: Will Section -->
+            </div>
+          </div>
+          <!-- End Saving Throw Section -->
+
+          <!-- Weapon Selection & Information Section -->
+          <div class="weapon-section">
+            <div class="attack-section">
+              <!-- Weapon One Label Information: Row 1 -->
+              <div class="weapon-one-row-one-label-section">
+                <label for="weapon-one-name">Attack</label>
+                <label for="weapon--one-attack">Name</label>
+                <label for="weapon-one-bonus">Type</label>
+                <label for="weapon-one-damage">Damage</label>
+              </div>
+              <!-- End Weapon One Label Information: Row 1 -->
+
+              <!-- Weapon One Inputs: Row 1 Section -->
+              <div class="weapon-one-row-one-section">
+                <button class="weapon-btn" aria-label="Click to Access Weapon One Functions" title="Click to Access Weapon One Functions" onclick="OpenWeaponsModal('WEAPON_ONE')">Use Weapon</button>
+                <div class="weapon-cell"><select id="weaponOneSelect" name="weaponOneSelect" aria-label="Weapon One Selection" title="Weapon One Selection">
+                    <option value="">Weapon</option>
+                  </select></div>
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponOneAttackDamageType" name="weaponOneAttackDamageType" aria-label="Weapon One Damage Type" title="Weapon One Damage Type" placeholder="Bludgeoning" readonly></div>
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponOneAttackDamage" name="weaponOneAttackDamage" aria-label="Weapon One Attack Damage" title="Weapon One Attack Damage" placeholder="1d4" readonly></div>
+              </div>
+              <!-- End Weapon One Inputs: Row 1 Section -->
+
+              <!-- Weapon One Label Information: Row 2 -->
+              <div class="weapon-one-row-two-label-section">
+                <label for="weapon-one-name">Critical</label>
+                <label for="weapon--one-attack">Range</label>
+                <label for="weapon-one-bonus">Ammunition</label>
+                <label for="weapon-one-damage">Notes</label>
+              </div>
+              <!-- End Weapon One Label Information: Row 2 -->
+
+              <!-- Weapon One Inputs: Row 2 Section -->
+              <div class="weapon-one-row-two-section">
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponOneAttackCritical" name="weaponOneAttackCritical" aria-label="Weapon One Attack Critical" title="Weapon One Attack Critical" placeholder="19/20: x2" readonly></div>
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponOneAttackRange" name="weaponOneAttackRange" aria-label="Weapon One Attack Range" title="Weapon One Attack Range" placeholder="'Touch'" readonly></div>
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponOneAmmunition" name="weaponOneAmmunition" aria-label="Weapon One Ammunition" title="Weapon One Ammunition" placeholder="-" readonly></div>
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponOneNotes" name="weaponOneNotes" aria-label="Weapon One Notes" title="Weapon One Notes" placeholder="..." readonly></div>
+              </div>
+              <!-- End Weapon One Inputs: Row 2 Section -->
+
+              <br>
+
+              <!-- Weapon Two Label Information: Row 1 -->
+              <div class="weapon-two-row-one-label-section">
+                <label for="weapon-two-name">Attack</label>
+                <label for="weapon--two-attack">Name</label>
+                <label for="weapon-two-bonus">Type</label>
+                <label for="weapon-two-damage">Damage</label>
+              </div>
+              <!-- End Weapon Two Label Information: Row 1 -->
+
+              <!-- Weapon Two Inputs: Row 1 Section -->
+              <div class="weapon-two-row-one-section">
+                <button class="weapon-btn" aria-label="Click to Access Weapon Two Functions" title="Click to Access Weapon two Functions" onclick="OpenWeaponsModal('WEAPON_TWO')">Use Weapon</button>
+                <div class="weapon-cell"><select id="weaponOneSelect" name="weaponOneSelect" aria-label="Weapon Two Selection" title="Weapon Two Selection">
+                    <option value="">Weapon</option>
+                  </select></div>
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponTwoAttackDamageType" name="weaponTwoAttackDamageType" aria-label="Weapon Two Damage Type" title="Weapon Two Damage Type" placeholder="Bludgeoning" readonly></div>
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponTwoAttackDamage" name="weaponTwoAttackDamage" aria-label="Weapon Two Attack Damage" title="Weapon Two Attack Damage" placeholder="1d4" readonly></div>
+              </div>
+              <!-- End Weapon Two Inputs: Row 1 Section -->
+
+              <!-- Weapon Two Label Information: Row 2 -->
+              <div class="weapon-two-row-two-label-section">
+                <label for="weapon-two-name">Critical</label>
+                <label for="weapon--two-attack">Range</label>
+                <label for="weapon-two-bonus">Ammunition</label>
+                <label for="weapon-two-damage">Notes</label>
+              </div>
+              <!-- End Weapon Two Label Information: Row 2 -->
+
+              <!-- Weapon Two Inputs: Row 2 Section -->
+              <div class="weapon-two-row-two-section">
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponTwoAttackCritical" name="weaponTwoAttackCritical" aria-label="Weapon Two Attack Critical" title="Weapon Two Attack Critical" placeholder="19/20: x2" readonly></div>
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponTwoAttackRange" name="weaponTwoAttackRange" aria-label="Weapon Two Attack Range" title="Weapon Two Attack Range" placeholder="'Touch'" readonly></div>
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponTwoAmmunition" name="weaponTwoAmmunition" aria-label="Weapon Two Ammunition" title="Weapon Two Ammunition" placeholder="-" readonly></div>
+                <div class="weapon-cell"><input class="weapon-input" type="text" id="weaponTwoNotes" name="weaponTwoNotes" aria-label="Weapon Two Notes" title="Weapon Two Notes" placeholder="..." readonly></div>
+              </div>
+              <!-- End Weapon One Inputs: Row 2 Section -->
+            </div>
+          </div>
+          <!-- End Weapon Selection & Information Section -->
+
+          <!-- Armor Selection & Information Section -->
+          <div class="armor-shield-section">
+            <div class="armor-section">
+              <!-- Armor Label Section: Row 1 -->
+              <div class="armor-label-section-row-one">
+                <label for="armor-selection">Armor</label>
+                <label for="armor-selection-type">Type</label>
+                <label for="armor-section-AC-bonus">AC Bonus</label>
+                <label for="armor-section-max-dex">Max Dex</label>
+              </div>
+              <!-- End Armor Label Section: Row 1 -->
+
+              <!-- Armor Section: Row 1 -->
+              <div class="armor-row-one">
+                <div class="armor-cell"><select id="armorSelect" name="armorSelect" aria-label="Armor Selection" title="Armor Selection">
+                    <option value="">Armor</option>
+                  </select></div>
+                <div class="armor-cell"><input class="armor-input" type="text" id="armorType" name="armorType" aria-label="Armor Type" title="Armor Type" placeholder="Armor..." readonly></div>
+                <div class="armor-cell"><input class="armor-input" type="text" id="armorACBonus" name="armorACBonus" aria-label="Armor AC Bonus" title="Armor AC Bonus" placeholder="+0" readonly></div>
+                <div class="armor-cell"><input class="armor-input" type="text" id="armorMaxDexBonus" name="armorMaxDexBonus" aria-label="Armor Max Dexterity Bonus" title="Armor Max Dexterity Bonus" placeholder="0" readonly></div>
+              </div>
+              <!-- End Armor Section: Row 1 -->
+
+              <!-- Armor Label Section: Row 2 -->
+              <div class="armor-label-section-row-two">
+                <label for="armor--check-penalty">Check Penalty</label>
+                <label for="armor-spell-failure">Spell Failure</label>
+                <label for="armor-speed-modifier">Speed</label>
+                <label for="armor-weight">Weight</label>
+              </div>
+              <!-- End Armor Label Section: Row 2 -->
+
+              <!-- Armor Section: Row 2 -->
+              <div class="armor-row-two">
+                <div class="armor-cell"><input class="armor-input" type="text" id="armorCheckPenalty" name="armorCheckPenalty" aria-label="Armor Check Penalty" title="Armor Check Penalty" placeholder="0" readonly></div>
+                <div class="armor-cell"><input class="armor-input" type="text" id="armorSpellFailure" name="armorSpellFailure" aria-label="Armor Spell Failure" title="Armor Spell Failure" placeholder="0%" readonly></div>
+                <div class="armor-cell"><input class="armor-input" type="text" id="armorSpeedModifier" name="armorSpeedModifier" aria-label="Armor Speed Modifier" title="Armor Speed Modifier" placeholder="30 ft." readonly></div>
+                <div class="armor-cell"><input class="armor-input" type="text" id="armorWeight" name="armorWeight" aria-label="Armor Weight" title="Armor Weight" placeholder="500 lb." readonly></div>
+              </div>
+              <!-- End Armor Section: Row 2 -->
+
+              <br>
+
+              <!-- Shield Label Section: Row 1 -->
+              <div class="shield-label-section-row-one">
+                <label for="shield-selection">Shield</label>
+                <label for="shield-selection-type">Type</label>
+                <label for="shield-section-AC-bonus">AC Bonus</label>
+                <label for="shield-section-max-dex">Max Dex</label>
+              </div>
+              <!-- End Shield Label Section: Row 1 -->
+
+              <!-- Shield Section: Row 1 -->
+              <div class="shield-row-one">
+                <div class="armor-cell"><select id="shieldSelect" name="shieldSelect" aria-label="Shield Selection" title="Shield Selection">
+                    <option value="">Shield</option>
+                  </select></div>
+                <div class="armor-cell"><input class="armor-input" type="text" id="shieldType" name="shieldType" aria-label="Shield Type" title="Shield Type" placeholder="Shield..." readonly></div>
+                <div class="armor-cell"><input class="armor-input" type="text" id="shieldACBonus" name="shieldACBonus" aria-label="Shield AC Bonus" title="Shield AC Bonus" placeholder="+0" readonly></div>
+                <div class="armor-cell"><input class="armor-input" type="text" id="shieldMaxDexBonus" name="shieldMaxDexBonus" aria-label="Shield Max Dexterity Bonus" title="Shield Max Dexterity Bonus" placeholder="0" readonly></div>
+              </div>
+              <!-- End Shield Section: Row 1 -->
+
+              <!-- Shield Label Section: Row 2 -->
+              <div class="shield-label-section-row-two">
+                <label for="shield--check-penalty">Check Penalty</label>
+                <label for="shield-spell-failure">Spell Failure</label>
+                <label for="shield-weight">Weight</label>
+              </div>
+              <!-- End Shield Label Section: Row 2 -->
+
+              <!-- Shield Section: Row 2 -->
+              <div class="shield-row-two">
+                <div class="armor-cell"><input class="armor-input" type="text" id="shieldCheckPenalty" name="shieldCheckPenalty" aria-label="Shield Check Penalty" title="Shield Check Penalty" placeholder="0" readonly></div>
+                <div class="armor-cell"><input class="armor-input" type="text" id="shieldSpellFailure" name="shieldSpellFailure" aria-label="Shield Spell Failure" title="Shield Spell Failure" placeholder="0%" readonly></div>
+                <div class="armor-cell"><input class="armor-input" type="text" id="shieldWeight" name="shieldWeight" aria-label="Shield Weight" title="Shield Weight" placeholder="500 lb." readonly></div>
+              </div>
+              <!-- End Shield Section: Row 2 -->
+
+            </div>
+          </div>
+          <!-- End Armor Selection & Information Section -->
+
+        </div>
+        <!-- End Sheet Section -->
+      </div>
+    </div>
+    <!-- End Middle Section -->
+  </div>
+</div>
+<!-- End Layout Section -->
+
+<!--- Ability Modal -->
+<div class="abilityModalSection">
+  <div class="ability-modal-backdrop" id="abilityModalBackdrop" name="abilityModalBackdrop" style="display: none;"></div>
+  <div class="ability-modal" id="abilityModal" name="abilityModal" style="display: none;">
+    <div class="ability-modal-content">
+      <div class="ability-modal-header">
+        <h2 id="abilityModalTitle">Edit Ability</h2>
+        <button class="close-ability-modal-btn" onclick="closeAbilityModal()">&times;</button>
+      </div>
+      <div class="ability-modal-body">
+        <label for="abilityModalBase">Base Score:</label>
+        <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalBase" name="abilityModalBase" aria-label="Ability Base" title="Ability Base" type="number"></div>
+        <label>
+          <input type="radio" id="abilityBonusModePermanent" name="abilityBonusMode" value="permanent" checked onchange="toggleAbilityBonusModal()">Permanent
+        </label>
+        <label>
+          <input type="radio" id="abilityBonusModeTemporary" name="abilityBonusMode" value="temporary" unchecked onchange="toggleAbilityBonusModal()">Temporary
+        </label>
+      </div>
+      <div class="ability-modal-columns">
+        <!-- Permanent Ability Bonuses Section -->
+        <div class="ability-modal-section" id="abilityPermanentBonuses">
+          <h3>Permanent Bonuses</h3>
+          <label for="abilityModalRacial">Racial Mod:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalRacial" name="abilityModalRacial" aria-label="Ability Racial Modifier" title="Ability Racial Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalLevelAdjustment">Level Adjustment:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalLevelAdjustment" name="abilityModalLevelAdjustment" aria-label="Ability Level Adjustment Modifier" title="Ability Level Adjustment Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalAgeModifier">Age Modifier:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalAgeModifier" name="abilityModalAgeModifier" aria-label="Ability Age Modifier" title="Ability Age Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalInherentOne">Inherent 1:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalInherentOne" name="abilityModalInherentOne" aria-label="Ability Inherent One Modifier" title="Ability Inherent One Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalInherentTwo">Inherent 2:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalInherentTwo" name="abilityModalInherentTwo" aria-label="Ability Inherent Two Modifier" title="Ability Inherent Two Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalInherentThree">Inherent 3:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalInherentThree" name="abilityModalInherentThree" aria-label="Ability Inherent Three Modifier" title="Ability Inherent Three Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalFeatOne">Feat 1:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalFeatOne" name="abilityModalFeatOne" aria-label="Ability Feat One Modifier" title="Ability Feat One Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalFeatTwo">Feat 2:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalFeatTwo" name="abilityModalFeatTwo" aria-label="Ability Feat Two Modifier" title="Ability Feat Two Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalFeatThree">Feat 3:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalFeatThree" name="abilityModalFeatThree" aria-label="Ability Feat Three Modifier" title="Ability Feat Three Modifier" type="number" placeholder="0"></div>
+        </div>
+        <!-- End Permanent Ability Bonuses Section -->
+
+        <!-- Temporary Ability Bonuses Section -->
+        <div class="ability-modal-section" id="abilityTemporaryBonuses">
+          <h3>Temporary Bonuses</h3>
+          <label for="abilityModalAttunementOne">Attunement 1:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalAttunementOne" name="abilityModalAttunementOne" aria-label="Ability Attunement One Modifier" title="Ability Attunement One Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalAttunementTwo">Attunement 2:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalAttunementTwo" name="abilityModalAttunementTwo" aria-label="Ability Attunement Two Modifier" title="Ability Attunement Two Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalAttunementThree">Attunment 3:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalAttunementThree" name="abilityModalAttunementThree" aria-label="Ability AttunementThree Modifier" title="Ability AttunementThree Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalSpellOne">Spell 1:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalSpellOne" name="abilityModalSpellOne" aria-label="Ability Spell One Modifier" title="Ability Spell One Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalSpellTwo">Spell 2:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalSpellTwo" name="abilityModalSpellTwo" aria-label="Ability Spell Two Modifier" title="Ability Spell Two Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalSpellThree">Spell 3:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalSpellThree" name="abilityModalSpellThree" aria-label="Ability Spell Three Modifier" title="Ability Spell Three Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalRage">Rage:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalRage" name="abilityModalRage" aria-label="Ability Rage Modifier" title="Ability Rage Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalHaste">Haste:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalHaste" name="abilityModalHaste" aria-label="Ability Haste Modifier" title="Ability Haste Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalBardicInspiration">Bardic Inspiration:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalBardicInspiration" name="abilityModalBardicInspiration" aria-label="Ability Bardic Inspiration Modifier" title="Ability Bardic Inspiration Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalFatigued">Fatigued:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalFatigued" name="abilityModalFatigued" aria-label="Ability Fatigued Modifier" title="Ability Fatigued Modifier" type="number" placeholder="0"></div>
+
+          <label for="abilityModalExhausted">Exhausted:</label>
+          <div class="abilityModal-cell"><input class="abilityModal-input" id="abilityModalExhausted" name="abilityModalExhausted" aria-label="Ability Exhausted Modifier" title="Ability Exhausted Modifier" type="number" placeholder="0"></div>
+        </div>
+        <!-- End Temporary Ability Bonuses Section -->
+      </div>
+
+      <div class="ability-modal-footer">
+        <button class="ability-save-btn" aria-label="Save Ability Section" title="Save Ability Section" onclick="saveAbilityModal()">Save</button>
+        <button class="ability-cancel-btn" aria-label="Close Ability Section" title="Close Ability Section" onclick="closeAbilityModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Ability Modal -->
+
+<!-- Inventory Modal -->
+<div class="inventory-modal" id="inventory-modal">
+  <div class="modal-backdrop" data-close="inventory"></div>
+  <section id="inventory-view-sheet" class="view">
+    <header class="topbar">
+      <button type="button" class="topbar-btn" data-nav="back-to-character">← Back to Character</button>
+      <h1 class="topbar-title">Inventory</h1>
+      <button type="button" class="topbar-btn topbar-close" data-nav="close">X</button>
+    </header>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <label class="inventory-search">
+        <span class="inventory-search-icon">⌕</span>
+        <input id="inventory-search" type="search" placeholder="Search..." autocomplete="off" />
+      </label>
+
+      <label class="inventory-select">
+        <span>Filter:</span>
+        <select id="inventory-filter">
+          <option value="all" selected>All</option>
+          <option value="alchemical">Alchemical Items & Poisons</option>
+          <option value="basic">Basic Gear & Travel Essentials</option>
+          <option value="clothes">Clothes & Accessories</option>
+          <option value="containers">Containers & Storage</option>
+          <option value="crafting">Crafting, Trade, & Utility Items</option>
+          <option value="entertainment">Entertainment & Musical Instruments</option>
+          <option value="food">Food & Rations</option>
+          <option value="livestock">Livestock & Animal Handling</option>
+          <option value="lodging">Lodging & Lifestyle</option>
+          <option value="medical">Medical Supplies</option>
+          <option value="mounts">Mounts & Vehicles</option>
+          <option value="implements">Religious & Arcane Implements</option>
+          <option value="services">Services & Labors</option>
+          <option value="specialty">Specialty & Oddities</option>
+          <option value="siege">Siege Equipment</option>
+          <option value="weapons">Weapons & Armor</option>
+        </select>
+      </label>
+
+      <label class="inventory-select">
+        <span>Sort:</span>
+        <select id="inventory-sort">
+          <option value="name" selected>Name</option>
+          <option value="weight">Weight</option>
+          <option value="value">Value</option>
+          <option value="qty">Quantity</option>
+        </select>
+      </label>
+
+      <div class="toolbar-spacer"></div>
+
+      <div class="summary" aria-live="polite">
+        <span id="inventory-weight-summary">Total Weight: 0 / 0 lb</span>
+        <span class="coins" id="inventory-coin-summary">0 PP 0 GP 0 EP 0 SP 0 CP</span>
+      </div>
+    </div>
+    <!-- END TOOLBAR -->
+
+    <!-- MAIN GRID -->
+    <div class="split">
+      <aside class="nav">
+        <button type="button" class="inventory-navigation-item is-active" data-view="inventory">Inventory</button>
+        <button type="button" class="inventory-navigation-item" data-view="gear-hub">Gear & Equipment Store</button>
+        <button type="button" class="inventory-navigation-item" data-view="transfer">Transfer Items</button>
+        <button type="button" class="inventory-navigation-item" data-view="services">Services</button>
+
+        <div class="inventory-navigation-footer">
+          <div><strong>Weight:</strong> <span id="inventory-weight-footer">0 lb</span></div>
+          <div><strong>Money:</strong> <span id="inventory-coin-footer">0 PP 0 GP 0 EP 0 SP 0 CP</span></div>
+        </div>
+      </aside>
+
+      <main class="inventory-main">
+        <div class="inventory-list" id="inventory-list" role="list"></div>
+      </main>
+
+      <aside class="inventory-detail" id="inventory-detail" hidden>
+        <div class="inventory-detail-header">
+          <h2 id="inventory-detail-title">Item</h2>
+          <button type="button" class="inventory-mini-btn" id="inventory-detail-close">X</button>
+        </div>
+
+        <div class="inventory-detail-body" id="inventory-detail-body"></div>
+
+        <div class="inventory-detail-actions">
+          <button type="button" class="inventory-detail-to-gear-hub-btn" id="inventory-detail-to-gear-hub">Open in Gear Hub</button>
+          <button type="button" class="inventory-detail-edit-btn btn-secondary" id="inventory-detail-edit">Edit</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+</div>
+
+<button class="save-btn" id="save-btn" onclick="saveCharacter()"></button>
+<button class="return-btn" id="return-btn" onclick="returnCharacter()"></button>
+<!-- End Inventory Modal -->
+    <script  src="../03_JS/new_character_35e_en.js"></script>
+
+  </body>
+  
+</html>

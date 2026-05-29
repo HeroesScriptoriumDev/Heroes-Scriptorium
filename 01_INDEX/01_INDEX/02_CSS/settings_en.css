@@ -1,0 +1,1612 @@
+:root{
+
+  /* BACKGROUNDS */
+  --bg-main: #0f0c0a;
+  --bg-secondary: #171310;
+  --bg-tertiary: #221b16;
+
+  /* CARDS */
+  --card-bg: rgba(0, 0, 0, 0.72);
+  --card-border: rgba(212, 175, 55, 0.18);
+
+  /* TEXT */
+  --text-primary: #f4ede2;
+  --text-secondary: #c8b89a;
+  --text-muted: #8f7c67;
+
+  /* GOLD ACCENTS */
+  --gold-primary: #d4af37;
+  --gold-secondary: #b8922f;
+  --gold-hover: #f0cc62;
+
+  /* STATUS COLORS */
+  --success: #4caf50;
+  --danger: #b44747;
+  --danger-hover: #d35d5d;
+
+  /* SHADOWS */
+  --shadow-soft:
+    0 0 18px rgba(0,0,0,0.35);
+
+  --shadow-gold:
+    0 0 12px rgba(212,175,55,0.15);
+
+  /* BORDER RADIUS */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  /* TRANSITIONS */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+
+}
+
+
+/* =========================================================
+   GLOBAL RESET
+   ========================================================= */
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0f0c0a 0%, #16110d 100%);
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  color: var(--text-primary);
+  font-family: "Crimson Text", serif;
+  overflow-x: hidden;
+}
+
+body.mode-player {
+  background-image: url('../07_ASSETS/01_IMAGES/01_BACKGROUNDS/62245C55-9A94-4AAA-BA38-B17FCD771F9E.png');
+}
+
+body.mode-dm-home {
+  background-image: url('../07_ASSETS/01_IMAGES/01_BACKGROUNDS/40AF5108-6948-4407-813F-EE9E7AF8C0DA.png');
+}
+
+body.mode-dm {
+  background-image: url('../07_ASSETS/01_IMAGES/01_BACKGROUNDS/5D0ECE72-97FE-4456-8014-6CD4A6B50FAA.png');
+}
+
+
+/* =========================================================
+   BACKGROUND LAYERS
+   ========================================================= */
+
+.hs-bg{
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(212,175,55,0.08),
+      transparent 55%
+    );
+
+  z-index: -2;
+}
+
+
+.hs-bg-overlay{
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: -1;
+}
+
+
+/* =========================================================
+   TOP NAVIGATION
+   ========================================================= */
+
+.top-navigation {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.navigation-title {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #e8d5b0;
+  font-family: 'Cinzel', 'Palatino Linotype', serif;
+  font-size: 18px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  text-shadow: 0 0 20px #c8a45a44;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.navigation-btn {
+  position: absolute;
+  pointer-events: all;
+  width: 120px;
+  height: 40px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  font-family: 'Cinzel', 'Palatino Linotype', serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: transparent;
+  transition: all 0.3s ease;
+}
+
+.navigation-btn:hover {
+  border-color: #c8a45a;
+  color: #c8a45a;
+  box-shadow: 0 0 16px rgba(200, 164, 90, 0.4);
+}
+
+#home-btn {
+  top: 47px;
+  left: 90px;
+  width: 290px;
+  height: 73px;
+}
+
+#player-switch-btn {
+  top: 47px;
+  left: 440px;
+  width: 290px;
+  height: 73px;
+}
+
+#profile-btn {
+  top: 47px;
+  left: 1827px;
+  width: 290px;
+  height: 73px;
+}
+
+#settings-btn {
+  top: 47px;
+  left: 2175px;
+  width: 290px;
+  height: 73px;
+}
+
+
+/* =========================================================
+   MAIN PAGE LAYOUT
+   ========================================================= */
+
+.page-body{
+
+  display: grid;
+
+  grid-template-columns:
+    340px
+    1fr;
+
+  gap: 24px;
+
+  padding:
+    40px;
+
+ 
+  padding-top:180px;
+
+  align-items: start;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar{
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+
+/* =========================================================
+   GENERIC CARD SYSTEM
+   ========================================================= */
+
+.profile-block,
+.stats-block,
+.active-campaign,
+.editions-block,
+.s-card{
+
+  background: var(--card-bg);
+
+  border:
+    1px solid
+    var(--card-border);
+
+  border-radius: var(--radius-lg);
+
+  padding: 32px;
+  margin-bottom: 16px;
+
+  box-shadow:
+    var(--shadow-soft);
+
+    backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12);
+}
+
+
+/* =========================================================
+   PROFILE BLOCK
+   ========================================================= */
+
+.profile-block{
+
+  text-align: center;
+}
+
+
+.avatar-wrap{
+
+  position: relative;
+
+  width: fit-content;
+
+  margin:
+    0 auto 18px;
+}
+
+
+.avatar-ring{
+
+  width: 120px;
+
+  height: 120px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 3rem;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(212,175,55,0.22),
+      rgba(212,175,55,0.05)
+    );
+
+  border:
+    2px solid
+    rgba(212,175,55,0.25);
+
+  box-shadow:
+    var(--shadow-gold);
+}
+
+
+.level-badge{
+
+  position: absolute;
+
+  bottom: -6px;
+
+  right: -6px;
+
+  background:
+    var(--gold-primary);
+
+  color: #1b140d;
+
+  font-weight: 700;
+
+  font-size: 0.85rem;
+
+  padding:
+    6px
+    10px;
+
+  border-radius: 999px;
+}
+
+
+.profile-name{
+
+  font-family:
+    "Cinzel",
+    serif;
+
+  font-size: clamp;
+  word-break: break-word;
+  overflow-wrap: break-word;
+
+  font-weight: 700;
+
+  margin-bottom: 6px;
+}
+
+
+.profile-title{
+
+  color: var(--gold-primary);
+
+  margin-bottom: 12px;
+}
+
+
+.profile-status{
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-bottom: 18px;
+
+  color: var(--text-secondary);
+}
+
+
+.status-dot{
+
+  width: 10px;
+
+  height: 10px;
+
+  border-radius: 50%;
+}
+
+
+.status-dot.offline{
+  background: #777;
+}
+
+
+.status-dot.online{
+  background: var(--success);
+}
+
+
+/* =========================================================
+   ROLE BADGES
+   ========================================================= */
+
+.roles-row{
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 10px;
+}
+
+
+.role-badge{
+
+  padding:
+    6px
+    12px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(212,175,55,0.12);
+
+  border:
+    1px solid
+    rgba(212,175,55,0.2);
+
+  color: var(--gold-primary);
+
+  font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.stats-block{
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+.stat-row{
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding-bottom: 12px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,0.05);
+}
+
+
+.stat-row:last-child{
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+
+.stat-label{
+
+  color: var(--text-secondary);
+}
+
+
+.stat-val{
+
+  text-align: right;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   PLACEHOLDER TEXT
+   ========================================================= */
+
+.placeholder-text{
+
+  color: var(--text-muted);
+
+  font-style: italic;
+}
+
+
+/* =========================================================
+   SECTION LABELS
+   ========================================================= */
+
+.section-label{
+
+  font-family:
+    "Cinzel",
+    serif;
+
+  color: var(--gold-primary);
+
+  margin-bottom: 14px;
+
+  font-size: 1rem;
+
+  letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   EMPTY STATES
+   ========================================================= */
+
+.empty-state{
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+
+  gap: 12px;
+
+  padding:
+    28px
+    16px;
+}
+
+
+.empty-icon{
+
+  font-size: 2.4rem;
+}
+
+
+.empty-title{
+
+  font-family:
+    "Cinzel",
+    serif;
+
+  font-size: 1.1rem;
+}
+
+
+.empty-desc{
+
+  color: var(--text-muted);
+
+  line-height: 1.5;
+}
+
+
+.empty-btn{
+
+  margin-top: 8px;
+
+  padding:
+    10px
+    18px;
+
+  border: none;
+
+  border-radius: var(--radius-sm);
+
+  cursor: pointer;
+
+  background:
+    rgba(212,175,55,0.15);
+
+  color: var(--gold-primary);
+
+  transition:
+    background var(--transition-fast);
+}
+
+
+.empty-btn:hover{
+
+  background:
+    rgba(212,175,55,0.25);
+}
+
+
+/* =========================================================
+   EDITIONS
+   ========================================================= */
+
+.editions-row{
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+
+.edition-icon{
+
+  padding:
+    8px
+    12px;
+
+  border-radius: var(--radius-sm);
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid
+    rgba(255,255,255,0.06);
+}
+
+
+/* =========================================================
+   SIDEBAR ACTIONS
+   ========================================================= */
+
+.sidebar-actions{
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+
+.sidebar-edit-btn,
+.sidebar-secondary-btn,
+.sidebar-danger-btn{
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  width: 100%;
+
+  padding:
+    12px
+    16px;
+
+  border-radius: var(--radius-md);
+
+  border: none;
+
+  cursor: pointer;
+
+  text-decoration: none;
+
+  font-size: 1rem;
+
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast);
+}
+
+
+.sidebar-edit-btn{
+
+  background:
+    var(--gold-primary);
+
+  color: #1a140e;
+
+  font-weight: 700;
+}
+
+
+.sidebar-edit-btn:hover{
+
+  background:
+    var(--gold-hover);
+
+  transform: translateY(-2px);
+}
+
+
+.sidebar-secondary-btn{
+
+  background:
+    rgba(255,255,255,0.05);
+
+  color: var(--text-secondary);
+}
+
+
+.sidebar-secondary-btn:hover{
+
+  background:
+    rgba(255,255,255,0.08);
+
+  color: var(--text-primary);
+}
+
+
+.sidebar-danger-btn{
+
+  background:
+    rgba(180,71,71,0.12);
+
+  color: #ffb7b7;
+
+  border:
+    1px solid
+    rgba(180,71,71,0.2);
+}
+
+
+.sidebar-danger-btn:hover{
+
+  background:
+    rgba(180,71,71,0.22);
+}
+
+
+/* =========================================================
+   SETTINGS AREA
+   ========================================================= */
+
+.settings-area{
+
+  display: grid;
+
+  grid-template-columns:
+    260px
+    1fr;
+
+  gap: 24px;
+}
+
+
+/* =========================================================
+   SETTINGS NAVIGATION
+   ========================================================= */
+
+.settings-nav{
+
+  position: sticky;
+
+  top: 90px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  align-self: start;
+
+  background:
+    rgba(0,0,0,0.72);
+
+  border:
+    1px solid
+    rgba(212,175,55,0.1);
+
+  border-radius: var(--radius-lg);
+
+  padding: 18px;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12);
+}
+
+
+.settings-title{
+
+  font-family:
+    "Cinzel",
+    serif;
+
+  color: var(--gold-primary);
+
+  margin-bottom: 8px;
+
+  font-size: 1.2rem;
+}
+
+
+.s-nav-item{
+
+  width: 100%;
+
+  text-align: left;
+
+  border: none;
+
+  cursor: pointer;
+
+  padding:
+    12px
+    14px;
+
+  border-radius: var(--radius-sm);
+
+  background:
+    transparent;
+
+  color: var(--text-secondary);
+
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+
+.s-nav-item:hover{
+
+  background:
+    rgba(212,175,55,0.08);
+
+  color: var(--gold-hover);
+}
+
+
+.s-nav-item.active{
+
+  background:
+    rgba(212,175,55,0.14);
+
+  color: var(--gold-primary);
+
+  border:
+    1px solid
+    rgba(212,175,55,0.18);
+}
+
+
+.s-nav-item.danger{
+
+  color: #ffb7b7;
+}
+
+
+/* =========================================================
+   SETTINGS CONTENT
+   ========================================================= */
+
+.settings-content{
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 40px;
+}
+
+
+/* =========================================================
+   SECTION SYSTEM
+   ========================================================= */
+
+.s-section{
+  display: none;
+}
+
+
+.s-section.active{
+  display: block;
+}
+
+
+/* =========================================================
+   CARD HEADERS
+   ========================================================= */
+
+.s-card-header{
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 20px;
+
+  margin-bottom: 32px;
+}
+
+
+.s-card-title{
+
+  font-family:
+    "Cinzel",
+    serif;
+
+  font-size: 1.2rem;
+
+  margin-bottom: 6px;
+}
+
+
+.s-card-subtitle{
+
+  color: var(--text-muted);
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM GRID
+   ========================================================= */
+
+.form-grid{
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(260px, 1fr));
+
+  gap: 28px;
+}
+
+
+.form-row{
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.form-label{
+
+  color: var(--text-secondary);
+
+  font-size: 0.95rem;
+}
+
+
+.form-input{
+
+  width: 100%;
+
+  padding:
+    12px
+    14px;
+
+  border-radius: var(--radius-sm);
+
+  border:
+    1px solid
+    rgba(255,255,255,0.08);
+
+  background:
+    rgba(255,255,255,0.04);
+
+  color: var(--text-primary);
+
+  font-family: inherit;
+}
+
+
+.form-input:focus{
+
+  outline: none;
+
+  border-color:
+    rgba(212,175,55,0.35);
+
+  box-shadow:
+    0 0 0 3px rgba(212,175,55,0.08);
+}
+
+
+.form-textarea{
+
+  min-height: 140px;
+
+  resize: vertical;
+}
+
+
+/* =========================================================
+   INFO GRID
+   ========================================================= */
+
+.info-grid{
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 22px;
+}
+
+
+.info-row{
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding-bottom: 12px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,0.05);
+}
+
+
+.info-label{
+
+  color: var(--text-secondary);
+}
+
+
+.info-val{
+
+  text-align: right;
+}
+
+
+/* =========================================================
+   BUTTON SYSTEM
+   ========================================================= */
+
+.btn-primary,
+.btn-secondary,
+.btn-danger{
+
+  padding:
+    10px
+    16px;
+
+  border-radius: var(--radius-sm);
+
+  border: none;
+
+  cursor: pointer;
+
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast);
+
+  font-family: inherit;
+}
+
+
+.btn-primary{
+
+  background:
+    var(--gold-primary);
+
+  color: #1a140e;
+
+  font-weight: 700;
+}
+
+
+.btn-primary:hover{
+
+  background:
+    var(--gold-hover);
+
+  transform: translateY(-1px);
+}
+
+
+.btn-secondary{
+
+  background:
+    rgba(255,255,255,0.05);
+
+  color: var(--text-secondary);
+}
+
+
+.btn-secondary:hover{
+
+  background:
+    rgba(255,255,255,0.08);
+
+  color: var(--text-primary);
+}
+
+
+.btn-danger{
+
+  background:
+    var(--danger);
+
+  color: white;
+}
+
+
+.btn-danger:hover{
+
+  background:
+    var(--danger-hover);
+}
+
+
+.small{
+
+  padding:
+    8px
+    12px;
+
+  font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   TOGGLE SWITCHES
+   ========================================================= */
+
+.toggle-list{
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+
+.toggle-row{
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 20px;
+}
+
+
+.toggle-label{
+
+  font-weight: 600;
+
+  margin-bottom: 4px;
+}
+
+
+.toggle-desc{
+
+  color: var(--text-muted);
+
+  line-height: 1.4;
+}
+
+
+.toggle-switch{
+
+  position: relative;
+
+  width: 54px;
+
+  height: 30px;
+
+  flex-shrink: 0;
+}
+
+
+.toggle-switch input{
+
+  opacity: 0;
+
+  width: 0;
+
+  height: 0;
+}
+
+
+.toggle-slider{
+
+  position: absolute;
+
+  inset: 0;
+
+  cursor: pointer;
+
+  background:
+    rgba(255,255,255,0.12);
+
+  border-radius: 999px;
+
+  transition:
+    background var(--transition-fast);
+}
+
+
+.toggle-slider::before{
+
+  content: "";
+
+  position: absolute;
+
+  width: 22px;
+
+  height: 22px;
+
+  left: 4px;
+
+  top: 4px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  transition:
+    transform var(--transition-fast);
+}
+
+
+.toggle-switch input:checked + .toggle-slider{
+
+  background:
+    rgba(212,175,55,0.45);
+}
+
+
+.toggle-switch input:checked + .toggle-slider::before{
+
+  transform: translateX(24px);
+}
+
+
+/* =========================================================
+   PLACEHOLDER PANEL
+   ========================================================= */
+
+.placeholder-panel{
+
+  padding:
+    18px;
+
+  border-radius: var(--radius-md);
+
+  background:
+    rgba(255,255,255,0.03);
+
+  color: var(--text-muted);
+
+  font-style: italic;
+}
+
+
+/* =========================================================
+   CONNECTIONS
+   ========================================================= */
+
+.connections-list{
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+.connection-row{
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding:
+    14px;
+
+  border-radius: var(--radius-md);
+
+  background:
+    rgba(255,255,255,0.03);
+}
+
+
+.connection-icon{
+
+  font-size: 1.5rem;
+}
+
+
+.connection-info{
+
+  flex: 1;
+}
+
+
+.connection-name{
+
+  font-weight: 700;
+
+  margin-bottom: 4px;
+}
+
+
+.connection-status{
+
+  color: var(--text-muted);
+}
+
+
+/* =========================================================
+   DANGER ZONE
+   ========================================================= */
+
+.danger-card{
+
+  border:
+    1px solid
+    rgba(180,71,71,0.35);
+}
+
+
+.danger-title{
+
+  color: #ffb7b7;
+}
+
+
+.danger-actions{
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+
+.danger-action-row{
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 20px;
+
+  padding:
+    16px;
+
+  border-radius: var(--radius-md);
+
+  background:
+    rgba(180,71,71,0.06);
+}
+
+
+.danger-action-label{
+
+  font-weight: 700;
+
+  margin-bottom: 6px;
+}
+
+
+.danger-desc{
+
+  color: var(--text-muted);
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+
+.modal-overlay{
+
+  position: fixed;
+
+  inset: 0;
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 24px;
+
+  background:
+    rgba(0,0,0,0.7);
+
+  backdrop-filter: blur(6px);
+
+  z-index: 500;
+}
+
+
+.modal-overlay.active{
+  display: flex;
+}
+
+
+.modal{
+
+  width: 100%;
+
+  max-width: 460px;
+
+  background:
+    var(--bg-secondary);
+
+  border:
+    1px solid
+    rgba(212,175,55,0.18);
+
+  border-radius: var(--radius-lg);
+
+  padding: 28px;
+
+  text-align: center;
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+
+.modal-icon{
+
+  font-size: 2.5rem;
+
+  margin-bottom: 16px;
+}
+
+
+.modal-title{
+
+  font-family:
+    "Cinzel",
+    serif;
+
+  margin-bottom: 12px;
+}
+
+
+.modal-desc{
+
+  color: var(--text-muted);
+
+  line-height: 1.6;
+
+  margin-bottom: 24px;
+}
+
+
+.modal-actions{
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 12px;
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.toast{
+
+  position: fixed;
+
+  bottom: 24px;
+
+  right: 24px;
+
+  background:
+    rgba(20,16,13,0.95);
+
+  border:
+    1px solid
+    rgba(212,175,55,0.18);
+
+  color: var(--text-primary);
+
+  padding:
+    14px
+    18px;
+
+  border-radius: var(--radius-md);
+
+  box-shadow:
+    var(--shadow-soft);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transform: translateY(10px);
+
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+
+  z-index: 600;
+}
+
+
+.toast.show{
+
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 1300px){
+
+  .settings-area{
+
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .settings-nav{
+
+    position: relative;
+
+    top: auto;
+  }
+
+}
+
+
+@media (max-width: 1050px){
+
+  .page-body{
+
+    grid-template-columns:
+      1fr;
+  }
+
+}
+
+
+@media (max-width: 700px){
+
+  .top-nav{
+
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+
+  .nav-group{
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+  }
+
+
+  .s-card-header{
+
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+
+  .toggle-row,
+  .danger-action-row,
+  .connection-row,
+  .info-row{
+
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+
+  .modal-actions{
+
+    flex-direction: column;
+  }
+
+}

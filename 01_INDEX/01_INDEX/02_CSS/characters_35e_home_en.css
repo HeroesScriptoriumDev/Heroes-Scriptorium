@@ -1,0 +1,855 @@
+/* =========================================================
+   01. VARIABLES
+   ========================================================= */
+
+:root {
+  --gold:             #d4af37;
+  --gold-light:       #f0d080;
+  --gold-dim:         rgba(212,175,55,0.15);
+  --text-primary:     #f4ede2;
+  --text-secondary:   #c8b89a;
+  --text-muted:       #7a6a55;
+
+  /* BLACK semi-transparent cards — matches profile/settings */
+  --card-bg:          rgba(0, 0, 0, 0.72);
+  --card-bg-hover:    rgba(0, 0, 0, 0.82);
+  --card-border:      rgba(212,175,55,0.18);
+  --card-border-hover:rgba(212,175,55,0.35);
+
+  --success:   #4caf50;
+  --danger:    #b44747;
+  --shadow:    0 6px 32px rgba(0,0,0,0.6);
+  --shadow-gold: 0 0 18px rgba(212,175,55,0.12);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --nav-h:     165px;
+  --transition: 0.2s ease;
+}
+
+
+/* =========================================================
+   02. RESET
+   ========================================================= */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   03. BODY & BACKGROUND
+   ========================================================= */
+
+body {
+  min-height: 100vh;
+  background-color: #050302;
+  color: var(--text-primary);
+  font-family: "Crimson Text", serif;
+  font-size: 15px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+}
+
+/* Background image layer — fixed, behind everything */
+.hs-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: url('../07_ASSETS/01_IMAGES/01_BACKGROUNDS/62245C55-9A94-4AAA-BA38-B17FCD771F9E.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hs-bg-overlay {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0,0,0,0.10) 0%,
+    rgba(0,0,0,0.35) 100%
+  );
+}
+
+
+
+/* =========================================================
+   04. TOP NAVIGATION
+   ========================================================= */
+
+.top-navigation {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  pointer-events: none;
+}
+
+.navigation-btn {
+  position: absolute;
+  pointer-events: all;
+  border: none;
+  background: transparent;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+.navigation-btn:hover {
+  background: rgba(200,164,90,0.06);
+  box-shadow: 0 0 16px rgba(200,164,90,0.2);
+}
+
+#home-btn          { top: 47px; left: 90px;   width: 290px; height: 73px; }
+#player-switch-btn { top: 47px; left: 440px;  width: 290px; height: 73px; }
+#profile-btn       { top: 47px; left: 1827px; width: 290px; height: 73px; }
+#settings-btn      { top: 47px; left: 2175px; width: 290px; height: 73px; }
+
+
+/* =========================================================
+   05. PAGE WRAPPER & HEADER
+   ========================================================= */
+
+.page-wrapper {
+  position: relative;
+  z-index: 20;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 200px 32px 40px;
+}
+
+/* Decorative title block */
+.page-header {
+  text-align: center;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Top ornament row — ⟡ Title ⟡ */
+.page-header > div:first-child,
+.page-header > div:nth-child(3) {
+  display: inline;
+}
+
+.page-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto auto;
+  align-items: center;
+  gap: 0 12px;
+}
+
+.page-title {
+  font-family: "Cinzel Decorative", serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  text-shadow: 0 0 30px rgba(212,175,55,0.25);
+  letter-spacing: 2px;
+  grid-column: 2;
+  grid-row: 1;
+  text-align: center;
+}
+
+.header-ornament {
+  color: var(--gold);
+  font-size: 1.2rem;
+  opacity: 0.7;
+  grid-row: 1;
+}
+
+.page-subtitle {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  font-family: "Crimson Text", serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.header-divider {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent);
+  margin-top: 14px;
+  width: 100%;
+}
+
+
+/* =========================================================
+   06. CONTENT GRID
+   ---------------------------------------------------------
+   Left column: character list (wider)
+   Right column: quick actions + storage info
+   ========================================================= */
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  align-items: start;
+}
+
+
+/* =========================================================
+   07. GENERIC CARD (.p-card)
+   ========================================================= */
+
+.p-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+
+/* Subtle top shimmer */
+.p-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+  pointer-events: none;
+}
+
+.card-section-title {
+  font-family: "Cinzel", serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.card-title-rule {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212,175,55,0.3), transparent);
+  margin-bottom: 16px;
+}
+
+
+/* =========================================================
+   08. CHARACTER LIST CARD
+   ========================================================= */
+
+.character-list-card {
+  min-height: 400px;
+}
+
+/* Header row: title + filter + search */
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.list-title {
+  font-family: "Cinzel", serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.list-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Filter dropdown */
+.filter-select {
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(212,175,55,0.2);
+  background: rgba(0,0,0,0.5);
+  color: var(--text-secondary);
+  font-family: "Crimson Text", serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.filter-select:focus {
+  border-color: rgba(212,175,55,0.4);
+}
+
+/* Search input */
+.search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 0.8rem;
+  pointer-events: none;
+}
+.search-input {
+  padding: 7px 12px 7px 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(212,175,55,0.2);
+  background: rgba(0,0,0,0.5);
+  color: var(--text-primary);
+  font-family: "Crimson Text", serif;
+  font-size: 0.9rem;
+  width: 200px;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.search-input::placeholder { color: var(--text-muted); }
+.search-input:focus { border-color: rgba(212,175,55,0.4); }
+
+/* Scrollable character rows container */
+.character-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Custom scrollbar */
+.character-rows::-webkit-scrollbar { width: 4px; }
+.character-rows::-webkit-scrollbar-track { background: transparent; }
+.character-rows::-webkit-scrollbar-thumb {
+  background: rgba(212,175,55,0.2);
+  border-radius: 2px;
+}
+
+
+/* =========================================================
+   09. CHARACTER ROW
+   ---------------------------------------------------------
+   Each character in the list.
+   ========================================================= */
+
+.character-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: background var(--transition), border-color var(--transition);
+  cursor: default;
+}
+.character-row:hover {
+  background: rgba(212,175,55,0.05);
+  border-color: rgba(212,175,55,0.12);
+}
+
+/* Character portrait thumbnail */
+.char-portrait {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  background: rgba(212,175,55,0.1);
+  border: 1px solid rgba(212,175,55,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Character name + class + alignment */
+.char-identity { flex: 1; min-width: 0; }
+.char-name {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.char-class {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 1px;
+}
+.char-alignment {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Level + last played + campaign */
+.char-meta { min-width: 0; }
+.char-level {
+  font-family: "Cinzel", serif;
+  font-size: 0.9rem;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.char-last-played {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 1px;
+}
+.char-campaign {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+/* Action buttons group — edit, duplicate, delete */
+.char-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.char-action-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.4);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+.char-action-btn:hover {
+  background: rgba(212,175,55,0.12);
+  border-color: rgba(212,175,55,0.25);
+  color: var(--gold-light);
+}
+/* Delete button — red on hover */
+.char-action-btn.delete:hover {
+  background: rgba(180,71,71,0.25);
+  border-color: rgba(180,71,71,0.4);
+  color: #ff9a9a;
+}
+
+
+/* =========================================================
+   10. EMPTY & LOADING STATES
+   ========================================================= */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 48px 20px;
+}
+.empty-icon  { font-size: 2.5rem; opacity: 0.4; }
+.empty-title {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+.empty-desc  { color: var(--text-muted); font-style: italic; font-size: 0.88rem; }
+
+.btn-create-first {
+  margin-top: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(212,175,55,0.3);
+  background: rgba(212,175,55,0.1);
+  color: var(--gold-light);
+  font-family: "Cinzel", serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-create-first:hover {
+  background: rgba(212,175,55,0.2);
+  border-color: rgba(212,175,55,0.5);
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+}
+.loading-text {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   11. LIST FOOTER
+   ========================================================= */
+
+.list-footer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+  padding-top: 12px;
+}
+.footer-divider {
+  flex: 1;
+  height: 1px;
+  background: rgba(212,175,55,0.12);
+}
+.character-count {
+  font-family: "Cinzel", serif;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   12. QUICK ACTIONS CARD
+   ========================================================= */
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: calc(var(--nav-h) + 20px);
+}
+
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Each action row — icon + title + desc */
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(212,175,55,0.12);
+  background: rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: left;
+  width: 100%;
+}
+.action-row:hover {
+  background: rgba(212,175,55,0.08);
+  border-color: rgba(212,175,55,0.25);
+}
+
+.action-icon {
+  font-size: 1.4rem;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: rgba(212,175,55,0.1);
+  border: 1px solid rgba(212,175,55,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.action-name {
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.action-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+
+/* =========================================================
+   13. STORAGE INFO CARD
+   ========================================================= */
+
+.storage-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.storage-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.storage-row:last-child { border-bottom: none; }
+.storage-icon { font-size: 0.9rem; width: 18px; text-align: center; }
+.storage-label { flex: 1; color: var(--text-secondary); font-size: 0.88rem; }
+.storage-val { color: var(--gold); font-weight: 600; font-size: 0.9rem; }
+
+
+/* =========================================================
+   14. SAGE TIP
+   ========================================================= */
+
+.sage-tip {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+
+  background: rgba(0,0,0,0.60);
+  border: 1px solid rgba(212,175,55,0.14);
+
+  backdrop-filter: blur(10px);
+
+  max-width: 560px;
+  width: 100%;
+
+  z-index: 100;
+}
+.sage-icon { font-size: 1.4rem; flex-shrink: 0; }
+.sage-title {
+  font-family: "Cinzel", serif;
+  font-size: 0.82rem;
+  color: var(--gold);
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+.sage-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   15. MODALS
+   ========================================================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+  z-index: 9000;
+}
+.modal-overlay.active { display: flex; }
+
+.modal-box {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(10, 6, 4, 0.96);
+  border: 1px solid rgba(212,175,55,0.22);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+}
+.modal-box-sm { max-width: 380px; }
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid rgba(212,175,55,0.1);
+}
+.modal-title {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  color: var(--gold-light);
+  letter-spacing: 0.5px;
+}
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color var(--transition);
+}
+.modal-close:hover { color: var(--text-primary); }
+
+.modal-body { padding: 20px 22px; }
+.modal-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+.modal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.modal-label {
+  font-family: "Cinzel", serif;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+.modal-input {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(212,175,55,0.2);
+  background: rgba(0,0,0,0.5);
+  color: var(--text-primary);
+  font-family: "Crimson Text", serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.modal-input:focus { border-color: rgba(212,175,55,0.45); }
+.modal-input::placeholder { color: var(--text-muted); }
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 22px 20px;
+  border-top: 1px solid rgba(212,175,55,0.08);
+}
+
+
+/* =========================================================
+   16. BUTTONS
+   ========================================================= */
+
+.btn-primary {
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(212,175,55,0.3);
+  background: linear-gradient(180deg, #b8862a, #8b5e1a);
+  color: var(--text-primary);
+  font-family: "Cinzel", serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  letter-spacing: 0.5px;
+}
+.btn-primary:hover {
+  background: linear-gradient(180deg, #d4a040, #a07020);
+  box-shadow: 0 0 14px rgba(212,175,55,0.25);
+}
+
+.btn-secondary {
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: var(--text-secondary);
+  font-family: "Cinzel", serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.09);
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(180,71,71,0.4);
+  background: rgba(180,71,71,0.2);
+  color: #ffaaaa;
+  font-family: "Cinzel", serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-danger:hover {
+  background: rgba(180,71,71,0.4);
+  color: #ffcccc;
+}
+
+
+/* =========================================================
+   17. TOAST
+   ========================================================= */
+
+.toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: rgba(10,6,4,0.95);
+  border: 1px solid rgba(212,175,55,0.18);
+  color: var(--text-primary);
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 9999;
+  font-family: "Cinzel", serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  max-width: 280px;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+
+/* =========================================================
+   18. RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .content-grid { grid-template-columns: 1fr; }
+  .right-column { position: static; }
+}
+@media (max-width: 700px) {
+  .page-wrapper { padding: 180px 12px 32px; }
+  .char-meta { display: none; }
+  .search-input { width: 140px; }
+}

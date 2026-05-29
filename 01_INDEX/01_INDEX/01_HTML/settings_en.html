@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- =====================================================
+       BASIC PAGE SETUP
+       ===================================================== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Heroes Scriptorium | Settings</title>
+
+  <!-- =====================================================
+       FONT IMPORTS
+       ===================================================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- =====================================================
+       PAGE CSS
+       ===================================================== -->
+  <link rel="stylesheet" href="../02_CSS/settings_en.css" />
+</head>
+
+<body>
+
+  <!-- =====================================================
+       BACKGROUND LAYERS
+       ===================================================== -->
+  <div class="hs-bg" aria-hidden="true"></div>
+  <div class="hs-bg-overlay" aria-hidden="true"></div>
+
+  <!-- =====================================================
+       TOP NAVIGATION
+       ===================================================== -->
+  <!-- Top Navigation-->
+  <nav class="top-navigation">
+    <button class="navigation-btn" id="home-btn" onclick="navigate('home')"></button>
+    <button class="navigation-btn" id="player-switch-btn" onclick="navigate('player')"></button>
+    <button class="navigation-btn" id="profile-btn" onclick="navigate('profile')"></button>
+    <button class="navigation-btn" id="settings-btn" onclick="navigate('settings')"></button>
+  </nav>
+  <!-- End Top Navigation-->
+
+  <!-- =====================================================
+       MAIN PAGE BODY
+       ===================================================== -->
+  <main class="page-body">
+
+    <!-- =====================================================
+         LEFT PROFILE SIDEBAR
+         ===================================================== -->
+    <aside class="sidebar" aria-label="User profile summary">
+
+      <!-- PROFILE IDENTITY BLOCK -->
+      <section class="profile-block">
+
+        <div class="avatar-wrap">
+          <div
+            class="avatar-ring"
+            id="profileAvatar"
+            data-field="avatar"
+            aria-label="User avatar"
+          >
+            🧭
+          </div>
+
+          <div
+            class="level-badge placeholder-text"
+            id="profileLevel"
+            data-field="level"
+          >
+            Not Yet Implemented
+          </div>
+        </div>
+
+        <div
+          class="profile-name"
+          id="profileDisplayName"
+          data-field="display_name"
+          aria-live="polite"
+        >
+          Unknown Adventurer
+        </div>
+
+        <div
+          class="profile-title"
+          id="profileTitle"
+          data-field="profile_title"
+        >
+          Title Not Yet Set
+        </div>
+
+        <div
+          class="profile-status"
+          id="profileStatus"
+          data-field="online_status"
+        >
+          <span class="status-dot offline"></span>
+          <span id="profileStatusText">Offline</span>
+        </div>
+
+        <div
+          class="roles-row"
+          id="profileRoles"
+          data-field="roles"
+        >
+          <span class="placeholder-text">
+            No Roles Assigned
+          </span>
+        </div>
+
+      </section>
+
+      <!-- PROFILE STATS BLOCK -->
+      <section class="stats-block" aria-label="Profile statistics">
+
+        <div class="stat-row">
+          <span class="stat-label">
+            <span class="ico">📅</span>
+            Member Since
+          </span>
+
+          <span
+            class="stat-val"
+            id="profileMemberSince"
+            data-field="member_since"
+          >
+            Unknown
+          </span>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-label">
+            <span class="ico">📖</span>
+            Campaigns
+          </span>
+
+          <span
+            class="stat-val placeholder-text"
+            id="profileCampaignCount"
+            data-field="campaign_count"
+          >
+            Campaign System Not Yet Implemented
+          </span>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-label">
+            <span class="ico">🧙</span>
+            Characters
+          </span>
+
+          <span
+            class="stat-val placeholder-text"
+            id="profileCharacterCount"
+            data-field="character_count"
+          >
+            Character Vault Not Yet Implemented
+          </span>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-label">
+            <span class="ico">🤝</span>
+            Friends
+          </span>
+
+          <span
+            class="stat-val placeholder-text"
+            id="profileFriendCount"
+            data-field="friend_count"
+          >
+            Social System Not Yet Implemented
+          </span>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-label">
+            <span class="ico">💬</span>
+            Forum Posts
+          </span>
+
+          <span
+            class="stat-val placeholder-text"
+            id="profileForumPostCount"
+            data-field="forum_post_count"
+          >
+            Forum System Not Yet Implemented
+          </span>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-label">
+            <span class="ico">⭐</span>
+            Reputation
+          </span>
+
+          <span
+            class="stat-val placeholder-text"
+            id="profileReputation"
+            data-field="reputation"
+          >
+            Reputation System Not Yet Implemented
+          </span>
+        </div>
+
+      </section>
+
+      <!-- SIDEBAR ACTIONS -->
+      <section class="sidebar-actions">
+
+        <button
+          href="../01_HTML/index_en.html"
+          class="sidebar-danger-btn"
+          id="logoutBtn"
+          type="button"
+        >
+         Log Out
+        </button>
+
+      </section>
+
+    </aside>
+
+    <!-- =====================================================
+         SETTINGS AREA
+         ===================================================== -->
+    <section class="settings-area" aria-label="Settings">
+
+      <!-- SETTINGS NAVIGATION -->
+      <nav class="settings-nav" aria-label="Settings sections">
+
+        <div class="settings-title">
+          Settings
+        </div>
+
+        <button class="s-nav-item active" type="button" data-section="account">
+          👤 Account
+        </button>
+
+        <button class="s-nav-item" type="button" data-section="notifications">
+          🔔 Notifications
+        </button>
+
+        <button class="s-nav-item" type="button" data-section="privacy">
+          🔒 Privacy
+        </button>
+
+        <button class="s-nav-item" type="button" data-section="display">
+          🖥️ Display
+        </button>
+
+        <button class="s-nav-item" type="button" data-section="accessibility">
+          ♿ Accessibility
+        </button>
+
+        <button class="s-nav-item" type="button" data-section="gameplay">
+          🎲 Gameplay
+        </button>
+
+        <button class="s-nav-item" type="button" data-section="connections">
+          🔗 Connections
+        </button>
+
+        <button class="s-nav-item" type="button" data-section="api">
+          ⟨/⟩ API
+        </button>
+
+        <button class="s-nav-item" type="button" data-section="billing">
+          💳 Billing
+        </button>
+
+        <button class="s-nav-item" type="button" data-section="sessions">
+          📅 Sessions
+        </button>
+
+        <button class="s-nav-item" type="button" data-section="security">
+          🛡️ Security
+        </button>
+
+        <button class="s-nav-item" type="button" data-section="data">
+          📦 Data & Export
+        </button>
+
+        <button class="s-nav-item danger" type="button" data-section="danger">
+          ⚠️ Danger Zone
+        </button>
+
+      </nav>
+
+      <!-- SETTINGS CONTENT -->
+      <div class="settings-content" id="settingsContent">
+
+        <!-- =================================================
+             ACCOUNT SECTION
+             ================================================= -->
+        <section class="s-section active" id="sec-account" data-section-panel="account">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h1 class="s-card-title">Account Information</h1>
+                <p class="s-card-subtitle">
+                  Core account details for the currently signed-in user.
+                </p>
+              </div>
+
+              <button class="btn-secondary" type="button">
+                ✏️ Edit Account
+              </button>
+            </div>
+
+            <div class="info-grid">
+
+              <div class="info-row">
+                <span class="info-label">Username</span>
+                <span
+                  class="info-val"
+                  id="accountUsername"
+                  data-field="username"
+                >
+                  Unknown
+                </span>
+              </div>
+
+              <div class="info-row">
+                <span class="info-label">Email</span>
+                <span
+                  class="info-val"
+                  id="accountEmail"
+                  data-field="email"
+                >
+                  Unknown
+                </span>
+              </div>
+
+              <div class="info-row">
+                <span class="info-label">Member Since</span>
+                <span class="info-val" id="accountMemberSince" data-field="member_since">
+                  Unknown
+                </span>
+              </div>
+
+              <div class="info-row">
+                <span class="info-label">Password</span>
+                <span class="info-val placeholder-text">
+                  Password Management Not Yet Implemented
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Profile Settings</h2>
+                <p class="s-card-subtitle">
+                  These fields are ready to autofill from saved profile data.
+                </p>
+              </div>
+
+              <button class="btn-primary" type="button" data-save-section="profile">
+                Save Changes
+              </button>
+            </div>
+
+            <div class="form-grid">
+
+              <div class="form-row">
+                <label class="form-label" for="displayNameInput">
+                  Display Name
+                </label>
+
+                <input
+                  class="form-input"
+                  id="displayNameInput"
+                  name="display_name"
+                  type="text"
+                  placeholder="Unknown Adventurer"
+                  data-field="display_name"
+                />
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="profileTitleInput">
+                  Title
+                </label>
+
+                <input
+                  class="form-input"
+                  id="profileTitleInput"
+                  name="profile_title"
+                  type="text"
+                  placeholder="Title Not Yet Set"
+                  data-field="profile_title"
+                />
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="pronounsInput">
+                  Pronouns
+                </label>
+
+                <input
+                  class="form-input"
+                  id="pronounsInput"
+                  name="pronouns"
+                  type="text"
+                  placeholder="Not Set"
+                  data-field="pronouns"
+                />
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="profileBioInput">
+                  Profile Bio
+                </label>
+
+                <textarea
+                  class="form-input form-textarea"
+                  id="profileBioInput"
+                  name="profile_bio"
+                  placeholder="No profile bio yet."
+                  data-field="profile_bio"
+                ></textarea>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">General Preferences</h2>
+                <p class="s-card-subtitle">
+                  These options control account-wide defaults.
+                </p>
+              </div>
+
+              <button class="btn-primary" type="button" data-save-section="preferences">
+                Save Preferences
+              </button>
+            </div>
+
+            <div class="form-grid">
+
+              <div class="form-row">
+                <label class="form-label" for="languageSelect">
+                  Language
+                </label>
+
+                <select
+                  class="form-input form-select"
+                  id="languageSelect"
+                  name="language"
+                  data-field="language"
+                >
+                  <option value="">Not Set</option>
+                  <option value="en">English</option>
+                  <option value="es">Spanish</option>
+                  <option value="fr">French</option>
+                  <option value="de">German</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="timezoneSelect">
+                  Time Zone
+                </label>
+
+                <select
+                  class="form-input form-select"
+                  id="timezoneSelect"
+                  name="timezone"
+                  data-field="timezone"
+                >
+                  <option value="">Not Set</option>
+                  <option value="America/New_York">Eastern Time</option>
+                  <option value="America/Chicago">Central Time</option>
+                  <option value="America/Denver">Mountain Time</option>
+                  <option value="America/Los_Angeles">Pacific Time</option>
+                  <option value="UTC">UTC</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="dateFormatSelect">
+                  Date Format
+                </label>
+
+                <select
+                  class="form-input form-select"
+                  id="dateFormatSelect"
+                  name="date_format"
+                  data-field="date_format"
+                >
+                  <option value="">Not Set</option>
+                  <option value="long">May 25, 2026</option>
+                  <option value="mdy">05/25/2026</option>
+                  <option value="dmy">25/05/2026</option>
+                  <option value="iso">2026-05-25</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="landingPageSelect">
+                  Default Landing Page
+                </label>
+
+                <select
+                  class="form-input form-select"
+                  id="landingPageSelect"
+                  name="default_landing_page"
+                  data-field="default_landing_page"
+                >
+                  <option value="">Not Set</option>
+                  <option value="home">Home</option>
+                  <option value="profile">Profile</option>
+                  <option value="characters">Character Vault</option>
+                  <option value="campaigns">Campaigns</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             NOTIFICATIONS SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-notifications" data-section-panel="notifications">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Notification Settings</h2>
+                <p class="s-card-subtitle">
+                  Notification channels are scaffolded but not yet connected.
+                </p>
+              </div>
+
+              <button class="btn-primary" type="button" data-save-section="notifications">
+                Save Changes
+              </button>
+            </div>
+
+            <div class="toggle-list">
+
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Email Notifications</div>
+                  <div class="toggle-desc">
+                    Receive account updates and platform announcements.
+                  </div>
+                </div>
+
+                <label class="toggle-switch">
+                  <input type="checkbox" name="email_notifications" data-field="email_notifications" />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Forum Notifications</div>
+                  <div class="toggle-desc">
+                    Forum system is not yet implemented.
+                  </div>
+                </div>
+
+                <label class="toggle-switch">
+                  <input type="checkbox" name="forum_notifications" disabled />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Campaign Invites</div>
+                  <div class="toggle-desc">
+                    Campaign system is not yet implemented.
+                  </div>
+                </div>
+
+                <label class="toggle-switch">
+                  <input type="checkbox" name="campaign_invites" disabled />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Session Reminders</div>
+                  <div class="toggle-desc">
+                    Calendar/session reminders are not yet implemented.
+                  </div>
+                </div>
+
+                <label class="toggle-switch">
+                  <input type="checkbox" name="session_reminders" disabled />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             PRIVACY SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-privacy" data-section-panel="privacy">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Privacy Settings</h2>
+                <p class="s-card-subtitle">
+                  Control what other members can see once social features exist.
+                </p>
+              </div>
+
+              <button class="btn-primary" type="button" data-save-section="privacy">
+                Save Changes
+              </button>
+            </div>
+
+            <div class="form-grid">
+
+              <div class="form-row">
+                <label class="form-label" for="profileVisibilitySelect">
+                  Profile Visibility
+                </label>
+
+                <select class="form-input form-select" id="profileVisibilitySelect" name="profile_visibility">
+                  <option value="">Not Set</option>
+                  <option value="private">Private</option>
+                  <option value="friends">Friends Only</option>
+                  <option value="public">Public</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="activityVisibilitySelect">
+                  Activity Visibility
+                </label>
+
+                <select class="form-input form-select" id="activityVisibilitySelect" name="activity_visibility">
+                  <option value="">Not Set</option>
+                  <option value="private">Private</option>
+                  <option value="friends">Friends Only</option>
+                  <option value="public">Public</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="characterVisibilitySelect">
+                  Character Visibility
+                </label>
+
+                <select class="form-input form-select" id="characterVisibilitySelect" name="character_visibility">
+                  <option value="">Character Vault Not Yet Implemented</option>
+                  <option value="private">Private</option>
+                  <option value="friends">Friends Only</option>
+                  <option value="public">Public</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="campaignVisibilitySelect">
+                  Campaign Visibility
+                </label>
+
+                <select class="form-input form-select" id="campaignVisibilitySelect" name="campaign_visibility">
+                  <option value="">Campaign System Not Yet Implemented</option>
+                  <option value="private">Private</option>
+                  <option value="friends">Friends Only</option>
+                  <option value="public">Public</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             DISPLAY SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-display" data-section-panel="display">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Display Settings</h2>
+                <p class="s-card-subtitle">
+                  Visual preferences for the interface.
+                </p>
+              </div>
+
+              <button class="btn-primary" type="button" data-save-section="display">
+                Save Changes
+              </button>
+            </div>
+
+            <div class="form-grid">
+
+              <div class="form-row">
+                <label class="form-label" for="themeSelect">
+                  Theme
+                </label>
+
+                <select class="form-input form-select" id="themeSelect" name="theme">
+                  <option value="">Not Set</option>
+                  <option value="dark">Dark</option>
+                  <option value="light">Light</option>
+                  <option value="parchment">Parchment</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="fontSizeSelect">
+                  Font Size
+                </label>
+
+                <select class="form-input form-select" id="fontSizeSelect" name="font_size">
+                  <option value="">Not Set</option>
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="sidebarLayoutSelect">
+                  Sidebar Layout
+                </label>
+
+                <select class="form-input form-select" id="sidebarLayoutSelect" name="sidebar_layout">
+                  <option value="">Not Set</option>
+                  <option value="expanded">Expanded</option>
+                  <option value="compact">Compact</option>
+                  <option value="hidden">Hidden</option>
+                </select>
+              </div>
+
+            </div>
+
+            <div class="toggle-list">
+
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Animated Backgrounds</div>
+                  <div class="toggle-desc">
+                    Display atmospheric background effects.
+                  </div>
+                </div>
+
+                <label class="toggle-switch">
+                  <input type="checkbox" name="animated_backgrounds" data-field="animated_backgrounds" />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Compact Mode</div>
+                  <div class="toggle-desc">
+                    Reduce spacing for denser layouts.
+                  </div>
+                </div>
+
+                <label class="toggle-switch">
+                  <input type="checkbox" name="compact_mode" data-field="compact_mode" />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             ACCESSIBILITY SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-accessibility" data-section-panel="accessibility">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Accessibility</h2>
+                <p class="s-card-subtitle">
+                  Make the Scriptorium easier to read, navigate, and use.
+                </p>
+              </div>
+
+              <button class="btn-primary" type="button" data-save-section="accessibility">
+                Save Changes
+              </button>
+            </div>
+
+            <div class="toggle-list">
+
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Reduced Motion</div>
+                  <div class="toggle-desc">
+                    Reduce animations and background movement.
+                  </div>
+                </div>
+
+                <label class="toggle-switch">
+                  <input type="checkbox" name="reduced_motion" data-field="reduced_motion" />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">High Contrast Mode</div>
+                  <div class="toggle-desc">
+                    Increase visual contrast across the interface.
+                  </div>
+                </div>
+
+                <label class="toggle-switch">
+                  <input type="checkbox" name="high_contrast" data-field="high_contrast" />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Dyslexia-Friendly Font</div>
+                  <div class="toggle-desc">
+                    Font support not yet implemented.
+                  </div>
+                </div>
+
+                <label class="toggle-switch">
+                  <input type="checkbox" name="dyslexia_font" disabled />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             GAMEPLAY SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-gameplay" data-section-panel="gameplay">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Gameplay Preferences</h2>
+                <p class="s-card-subtitle">
+                  These will eventually shape recommendations, sheets, and campaign matching.
+                </p>
+              </div>
+
+              <button class="btn-primary" type="button" data-save-section="gameplay">
+                Save Changes
+              </button>
+            </div>
+
+            <div class="form-grid">
+
+              <div class="form-row">
+                <label class="form-label" for="defaultRulesetSelect">
+                  Default Ruleset
+                </label>
+
+                <select class="form-input form-select" id="defaultRulesetSelect" name="default_ruleset">
+                  <option value="">Not Set</option>
+                  <option value="odnd">Original D&D</option>
+                  <option value="bx">Basic / Expert</option>
+                  <option value="adnd1e">AD&D 1E</option>
+                  <option value="adnd2e">AD&D 2E</option>
+                  <option value="dnd35e">D&D 3.5E</option>
+                  <option value="dnd4e">D&D 4E</option>
+                  <option value="dnd5e">D&D 5E</option>
+                  <option value="custom">Custom</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="preferredRoleSelect">
+                  Preferred Table Role
+                </label>
+
+                <select class="form-input form-select" id="preferredRoleSelect" name="preferred_role">
+                  <option value="">Not Set</option>
+                  <option value="player">Player</option>
+                  <option value="dm">Dungeon Master</option>
+                  <option value="both">Both</option>
+                  <option value="worldbuilder">Worldbuilder</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="sheetStyleSelect">
+                  Default Sheet Style
+                </label>
+
+                <select class="form-input form-select" id="sheetStyleSelect" name="default_sheet_style">
+                  <option value="">Character Sheets Not Yet Implemented</option>
+                  <option value="classic">Classic Paper</option>
+                  <option value="compact">Compact</option>
+                  <option value="expanded">Expanded</option>
+                  <option value="dark_shell">Dark Shell / White Sheet</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Playstyle Compass</h2>
+                <p class="s-card-subtitle">
+                  Ready for future matching logic.
+                </p>
+              </div>
+            </div>
+
+            <div class="placeholder-panel">
+              Playstyle sliders and class/race recommendations are not yet implemented.
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             CONNECTIONS SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-connections" data-section-panel="connections">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Connected Accounts</h2>
+                <p class="s-card-subtitle">
+                  External account linking is scaffolded but not yet implemented.
+                </p>
+              </div>
+            </div>
+
+            <div class="connections-list">
+
+              <div class="connection-row">
+                <div class="connection-icon">🎮</div>
+
+                <div class="connection-info">
+                  <div class="connection-name">Discord</div>
+                  <div class="connection-status placeholder-text">
+                    Not Yet Implemented
+                  </div>
+                </div>
+
+                <button class="btn-secondary small" type="button" disabled>
+                  Connect
+                </button>
+              </div>
+
+              <div class="connection-row">
+                <div class="connection-icon">🧭</div>
+
+                <div class="connection-info">
+                  <div class="connection-name">Worldbuilding Import</div>
+                  <div class="connection-status placeholder-text">
+                    Not Yet Implemented
+                  </div>
+                </div>
+
+                <button class="btn-secondary small" type="button" disabled>
+                  Connect
+                </button>
+              </div>
+
+              <div class="connection-row">
+                <div class="connection-icon">🎲</div>
+
+                <div class="connection-info">
+                  <div class="connection-name">VTT Integration</div>
+                  <div class="connection-status placeholder-text">
+                    Not Yet Implemented
+                  </div>
+                </div>
+
+                <button class="btn-secondary small" type="button" disabled>
+                  Connect
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             API SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-api" data-section-panel="api">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">API Access</h2>
+                <p class="s-card-subtitle">
+                  API access is planned but not yet implemented.
+                </p>
+              </div>
+
+              <button class="btn-primary" type="button" disabled>
+                Generate Key
+              </button>
+            </div>
+
+            <div class="info-grid">
+
+              <div class="info-row">
+                <span class="info-label">API Key</span>
+                <span class="info-val placeholder-text">
+                  Not Yet Implemented
+                </span>
+              </div>
+
+              <div class="info-row">
+                <span class="info-label">Rate Limit</span>
+                <span class="info-val placeholder-text">
+                  Not Yet Implemented
+                </span>
+              </div>
+
+              <div class="info-row">
+                <span class="info-label">Last Used</span>
+                <span class="info-val placeholder-text">
+                  Not Yet Implemented
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             BILLING SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-billing" data-section-panel="billing">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Billing & Subscription</h2>
+                <p class="s-card-subtitle">
+                  Billing is not yet implemented.
+                </p>
+              </div>
+            </div>
+
+            <div class="placeholder-panel">
+              No billing system is currently connected.
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             SESSIONS SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-sessions" data-section-panel="sessions">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Active Sessions</h2>
+                <p class="s-card-subtitle">
+                  Device/session tracking is scaffolded but not yet implemented.
+                </p>
+              </div>
+
+              <button class="btn-secondary" type="button" disabled>
+                Revoke All Others
+              </button>
+            </div>
+
+            <div class="placeholder-panel">
+              Session tracking is not yet implemented.
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             SECURITY SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-security" data-section-panel="security">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Security</h2>
+                <p class="s-card-subtitle">
+                  Security controls for account protection.
+                </p>
+              </div>
+
+              <button class="btn-primary" type="button" data-save-section="security">
+                Save Changes
+              </button>
+            </div>
+
+            <div class="toggle-list">
+
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Two-Factor Authentication</div>
+                  <div class="toggle-desc">
+                    Not yet implemented.
+                  </div>
+                </div>
+
+                <label class="toggle-switch">
+                  <input type="checkbox" disabled />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Login Alerts</div>
+                  <div class="toggle-desc">
+                    Not yet implemented.
+                  </div>
+                </div>
+
+                <label class="toggle-switch">
+                  <input type="checkbox" disabled />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             DATA & EXPORT SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-data" data-section-panel="data">
+
+          <div class="s-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title">Data & Export</h2>
+                <p class="s-card-subtitle">
+                  Export and portability tools for future account data.
+                </p>
+              </div>
+            </div>
+
+            <div class="danger-actions">
+
+              <div class="danger-action-row">
+                <div>
+                  <div class="danger-action-label">
+                    Export Account Data
+                  </div>
+
+                  <div class="danger-desc">
+                    Export tooling is not yet implemented.
+                  </div>
+                </div>
+
+                <button class="btn-secondary" type="button" disabled>
+                  Export Data
+                </button>
+              </div>
+
+              <div class="danger-action-row">
+                <div>
+                  <div class="danger-action-label">
+                    Download Character Archive
+                  </div>
+
+                  <div class="danger-desc">
+                    Character Vault is not yet implemented.
+                  </div>
+                </div>
+
+                <button class="btn-secondary" type="button" disabled>
+                  Download Archive
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             DANGER ZONE SECTION
+             ================================================= -->
+        <section class="s-section" id="sec-danger" data-section-panel="danger">
+
+          <div class="s-card danger-card">
+            <div class="s-card-header">
+              <div>
+                <h2 class="s-card-title danger-title">Danger Zone</h2>
+                <p class="s-card-subtitle">
+                  Destructive account actions.
+                </p>
+              </div>
+            </div>
+
+            <div class="danger-actions">
+
+              <div class="danger-action-row">
+                <div>
+                  <div class="danger-action-label">
+                    Deactivate Account
+                  </div>
+
+                  <div class="danger-desc">
+                    Account deactivation is not yet implemented.
+                  </div>
+                </div>
+
+                <button class="btn-secondary" type="button" disabled>
+                  Deactivate
+                </button>
+              </div>
+
+              <div class="danger-action-row">
+                <div>
+                  <div class="danger-action-label">
+                    Delete Account
+                  </div>
+
+                  <div class="danger-desc">
+                    Permanently delete your account. This action will eventually require confirmation.
+                  </div>
+                </div>
+
+                <button class="btn-danger" id="deleteAccountBtn" type="button">
+                  Delete Account
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================
+       LOGOUT MODAL
+       ===================================================== -->
+  <div class="modal-overlay" id="logoutModal" aria-hidden="true">
+
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="logoutModalTitle">
+
+      <div class="modal-icon">🚪</div>
+
+      <h2 class="modal-title" id="logoutModalTitle">
+        Log Out?
+      </h2>
+
+      <p class="modal-desc">
+        Are you sure you want to log out and return to the landing page?
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" id="cancelLogout" type="button">
+          Stay
+        </button>
+
+        <a
+          href="../01_HTML/index_en.html"
+          class="btn-danger"
+          id="confirmLogout"
+        >
+          Log Out
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =====================================================
+       DELETE ACCOUNT MODAL
+       ===================================================== -->
+  <div class="modal-overlay" id="deleteModal" aria-hidden="true">
+
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+
+      <div class="modal-icon">⚠️</div>
+
+      <h2 class="modal-title" id="deleteModalTitle">
+        Delete Account?
+      </h2>
+
+      <p class="modal-desc">
+        Account deletion is not yet implemented. This modal is a placeholder for future destructive-action confirmation.
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" id="cancelDelete" type="button">
+          Cancel
+        </button>
+
+        <button class="btn-danger" id="confirmDelete" type="button" disabled>
+          Confirm Delete
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =====================================================
+       UNSAVED CHANGES MODAL
+       ===================================================== -->
+  <div class="modal-overlay" id="unsavedChangesModal" aria-hidden="true">
+
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="unsavedChangesTitle">
+
+      <div class="modal-icon">📝</div>
+
+      <h2 class="modal-title" id="unsavedChangesTitle">
+        Unsaved Changes
+      </h2>
+
+      <p class="modal-desc">
+        You have unsaved changes. Save or discard them before leaving this section.
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" id="stayOnPageBtn" type="button">
+          Stay
+        </button>
+
+        <button class="btn-danger" id="discardChangesBtn" type="button">
+          Discard Changes
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =====================================================
+       TOAST NOTIFICATION
+       ===================================================== -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- =====================================================
+       PAGE JAVASCRIPT
+       ===================================================== -->
+  <script src="../03_JS/settings_en.js"></script>
+
+</body>
+</html>

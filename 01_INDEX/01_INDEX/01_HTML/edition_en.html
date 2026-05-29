@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heroes Scriptorium — Character Vault</title>
+  <link rel="stylesheet" href="../02_CSS/edition_en.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- BACKGROUND -->
+  <div class="background">
+    <div class="background-glow"></div>
+    <div class="background-vignette"></div>
+  </div>
+
+  <!-- =====================================================
+       TOP NAVIGATION
+       ===================================================== -->
+  <nav class="top-navigation">
+    <button class="navigation-btn" id="home-btn"          onclick="navigate('home')"></button>
+    <button class="navigation-btn" id="player-switch-btn" onclick="navigate('player')"></button>
+    <button class="navigation-btn" id="profile-btn"       onclick="navigate('profile')"></button>
+    <button class="navigation-btn" id="settings-btn"      onclick="navigate('settings')"></button>
+  </nav>
+
+
+  <!-- =====================================================
+       EDITION GRID
+       ===================================================== -->
+
+
+  <div class="edition-navigation">
+    <!--
+    <button class="edition-btn" id="odnd-btn"    onclick="selectEdition('odnd')"></button>
+    <button class="edition-btn" id="holmes-btn"  onclick="selectEdition('holmes')"></button>
+    <button class="edition-btn" id="adnd1e-btn"  onclick="selectEdition('adnd1e')"></button>
+    <button class="edition-btn" id="bx-btn"      onclick="selectEdition('bx')"></button>
+    <button class="edition-btn" id="becmi-btn"   onclick="selectEdition('becmi')"></button>
+    <button class="edition-btn" id="adnd2e-btn"  onclick="selectEdition('adnd2e')"></button>
+    <button class="edition-btn" id="ac-btn"      onclick="selectEdition('ac')"></button>
+    <button class="edition-btn" id="blackbox-btn" onclick="selectEdition('blackbox')"></button>
+    <button class="edition-btn" id="dnd3e-btn"      onclick="selectEdition('3e')"></button>
+  -->
+    <button class="edition-btn" id="dnd35e-btn"     onclick="selectEdition('35e')"></button>
+    <!--
+    <button class="edition-btn" id="dnd4e-btn"      onclick="selectEdition('4e')"></button>
+  -->
+  </div>
+
+  <!-- =====================================================
+       RETURN BUTTON
+       ===================================================== -->
+  <button class="edition-btn" id="return-btn"          onclick="navigate('home')"></button>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="../03_JS/edition_en.js"></script>
+</body>
+</html>

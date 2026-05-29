@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heroes Scriptorium — Onboarding</title>
+  <link rel="stylesheet" href="../02_CSS/profile_setup_en.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="hs-bg"></div>
+  <div class="hs-bg-overlay"></div>
+
+  <div class="hs-root">
+    <div class="hs-modal">
+
+      <!-- HEADER -->
+      <header class="hs-header">
+        <p class="hs-subtitle">Welcome to</p>
+        <h1 class="hs-title">Heroes Scriptorium</h1>
+        <p class="hs-tagline">Every legend begins with a name.</p>
+        <nav class="hs-progress" id="progressBar"></nav>
+      </header>
+
+      <!-- BODY -->
+      <div class="hs-body">
+
+        <!-- SIDEBAR -->
+        <aside class="hs-sidebar">
+          <div class="hs-sidebar-logo">
+            <svg viewBox="0 0 60 60" width="48" height="48">
+              <circle cx="30" cy="30" r="28" fill="none" stroke="#8a6f2e" stroke-width="1.5"/>
+              <circle cx="30" cy="30" r="22" fill="none" stroke="#5a4a1e" stroke-width="1"/>
+              <polygon points="30,6 33,26 30,30 27,26" fill="#c9a84c" opacity="0.9"/>
+              <polygon points="54,30 34,33 30,30 34,27" fill="#c9a84c" opacity="0.9"/>
+              <polygon points="30,54 27,34 30,30 33,34" fill="#c9a84c" opacity="0.7"/>
+              <polygon points="6,30 26,27 30,30 26,33" fill="#c9a84c" opacity="0.7"/>
+              <circle cx="30" cy="30" r="4" fill="#8b1a1a"/>
+              <circle cx="30" cy="30" r="2" fill="#c9a84c"/>
+            </svg>
+          </div>
+          <p class="hs-sidebar-label">Onboarding</p>
+          <h2 class="hs-sidebar-heading">Profile Setup</h2>
+          <p class="hs-sidebar-desc">Let us know a few things so we can personalize your experience in the Scriptorium.</p>
+          <div class="hs-sidebar-steps" id="sidebarSteps"></div>
+          <div class="hs-sidebar-quote">
+            <span class="quote-mark">"</span>A hero is not born in glory,<br>but is written into legend.<span class="quote-mark">"</span>
+          </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="hs-main" id="mainContent"></main>
+
+        <!-- PREVIEW -->
+        <aside class="hs-preview" id="previewPanel"></aside>
+
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="hs-footer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a6f2e" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <span>You can change all of these settings later from your Settings page. Don't worry, you're not locked in.</span>
+        <button class="btn-back-login" id="backToLogin">← Back to Login</button>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="../03_JS/profile_setup_en.js"></script>
+</body>
+</html>
