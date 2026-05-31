@@ -49,6 +49,8 @@ document.getElementById(
 
 const API_BASE = window.location.origin;
 
+const MAX_UPDATES = 4;
+
 /* =======================================================
    TAB SWITCHING
 ======================================================= */
@@ -418,7 +420,7 @@ async function loadUpdates() {
     // LOOP THROUGH UPDATES
     // ===========================================
 
-    updates.forEach((update) => {
+    updates.slice(0, MAX_UPDATES)).forEach((update) => {
 
       const updateCard =
       document.createElement("div");
