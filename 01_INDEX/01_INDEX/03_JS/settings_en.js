@@ -1051,3 +1051,223 @@ function getCheckboxValue(elementId) {
   return document.getElementById(elementId)?.checked || false;
 
 }
+
+/* =========================================================
+   PASSWORD MODAL — DOM REFS
+   ========================================================= */
+
+const passwordModal      = document.getElementById("passwordModal");
+const changePasswordBtn  = document.getElementById("changePasswordBtn");
+const cancelPasswordModal= document.getElementById("cancelPasswordModal");
+const cancelPasswordForm = document.getElementById("cancelPasswordForm");
+const confirmPasswordBtn = document.getElementById("confirmPasswordBtn");
+const pwSuccessDone      = document.getElementById("pwSuccessDone");
+
+const pwCurrent          = document.getElementById("pwCurrent");
+const pwNew              = document.getElementById("pwNew");
+const pwConfirm          = document.getElementById("pwConfirm");
+const pwMismatch         = document.getElementById("pwMismatch");
+const pwErrorBanner      = document.getElementById("pwErrorBanner");
+const pwStrengthWrap     = document.getElementById("pwStrengthWrap");
+const pwStrengthLabel    = document.getElementById("pwStrengthLabel");
+const pwFormState        = document.getElementById("pwFormState");
+const pwSuccessState     = document.getElementById("pwSuccessState");
+
+const PW_STRENGTH_COLORS = ["", "#c0392b", "#e67e22", "#f1c40f", "#4caf50", "#d4af37"];
+const PW_STRENGTH_LABELS = ["", "Weak", "Fair", "Good", "Strong", "Ironclad"];
+
+
+/* =========================================================
+   PASSWORD MODAL — OPEN / CLOSE
+   ========================================================= */
+
+function openPasswordModal() {
+  resetPasswordModal();
+  openModal(passwordModal);
+}
+
+function closePasswordModal() {
+  closeModal(passwordModal);
+}
+
+function resetPasswordModal() {
+  pwCurrent.value  = "";
+  pwNew.value      = "";
+  pwConfirm.value  = "";
+  pwMismatch.textContent = "";
+  pwErrorBanner.textContent = "";
+  pwErrorBanner.classList.remove("visible");
+  confirmPasswordBtn.disabled = true;
+  pwFormState.hidden   = false;
+  pwSuccessState.hidden = true;
+  pwStrengthWrap.setAttribute("aria-hidden", "true");
+  updateStrengthMeter("");
+  document.querySelectorAll(".pw-rule").forEach(r => r.classList.remove("pass"));
+  document.querySelectorAll(".pw-bar").forEach(b => {
+    b.style.backgroundColor = "";
+    b.style.boxShadow = "";
+  });
+}
+
+
+/* =========================================================
+   PASSWORD STRENGTH CALCULATION
+   ========================================================= */
+
+function getPasswordStrength(password) {
+  if (!password) return 0;
+  let score = 0;
+  if (password.length >= 8)          score++;
+  if (password.length >= 12)         score++;
+  if (/[A-Z]/.test(password))        score++;
+  if (/[0-9]/.test(password))        score++;
+  if (/[^A-Za-z0-9]/.test(password)) score++;
+  return Math.min(score, 5);
+}
+
+function updateStrengthMeter(password) {
+  const strength = getPasswordStrength(password);
+  const bars     = document.querySelectorAll(".pw-bar");
+  const color    = PW_STRENGTH_COLORS[strength];
+
+  bars.forEach((bar, i) => {
+    if (i < strength) {
+      bar.style.backgroundColor = color;
+      bar.style.boxShadow = `0 0 6px ${color}55`;
+    } else {
+      bar.style.backgroundColor = "rgba(255,255,255,0.08)";
+      bar.style.boxShadow = "none";
+    }
+  });
+
+  pwStrengthLabel.textContent = password ? PW_STRENGTH_LABELS[strength] : "";
+  pwStrengthLabel.style.color = color;
+}
+
+function updateRules(password) {
+  const rules = {
+    length:  password.length >= 8,
+    upper:   /[A-Z]/.test(password),
+    number:  /[0-9]/.test(password),
+    special: /[^A-Za-z0-9]/.test(password),
+  };
+
+  Object.entries(rules).forEach(([key, pass]) => {
+    const el = document.getElementById(`rule-${key}`);
+    if (!el) return;
+    el.classList.toggle("pass", pass);
+    el.textContent = (pass ? "✓ " : "✗ ") + el.textContent.slice(2);
+  });
+}
+
+
+/* =========================================================
+   PASSWORD VALIDATION — LIVE
+   ========================================================= */
+
+function validatePasswordForm() {
+  const current  = pwCurrent.value.trim();
+  const newPw    = pwNew.value;
+  const confirm  = pwConfirm.value;
+  const strength = getPasswordStrength(newPw);
+  const mismatch = confirm.length > 0 && newPw !== confirm;
+
+  pwMismatch.textContent = mismatch ? "Passwords do not match." : "";
+
+  const canSubmit =
+    current.length > 0 &&
+    newPw.length > 0 &&
+    confirm.length > 0 &&
+    !mismatch &&
+    strength >= 2;
+
+  confirmPasswordBtn.disabled = !canSubmit;
+}
+
+
+/* =========================================================
+   EYE TOGGLE — SHARED HANDLER
+   ========================================================= */
+
+document.querySelectorAll(".pw-eye-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const targetId = btn.dataset.target;
+    const input    = document.getElementById(targetId);
+    if (!input) return;
+    input.type = input.type === "password" ? "text" : "password";
+    btn.textContent = input.type === "password" ? "👁" : "🙈";
+  });
+});
+
+
+/* =========================================================
+   NEW PASSWORD INPUT — LIVE FEEDBACK
+   ========================================================= */
+
+pwNew?.addEventListener("input", () => {
+  const val = pwNew.value;
+  pwStrengthWrap.setAttribute("aria-hidden", val.length === 0 ? "true" : "false");
+  updateStrengthMeter(val);
+  updateRules(val);
+  validatePasswordForm();
+});
+
+pwCurrent?.addEventListener("input",  validatePasswordForm);
+pwConfirm?.addEventListener("input",  validatePasswordForm);
+
+
+/* =========================================================
+   SUBMIT — CHANGE PASSWORD
+   ========================================================= */
+
+confirmPasswordBtn?.addEventListener("click", async () => {
+  pwErrorBanner.classList.remove("visible");
+  pwErrorBanner.textContent = "";
+  confirmPasswordBtn.disabled = true;
+  confirmPasswordBtn.textContent = "Updating…";
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("/api/auth/change-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: token
+      },
+      body: JSON.stringify({
+        current_password: pwCurrent.value,
+        new_password:     pwNew.value
+      })
+    });
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data.message || "Failed to update password.");
+    }
+
+    /* SUCCESS */
+    pwFormState.hidden    = true;
+    pwSuccessState.hidden = false;
+
+  } catch (err) {
+    pwErrorBanner.textContent = err.message;
+    pwErrorBanner.classList.add("visible");
+    confirmPasswordBtn.disabled = false;
+    confirmPasswordBtn.textContent = "Update Password";
+  }
+});
+
+
+/* =========================================================
+   PASSWORD MODAL — EVENT LISTENERS
+   ========================================================= */
+
+changePasswordBtn?.addEventListener("click",  openPasswordModal);
+cancelPasswordModal?.addEventListener("click", closePasswordModal);
+cancelPasswordForm?.addEventListener("click",  closePasswordModal);
+pwSuccessDone?.addEventListener("click",       closePasswordModal);
+
+passwordModal?.addEventListener("click", (e) => {
+  if (e.target === passwordModal) closePasswordModal();
+});
