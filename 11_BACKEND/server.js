@@ -20,6 +20,9 @@ const settingsRoutes = require("./routes/settings");
 
 const characterRoutes = require("./routes/characters");
 
+const presenceRoutes = require("./routes/presence");
+app.use("/api/presence", presenceRoutes);
+
 // =====================================================
 // MIDDLEWARE
 // =====================================================
