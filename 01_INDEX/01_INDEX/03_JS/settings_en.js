@@ -807,13 +807,14 @@ function hydrateAccountFields() {
    ========================================================= */
 
 function initializeUnsavedChangesDetection() {
-
   document.querySelectorAll("input, textarea, select").forEach((input) => {
+    // Skip the status dropdown and password modal inputs
+    if (input.closest(".status-dropdown")) return;
+    if (input.closest(".modal-password"))  return;
     input.addEventListener("change", () => {
       hasUnsavedChanges = true;
     });
   });
-
 }
 
 
