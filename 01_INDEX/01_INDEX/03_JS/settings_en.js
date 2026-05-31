@@ -121,6 +121,8 @@ async function initializeSettingsPage() {
 
   await fetchProfileData();
 
+  await fetchCharacterCount(); 
+
   await loadSettings();
 
 }
@@ -847,21 +849,6 @@ function initializeUnsavedChangesDetection() {
 }
 
 
-/* =========================================================
-   BEFORE UNLOAD WARNING
-   ========================================================= */
-
-window.addEventListener("beforeunload", (event) => {
-
-  if (!hasUnsavedChanges) {
-    return;
-  }
-
-  event.preventDefault();
-  event.returnValue = "";
-
-});
-
 
 /* =========================================================
    UNSAVED CHANGES BUTTONS
@@ -1040,6 +1027,29 @@ function setCheckboxValue(elementId, value) {
   el.checked = !!value;
 
 }
+
+
+/* =========================================================
+   LIVE CHARACTER COUNT - VALUE                              
+   ========================================================= */
+
+async function fetchCharacterCount() {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await fetch("/api/characters", {
+      headers: { token }
+    });
+    const data = await response.json();
+    const count = data.characters ? data.characters.length : 0;
+
+    userProfile.character_count = count;
+    hydrateStat("profileCharacterCount", count, "Character Vault Not Yet Implemented");
+
+  } catch (error) {
+    console.error("Failed to load character count:", error);
+  }
+}
+
 
 
 /* =========================================================
