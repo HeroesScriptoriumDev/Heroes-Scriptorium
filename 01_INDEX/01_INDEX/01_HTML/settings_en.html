@@ -348,8 +348,10 @@
 
               <div class="info-row">
                 <span class="info-label">Password</span>
-                <span class="info-val placeholder-text">
-                  Password Management Not Yet Implemented
+                <span class="info-val">
+                <button class="btn-change-password" id="changePasswordBtn" type="button">
+                  🔑 Change Password
+                </button>
                 </span>
               </div>
 
@@ -1365,6 +1367,95 @@
 
     </div>
   </div>
+
+
+
+  <!-- PASSWORD CHANGE MODAL — add after #unsavedChangesModal -->
+<div class="modal-overlay" id="passwordModal" aria-hidden="true">
+
+  <div class="modal modal-password" role="dialog" aria-modal="true" aria-labelledby="passwordModalTitle">
+
+    <!-- TOP ACCENT BAR -->
+    <div class="pw-modal-bar"></div>
+
+    <!-- HEADER -->
+    <div class="pw-modal-header">
+      <div class="pw-modal-header-icon" aria-hidden="true">🛡️</div>
+      <div class="pw-modal-header-text">
+        <h2 class="modal-title" id="passwordModalTitle">Change Password</h2>
+        <p class="modal-desc">Update your account credentials below.</p>
+      </div>
+      <button class="pw-close-btn" id="cancelPasswordModal" type="button" aria-label="Close">✕</button>
+    </div>
+
+    <!-- FORM STATE -->
+    <div class="pw-form-state" id="pwFormState">
+
+      <div class="pw-field-group">
+        <label class="pw-label" for="pwCurrent">Current Password</label>
+        <div class="pw-input-wrap">
+          <input class="pw-input" id="pwCurrent" type="password" placeholder="Enter current password" autocomplete="current-password" />
+          <button class="pw-eye-btn" type="button" data-target="pwCurrent" aria-label="Toggle visibility">👁</button>
+        </div>
+      </div>
+
+      <div class="pw-divider"></div>
+
+      <div class="pw-field-group">
+        <label class="pw-label" for="pwNew">New Password</label>
+        <div class="pw-input-wrap">
+          <input class="pw-input" id="pwNew" type="password" placeholder="Enter new password" autocomplete="new-password" />
+          <button class="pw-eye-btn" type="button" data-target="pwNew" aria-label="Toggle visibility">👁</button>
+        </div>
+
+        <!-- STRENGTH METER -->
+        <div class="pw-strength-wrap" id="pwStrengthWrap" aria-hidden="true">
+          <div class="pw-strength-bars" id="pwStrengthBars">
+            <div class="pw-bar" id="pwBar1"></div>
+            <div class="pw-bar" id="pwBar2"></div>
+            <div class="pw-bar" id="pwBar3"></div>
+            <div class="pw-bar" id="pwBar4"></div>
+            <div class="pw-bar" id="pwBar5"></div>
+          </div>
+          <span class="pw-strength-label" id="pwStrengthLabel"></span>
+        </div>
+
+        <div class="pw-rules" id="pwRules" aria-live="polite">
+          <span class="pw-rule" id="rule-length"  data-rule="length">✗ At least 8 characters</span>
+          <span class="pw-rule" id="rule-upper"   data-rule="upper">✗ Uppercase letter</span>
+          <span class="pw-rule" id="rule-number"  data-rule="number">✗ Number</span>
+          <span class="pw-rule" id="rule-special" data-rule="special">✗ Special character</span>
+        </div>
+      </div>
+
+      <div class="pw-field-group">
+        <label class="pw-label" for="pwConfirm">Confirm New Password</label>
+        <div class="pw-input-wrap">
+          <input class="pw-input" id="pwConfirm" type="password" placeholder="Re-enter new password" autocomplete="new-password" />
+          <button class="pw-eye-btn" type="button" data-target="pwConfirm" aria-label="Toggle visibility">👁</button>
+        </div>
+        <span class="pw-mismatch" id="pwMismatch" aria-live="polite"></span>
+      </div>
+
+      <div class="pw-error-banner" id="pwErrorBanner" aria-live="assertive"></div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" id="cancelPasswordForm" type="button">Cancel</button>
+        <button class="btn-primary"   id="confirmPasswordBtn" type="button" disabled>Update Password</button>
+      </div>
+
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="pw-success-state" id="pwSuccessState" hidden>
+      <div class="pw-success-icon">✓</div>
+      <h3 class="pw-success-title">Password Updated</h3>
+      <p class="pw-success-body">Your credentials have been changed successfully.</p>
+      <button class="btn-primary" id="pwSuccessDone" type="button">Done</button>
+    </div>
+
+  </div>
+</div>
 
   <!-- =====================================================
        TOAST NOTIFICATION
