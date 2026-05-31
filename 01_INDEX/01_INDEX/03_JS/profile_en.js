@@ -592,7 +592,7 @@ function populateProfile(user){
 
   profileCampaignCount.textContent = "0";
 
-  profileCharacterCount.textContent = "0";
+  fetchCharacterCount();
 
   profileFriendCount.textContent = "0";
 
@@ -614,4 +614,26 @@ function populateProfile(user){
     "loaded"
   );
 
+}
+
+async function fetchCharacterCount() {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await fetch("/api/characters", {
+      headers: { token }
+    });
+    const data = await response.json();
+    const count = data.characters ? data.characters.length : 0;
+
+    // Update sidebar stat
+    profileCharacterCount.textContent = count;
+
+    // Update vault card big number
+    const vaultCharCount = document.getElementById("vaultCharCount");
+    if (vaultCharCount) vaultCharCount.textContent = count;
+
+  } catch (error) {
+    console.error("Failed to load character count:", error);
+    profileCharacterCount.textContent = "0";
+  }
 }
