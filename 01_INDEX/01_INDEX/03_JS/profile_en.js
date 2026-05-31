@@ -637,3 +637,93 @@ async function fetchCharacterCount() {
     profileCharacterCount.textContent = "0";
   }
 }
+
+/* =========================================================
+   STATUS PICKER
+   ========================================================= */
+
+const STATUS_CONFIG = {
+  online:    { label: "Online",    dotClass: "online"    },
+  away:      { label: "Away",      dotClass: "away"      },
+  busy:      { label: "Busy",      dotClass: "busy"      },
+  invisible: { label: "Invisible", dotClass: "invisible" },
+};
+
+let currentStatus = "online";
+let statusDropdownOpen = false;
+
+const statusPill     = document.getElementById("statusPill");
+const statusDropdown = document.getElementById("statusDropdown");
+
+function openStatusDropdown() {
+  statusDropdownOpen = true;
+  statusDropdown.classList.add("open");
+  statusDropdown.setAttribute("aria-hidden", "false");
+  statusPill.setAttribute("aria-expanded", "true");
+}
+
+function closeStatusDropdown() {
+  statusDropdownOpen = false;
+  statusDropdown.classList.remove("open");
+  statusDropdown.setAttribute("aria-hidden", "true");
+  statusPill.setAttribute("aria-expanded", "false");
+}
+
+function toggleStatusDropdown() {
+  statusDropdownOpen ? closeStatusDropdown() : openStatusDropdown();
+}
+
+function applyStatus(status) {
+  const config = STATUS_CONFIG[status];
+  if (!config) return;
+
+  currentStatus = status;
+
+  /* Update pill dot */
+  const pillDot = document.getElementById("bottomStatusDot");
+  pillDot.className = `status-dot ${config.dotClass}`;
+
+  /* Update pill text */
+  document.getElementById("bottomStatusText").textContent = config.label;
+
+  /* Update sidebar dot + text */
+  const sidebarDot  = document.getElementById("statusDot");
+  const sidebarText = document.getElementById("profileStatusText");
+  if (sidebarDot)  sidebarDot.className  = `status-dot ${config.dotClass}`;
+  if (sidebarText) sidebarText.textContent = config.label;
+
+  /* Mark active option */
+  document.querySelectorAll(".status-option").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.status === status);
+  });
+
+  closeStatusDropdown();
+  showToast(`Status set to ${config.label}`);
+}
+
+/* Toggle on pill click */
+statusPill?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  toggleStatusDropdown();
+});
+
+/* Keyboard: Enter/Space opens, Escape closes */
+statusPill?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleStatusDropdown(); }
+  if (e.key === "Escape") closeStatusDropdown();
+});
+
+/* Option clicks */
+document.querySelectorAll(".status-option").forEach(btn => {
+  btn.addEventListener("click", () => applyStatus(btn.dataset.status));
+});
+
+/* Click outside to close */
+document.addEventListener("click", (e) => {
+  if (statusDropdownOpen && !statusPill.contains(e.target) && !statusDropdown.contains(e.target)) {
+    closeStatusDropdown();
+  }
+});
+
+/* Set initial active state */
+applyStatus("online");
