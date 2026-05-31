@@ -1,50 +1,5 @@
 /* =========================================================
-   HEROES SCRIPTORIUM — PROFILE PAGE
-   FILE: profile_en.css
-
-   DESIGN SYSTEM: Matches settings_en.css exactly.
-   The only difference from settings is:
-   --card-bg uses rgba(0,0,0,0.72) instead of the brownish
-   rgba(25,20,16,0.92) so cards appear blacker while still
-   letting the background image show through.
-
-   TABLE OF CONTENTS:
-   01. CSS Variables
-   02. Reset
-   03. Body & Background
-   04. Background Layers
-   05. Top Navigation
-   06. Page Layout
-   07. Card System (.p-card)
-   08. Hero Banner
-   09. Row Layouts
-   10. Sidebar — Identity Block
-   11. Sidebar — Stats Block
-   12. Sidebar — Currently Active
-   13. Sidebar — Favorite Editions
-   14. Sidebar — Edit Profile Button
-   15. Active Campaigns
-   16. Recent Activity
-   17. Vault / Notes / Loot Cards
-   18. Upcoming Sessions
-   19. Achievements
-   20. Badges
-   21. Forum Notifications
-   22. Empty States & Placeholders
-   23. View All Button
-   24. Bottom Bar
-   25. Toast
-   26. Responsive
-   ========================================================= */
-
-
-/* =========================================================
    01. CSS VARIABLES
-   ---------------------------------------------------------
-   Inherits the same token names as settings_en.css so the
-   two pages feel like one coherent design system.
-   Card backgrounds are blacker (pure black + alpha) so the
-   fantasy background image bleeds through more visibly.
    ========================================================= */
 
 :root {
@@ -979,4 +934,87 @@ body.mode-dm {
   .banner-image-side { display: none; }
   .bottom-center { display: none; }
   .page-layout { padding: 190px 12px 32px; }
+}
+
+/* =========================================================
+   STATUS DOT — EXTENDED STATES
+   ========================================================= */
+
+.status-dot.away      { background: #e8a020; box-shadow: 0 0 6px #e8a020; }
+.status-dot.busy      { background: #c0392b; box-shadow: 0 0 6px #c0392b; }
+.status-dot.invisible { background: #555; box-shadow: none; }
+
+
+/* =========================================================
+   STATUS DROPDOWN
+   ========================================================= */
+
+.bottom-left {
+  position: relative;
+}
+
+.status-dropdown {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  min-width: 180px;
+  background: rgba(10, 8, 6, 0.96);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 600;
+
+  /* Hidden state */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.status-dropdown.open {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.status-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-family: "Crimson Text", serif;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.status-option:hover {
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--text-primary);
+}
+
+.status-option.active {
+  color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.06);
+}
+
+/* Animate chevron when open */
+.bottom-chevron {
+  display: inline-block;
+  transition: transform var(--transition-fast);
+}
+
+.bottom-status[aria-expanded="true"] .bottom-chevron {
+  transform: rotate(180deg);
 }
