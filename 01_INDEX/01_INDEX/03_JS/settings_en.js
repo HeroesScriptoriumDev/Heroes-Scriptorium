@@ -85,6 +85,9 @@ const stayOnPageBtn =
 const discardChangesBtn =
   document.getElementById("discardChangesBtn");
 
+const confirmLogoutBtn =
+  document.getElementById("confirmLogout");
+
 
 /* =========================================================
    PAGE INITIALIZATION
@@ -100,6 +103,7 @@ function applyModeBackground() {
   document.body.classList.remove("mode-player", "mode-dm");
   document.body.classList.add(`mode-${mode}`);
 }
+
 
 /* =========================================================
    INITIALIZE SETTINGS PAGE
@@ -121,7 +125,7 @@ async function initializeSettingsPage() {
 
   await fetchProfileData();
 
-  await fetchCharacterCount(); 
+  await fetchCharacterCount();
 
   await loadSettings();
 
@@ -130,9 +134,6 @@ async function initializeSettingsPage() {
 
 /* =========================================================
    FETCH PROFILE DATA
-   ---------------------------------------------------------
-   Pulls authenticated user profile from backend.
-   Uses token header — matches authMiddleware.
    ========================================================= */
 
 async function fetchProfileData() {
@@ -151,9 +152,7 @@ async function fetchProfileData() {
     const response = await fetch(
       "/api/profile",
       {
-        headers: {
-          token: token
-        }
+        headers: { token }
       }
     );
 
@@ -174,7 +173,6 @@ async function fetchProfileData() {
   } catch (error) {
 
     console.error(error);
-
     showToast("FAILED TO LOAD PROFILE");
 
   }
@@ -184,8 +182,6 @@ async function fetchProfileData() {
 
 /* =========================================================
    LOAD SETTINGS
-   ---------------------------------------------------------
-   Pulls user_settings from backend and populates fields.
    ========================================================= */
 
 async function loadSettings() {
@@ -198,9 +194,7 @@ async function loadSettings() {
       "/api/settings",
       {
         method: "GET",
-        headers: {
-          token: token
-        }
+        headers: { token }
       }
     );
 
@@ -208,20 +202,19 @@ async function loadSettings() {
       throw new Error("FAILED TO LOAD SETTINGS");
     }
 
-
     const settings = await response.json();
 
     /* GENERAL */
-    setSelectValue("languageSelect",   settings.language    || "");
-    setSelectValue("timezoneSelect",   settings.timezone    || "");
-    setSelectValue("dateFormatSelect", settings.date_format || "");
-    setSelectValue("landingPageSelect",settings.landing_page || "");
+    setSelectValue("languageSelect",    settings.language     || "");
+    setSelectValue("timezoneSelect",    settings.timezone     || "");
+    setSelectValue("dateFormatSelect",  settings.date_format  || "");
+    setSelectValue("landingPageSelect", settings.landing_page || "");
 
     /* DISPLAY */
     setSelectValue("themeSelect", settings.theme || "");
 
-    setCheckboxValue("compact-mode",          settings.compact_mode);
-    setCheckboxValue("animated-backgrounds",  settings.animated_backgrounds);
+    setCheckboxValue("compact-mode",         settings.compact_mode);
+    setCheckboxValue("animated-backgrounds", settings.animated_backgrounds);
 
     /* ACCESSIBILITY */
     setCheckboxValue("reduced-motion", settings.reduced_motion);
@@ -242,8 +235,6 @@ async function loadSettings() {
 
 /* =========================================================
    SAVE PROFILE SETTINGS
-   ---------------------------------------------------------
-   Saves profile fields to /api/profile (PUT).
    ========================================================= */
 
 async function saveProfileSettings() {
@@ -256,7 +247,7 @@ async function saveProfileSettings() {
       display_name: document.getElementById("displayNameInput")?.value  || "",
       bio:          document.getElementById("profileBioInput")?.value   || "",
       pronouns:     document.getElementById("pronounsInput")?.value     || "",
-      title:        document.getElementById("profileTitleInput")?.value       || "",
+      title:        document.getElementById("profileTitleInput")?.value || "",
       timezone:     document.getElementById("timezoneSelect")?.value    || "",
       language:     document.getElementById("languageSelect")?.value    || "",
       theme:        document.getElementById("themeSelect")?.value       || ""
@@ -268,7 +259,7 @@ async function saveProfileSettings() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          token: token
+          token
         },
         body: JSON.stringify(payload)
       }
@@ -279,9 +270,9 @@ async function saveProfileSettings() {
     }
 
     userProfile.display_name = payload.display_name;
-    userProfile.title = payload.title;
-    userProfile.bio = payload.bio;
-    userProfile.pronouns = payload.pronouns;
+    userProfile.title        = payload.title;
+    userProfile.bio          = payload.bio;
+    userProfile.pronouns     = payload.pronouns;
 
     hydrateProfileData();
 
@@ -292,7 +283,6 @@ async function saveProfileSettings() {
   } catch (error) {
 
     console.error(error);
-
     showToast("SAVE FAILED");
 
   }
@@ -302,8 +292,6 @@ async function saveProfileSettings() {
 
 /* =========================================================
    SAVE SETTINGS
-   ---------------------------------------------------------
-   Saves user_settings fields to /api/settings (PUT).
    ========================================================= */
 
 async function saveSettings() {
@@ -332,7 +320,7 @@ async function saveSettings() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          token: token
+          token
         },
         body: JSON.stringify(payload)
       }
@@ -349,7 +337,6 @@ async function saveSettings() {
   } catch (error) {
 
     console.error(error);
-
     showToast("SAVE FAILED");
 
   }
@@ -359,9 +346,6 @@ async function saveSettings() {
 
 /* =========================================================
    SAVE BUTTON INITIALIZATION
-   ---------------------------------------------------------
-   Routes each save button to the correct save function
-   based on data-save-section attribute.
    ========================================================= */
 
 function initializeSaveButtons() {
@@ -391,16 +375,14 @@ function initializeSaveButtons() {
 
 function formatDate(dateString) {
 
-  if (!dateString) {
-    return "Unknown";
-  }
+  if (!dateString) return "Unknown";
 
   return new Date(dateString).toLocaleDateString(
     "en-US",
     {
-      year: "numeric",
+      year:  "numeric",
       month: "long",
-      day: "numeric"
+      day:   "numeric"
     }
   );
 
@@ -419,9 +401,7 @@ function initializeSettingsNavigation() {
 
       const sectionName = button.dataset.section;
 
-      if (!sectionName) {
-        return;
-      }
+      if (!sectionName) return;
 
       showSection(sectionName);
 
@@ -439,21 +419,17 @@ function initializeSettingsNavigation() {
 function showSection(sectionName) {
 
   settingsNavItems.forEach((item) => {
-
     item.classList.remove("active");
-
     if (item.dataset.section === sectionName) {
       item.classList.add("active");
     }
-
   });
 
   settingsSections.forEach((section) => {
     section.classList.remove("active");
   });
 
-  const targetSection =
-    document.getElementById(`sec-${sectionName}`);
+  const targetSection = document.getElementById(`sec-${sectionName}`);
 
   if (targetSection) {
     targetSection.classList.add("active");
@@ -501,17 +477,61 @@ function initializeModals() {
     cancelDelete.addEventListener("click", () => closeModal(deleteModal));
   }
 
-  document.querySelectorAll(".modal-overlay").forEach((overlay) => {
-
-    overlay.addEventListener("click", (event) => {
-
-      if (event.target === overlay) {
-        closeModal(overlay);
-      }
-
+  /* CONFIRM LOGOUT — calls API before redirecting */
+  if (confirmLogoutBtn) {
+    confirmLogoutBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await handleLogout();
     });
+  }
 
+  document.querySelectorAll(".modal-overlay").forEach((overlay) => {
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) closeModal(overlay);
+    });
   });
+
+}
+
+
+/* =========================================================
+   LOGOUT HANDLER
+   ---------------------------------------------------------
+   Calls the API to mark offline + revoke session,
+   then clears localStorage and redirects.
+   ========================================================= */
+
+async function handleLogout() {
+
+  try {
+
+    const token        = localStorage.getItem("token");
+    const sessionToken = localStorage.getItem("sessionToken");
+
+    if (token) {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token
+        },
+        body: JSON.stringify({ sessionToken: sessionToken || "" })
+      });
+    }
+
+  } catch (err) {
+    console.error("LOGOUT ERROR:", err);
+
+  } finally {
+
+    /* Always clear and redirect even if API call fails */
+    localStorage.removeItem("token");
+    localStorage.removeItem("sessionToken");
+    localStorage.removeItem("userStatus");
+
+    window.location.href = "../01_HTML/index_en.html";
+
+  }
 
 }
 
@@ -522,9 +542,7 @@ function initializeModals() {
 
 function openModal(modalElement) {
 
-  if (!modalElement) {
-    return;
-  }
+  if (!modalElement) return;
 
   modalElement.classList.add("active");
   modalElement.setAttribute("aria-hidden", "false");
@@ -538,9 +556,7 @@ function openModal(modalElement) {
 
 function closeModal(modalElement) {
 
-  if (!modalElement) {
-    return;
-  }
+  if (!modalElement) return;
 
   modalElement.classList.remove("active");
   modalElement.setAttribute("aria-hidden", "true");
@@ -554,9 +570,7 @@ function closeModal(modalElement) {
 
 function showToast(message) {
 
-  if (!toast) {
-    return;
-  }
+  if (!toast) return;
 
   toast.textContent = message;
   toast.classList.add("show");
@@ -576,7 +590,6 @@ function hydrateProfileData() {
 
   hydrateAvatar();
   hydrateLevel();
-
   hydrateDisplayName();
   hydrateProfileTitle();
   hydrateStatus();
@@ -595,11 +608,7 @@ function hydrateProfileData() {
 function hydrateDisplayName() {
 
   const el = document.getElementById("profileDisplayName");
-
-  if (!el) {
-    return;
-  }
-
+  if (!el) return;
   el.textContent = userProfile.display_name || "Unknown Adventurer";
 
 }
@@ -612,11 +621,7 @@ function hydrateDisplayName() {
 function hydrateProfileTitle() {
 
   const el = document.getElementById("profileTitle");
-
-  if (!el) {
-    return;
-  }
-
+  if (!el) return;
   el.textContent = userProfile.title || "Title Not Yet Set";
 
 }
@@ -624,16 +629,24 @@ function hydrateProfileTitle() {
 
 /* =========================================================
    STATUS
+   ---------------------------------------------------------
+   Defers to presence.js if loaded; falls back to basic
+   online/offline from profile data.
    ========================================================= */
 
 function hydrateStatus() {
 
+  /* If presence.js is loaded it owns status display */
+  if (typeof presence_setStatusLocal === "function") {
+    const saved = localStorage.getItem("userStatus") || "online";
+    presence_setStatusLocal(saved);
+    return;
+  }
+
   const statusText = document.getElementById("profileStatusText");
   const statusDot  = document.querySelector(".status-dot");
 
-  if (!statusText || !statusDot) {
-    return;
-  }
+  if (!statusText || !statusDot) return;
 
   if (userProfile.online_status) {
     statusText.textContent = "Online";
@@ -654,31 +667,24 @@ function hydrateRoles() {
 
   const roleContainer = document.getElementById("profileRoles");
 
-  if (!roleContainer) {
-    return;
-  }
+  if (!roleContainer) return;
 
   roleContainer.innerHTML = "";
 
   if (!userProfile.roles || userProfile.roles.length === 0) {
-
-    roleContainer.innerHTML =
-      `<span class="placeholder-text">No Roles Assigned</span>`;
-
+    roleContainer.innerHTML = `<span class="placeholder-text">No Roles Assigned</span>`;
     return;
-
   }
 
   userProfile.roles.forEach((role) => {
-
     const badge = document.createElement("span");
     badge.classList.add("role-badge");
     badge.textContent = role;
     roleContainer.appendChild(badge);
-
   });
 
 }
+
 
 /* =========================================================
    LEVEL BADGE
@@ -686,26 +692,14 @@ function hydrateRoles() {
 
 function hydrateLevel() {
 
-  const el =
-    document.getElementById(
-      "profileLevel"
-    );
+  const el = document.getElementById("profileLevel");
+  if (!el) return;
 
-  if (!el) {
-    return;
-  }
-
-  const level =
-    userProfile.level || 1;
-
-  el.textContent =
-    `Lvl ${level}`;
-
-  el.classList.remove(
-    "placeholder-text"
-  );
+  el.textContent = `Lvl ${userProfile.level || 1}`;
+  el.classList.remove("placeholder-text");
 
 }
+
 
 /* =========================================================
    AVATAR
@@ -713,20 +707,8 @@ function hydrateLevel() {
 
 function hydrateAvatar() {
 
-  const el =
-    document.getElementById(
-      "profileAvatar"
-    );
-
-  if (!el) {
-    return;
-  }
-
-  /*
-     TEMP PLACEHOLDER SYSTEM
-     UNTIL REAL IMAGE UPLOADS EXIST
-  */
-
+  const el = document.getElementById("profileAvatar");
+  if (!el) return;
   el.textContent = "🧙";
 
 }
@@ -754,10 +736,7 @@ function hydrateStats() {
 function hydrateStat(elementId, value, fallbackText) {
 
   const el = document.getElementById(elementId);
-
-  if (!el) {
-    return;
-  }
+  if (!el) return;
 
   if (value === null || value === undefined) {
     el.textContent = fallbackText;
@@ -778,29 +757,20 @@ function hydrateStat(elementId, value, fallbackText) {
 function hydrateFavoriteEditions() {
 
   const container = document.getElementById("favoriteEditions");
-
-  if (!container) {
-    return;
-  }
+  if (!container) return;
 
   container.innerHTML = "";
 
   if (!userProfile.favorite_editions || userProfile.favorite_editions.length === 0) {
-
-    container.innerHTML =
-      `<span class="placeholder-text">No Favorite Editions Selected</span>`;
-
+    container.innerHTML = `<span class="placeholder-text">No Favorite Editions Selected</span>`;
     return;
-
   }
 
   userProfile.favorite_editions.forEach((edition) => {
-
     const el = document.createElement("div");
     el.classList.add("edition-icon");
     el.textContent = edition;
     container.appendChild(el);
-
   });
 
 }
@@ -813,15 +783,15 @@ function hydrateFavoriteEditions() {
 function hydrateAccountFields() {
 
   /* DISPLAY LABELS */
-  setTextIfExists("accountUsername",   userProfile.username,                    "Unknown");
-  setTextIfExists("accountEmail",      userProfile.email,                       "Unknown");
-  setTextIfExists("accountMemberSince",formatDate(userProfile.member_since),    "Unknown");
-  setTextIfExists("profileMemberSince",formatDate(userProfile.member_since),    "Unknown");
+  setTextIfExists("accountUsername",    userProfile.username,                 "Unknown");
+  setTextIfExists("accountEmail",       userProfile.email,                    "Unknown");
+  setTextIfExists("accountMemberSince", formatDate(userProfile.member_since), "Unknown");
+  setTextIfExists("profileMemberSince", formatDate(userProfile.member_since), "Unknown");
 
   /* INPUT FIELDS */
-  setInputValue("displayNameInput", userProfile.display_name);
-  setInputValue("pronounsInput",    userProfile.pronouns);
-  setInputValue("profileBioInput",  userProfile.bio);
+  setInputValue("displayNameInput",  userProfile.display_name);
+  setInputValue("pronounsInput",     userProfile.pronouns);
+  setInputValue("profileBioInput",   userProfile.bio);
   setInputValue("profileTitleInput", userProfile.title);
 
   /* SELECT FIELDS */
@@ -839,15 +809,26 @@ function hydrateAccountFields() {
 function initializeUnsavedChangesDetection() {
 
   document.querySelectorAll("input, textarea, select").forEach((input) => {
-
     input.addEventListener("change", () => {
       hasUnsavedChanges = true;
     });
-
   });
 
 }
 
+
+/* =========================================================
+   BEFORE UNLOAD WARNING
+   ========================================================= */
+
+window.addEventListener("beforeunload", (event) => {
+
+  if (!hasUnsavedChanges) return;
+
+  event.preventDefault();
+  event.returnValue = "";
+
+});
 
 
 /* =========================================================
@@ -855,21 +836,17 @@ function initializeUnsavedChangesDetection() {
    ========================================================= */
 
 if (stayOnPageBtn) {
-
   stayOnPageBtn.addEventListener("click", () => {
     closeModal(unsavedChangesModal);
   });
-
 }
 
 if (discardChangesBtn) {
-
   discardChangesBtn.addEventListener("click", () => {
     hasUnsavedChanges = false;
     closeModal(unsavedChangesModal);
     showToast("Changes discarded.");
   });
-
 }
 
 
@@ -879,9 +856,7 @@ if (discardChangesBtn) {
 
 document.addEventListener("keydown", (event) => {
 
-  if (event.key !== "Escape") {
-    return;
-  }
+  if (event.key !== "Escape") return;
 
   document.querySelectorAll(".modal-overlay.active").forEach((modal) => {
     closeModal(modal);
@@ -899,22 +874,20 @@ function navigate(destination) {
   switch (destination) {
 
     case "home":
-      if (localStorage.getItem("mode") === "dm") {
-        window.location.href = "dm_home_en.html";
-      } else {
-        window.location.href = "home_en.html";
-      }
+      window.location.href =
+        localStorage.getItem("mode") === "dm"
+          ? "dm_home_en.html"
+          : "home_en.html";
       break;
 
     case "player":
-  if (localStorage.getItem("mode") === "dm") {
-    localStorage.setItem("mode", "player");
-    applyModeBackground();
-  } else {
-    localStorage.setItem("mode", "dm");
-    applyModeBackground();
-  }
-  break;
+      if (localStorage.getItem("mode") === "dm") {
+        localStorage.setItem("mode", "player");
+      } else {
+        localStorage.setItem("mode", "dm");
+      }
+      applyModeBackground();
+      break;
 
     case "profile":
       window.location.href = "profile_en.html";
@@ -925,10 +898,7 @@ function navigate(destination) {
       break;
 
     default:
-      console.warn(
-        "Unknown destination:",
-        destination
-      );
+      console.warn("Unknown destination:", destination);
 
   }
 
@@ -940,13 +910,8 @@ function navigate(destination) {
    ========================================================= */
 
 function capitalize(text) {
-
-  if (!text) {
-    return "";
-  }
-
+  if (!text) return "";
   return text.charAt(0).toUpperCase() + text.slice(1);
-
 }
 
 
@@ -955,15 +920,9 @@ function capitalize(text) {
    ========================================================= */
 
 function setTextIfExists(elementId, value, fallback) {
-
   const el = document.getElementById(elementId);
-
-  if (!el) {
-    return;
-  }
-
+  if (!el) return;
   el.textContent = value ?? fallback;
-
 }
 
 
@@ -972,15 +931,9 @@ function setTextIfExists(elementId, value, fallback) {
    ========================================================= */
 
 function setInputValue(elementId, value) {
-
   const el = document.getElementById(elementId);
-
-  if (!el) {
-    return;
-  }
-
+  if (!el) return;
   el.value = value || "";
-
 }
 
 
@@ -989,15 +942,9 @@ function setInputValue(elementId, value) {
    ========================================================= */
 
 function setSelectValue(elementId, value) {
-
   const el = document.getElementById(elementId);
-
-  if (!el) {
-    return;
-  }
-
+  if (!el) return;
   el.value = value || "";
-
 }
 
 
@@ -1006,9 +953,7 @@ function setSelectValue(elementId, value) {
    ========================================================= */
 
 function getSelectValue(elementId) {
-
   return document.getElementById(elementId)?.value || "";
-
 }
 
 
@@ -1017,30 +962,31 @@ function getSelectValue(elementId) {
    ========================================================= */
 
 function setCheckboxValue(elementId, value) {
-
   const el = document.getElementById(elementId);
-
-  if (!el) {
-    return;
-  }
-
+  if (!el) return;
   el.checked = !!value;
-
 }
 
 
 /* =========================================================
-   LIVE CHARACTER COUNT - VALUE                              
+   HELPER — GET CHECKBOX VALUE
+   ========================================================= */
+
+function getCheckboxValue(elementId) {
+  return document.getElementById(elementId)?.checked || false;
+}
+
+
+/* =========================================================
+   LIVE CHARACTER COUNT
    ========================================================= */
 
 async function fetchCharacterCount() {
   try {
-    const token = localStorage.getItem("token");
-    const response = await fetch("/api/characters", {
-      headers: { token }
-    });
-    const data = await response.json();
-    const count = data.characters ? data.characters.length : 0;
+    const token    = localStorage.getItem("token");
+    const response = await fetch("/api/characters", { headers: { token } });
+    const data     = await response.json();
+    const count    = data.characters ? data.characters.length : 0;
 
     userProfile.character_count = count;
     hydrateStat("profileCharacterCount", count, "Character Vault Not Yet Implemented");
@@ -1051,37 +997,26 @@ async function fetchCharacterCount() {
 }
 
 
-
-/* =========================================================
-   HELPER — GET CHECKBOX VALUE
-   ========================================================= */
-
-function getCheckboxValue(elementId) {
-
-  return document.getElementById(elementId)?.checked || false;
-
-}
-
 /* =========================================================
    PASSWORD MODAL — DOM REFS
    ========================================================= */
 
-const passwordModal      = document.getElementById("passwordModal");
-const changePasswordBtn  = document.getElementById("changePasswordBtn");
-const cancelPasswordModal= document.getElementById("cancelPasswordModal");
-const cancelPasswordForm = document.getElementById("cancelPasswordForm");
-const confirmPasswordBtn = document.getElementById("confirmPasswordBtn");
-const pwSuccessDone      = document.getElementById("pwSuccessDone");
+const passwordModal       = document.getElementById("passwordModal");
+const changePasswordBtn   = document.getElementById("changePasswordBtn");
+const cancelPasswordModal = document.getElementById("cancelPasswordModal");
+const cancelPasswordForm  = document.getElementById("cancelPasswordForm");
+const confirmPasswordBtn  = document.getElementById("confirmPasswordBtn");
+const pwSuccessDone       = document.getElementById("pwSuccessDone");
 
-const pwCurrent          = document.getElementById("pwCurrent");
-const pwNew              = document.getElementById("pwNew");
-const pwConfirm          = document.getElementById("pwConfirm");
-const pwMismatch         = document.getElementById("pwMismatch");
-const pwErrorBanner      = document.getElementById("pwErrorBanner");
-const pwStrengthWrap     = document.getElementById("pwStrengthWrap");
-const pwStrengthLabel    = document.getElementById("pwStrengthLabel");
-const pwFormState        = document.getElementById("pwFormState");
-const pwSuccessState     = document.getElementById("pwSuccessState");
+const pwCurrent       = document.getElementById("pwCurrent");
+const pwNew           = document.getElementById("pwNew");
+const pwConfirm       = document.getElementById("pwConfirm");
+const pwMismatch      = document.getElementById("pwMismatch");
+const pwErrorBanner   = document.getElementById("pwErrorBanner");
+const pwStrengthWrap  = document.getElementById("pwStrengthWrap");
+const pwStrengthLabel = document.getElementById("pwStrengthLabel");
+const pwFormState     = document.getElementById("pwFormState");
+const pwSuccessState  = document.getElementById("pwSuccessState");
 
 const PW_STRENGTH_COLORS = ["", "#c0392b", "#e67e22", "#f1c40f", "#4caf50", "#d4af37"];
 const PW_STRENGTH_LABELS = ["", "Weak", "Fair", "Good", "Strong", "Ironclad"];
@@ -1104,24 +1039,24 @@ function resetPasswordModal() {
   pwCurrent.value  = "";
   pwNew.value      = "";
   pwConfirm.value  = "";
-  pwMismatch.textContent = "";
+  pwMismatch.textContent    = "";
   pwErrorBanner.textContent = "";
   pwErrorBanner.classList.remove("visible");
   confirmPasswordBtn.disabled = true;
-  pwFormState.hidden   = false;
+  pwFormState.hidden    = false;
   pwSuccessState.hidden = true;
   pwStrengthWrap.setAttribute("aria-hidden", "true");
   updateStrengthMeter("");
   document.querySelectorAll(".pw-rule").forEach(r => r.classList.remove("pass"));
   document.querySelectorAll(".pw-bar").forEach(b => {
     b.style.backgroundColor = "";
-    b.style.boxShadow = "";
+    b.style.boxShadow       = "";
   });
 }
 
 
 /* =========================================================
-   PASSWORD STRENGTH CALCULATION
+   PASSWORD STRENGTH
    ========================================================= */
 
 function getPasswordStrength(password) {
@@ -1143,10 +1078,10 @@ function updateStrengthMeter(password) {
   bars.forEach((bar, i) => {
     if (i < strength) {
       bar.style.backgroundColor = color;
-      bar.style.boxShadow = `0 0 6px ${color}55`;
+      bar.style.boxShadow       = `0 0 6px ${color}55`;
     } else {
       bar.style.backgroundColor = "rgba(255,255,255,0.08)";
-      bar.style.boxShadow = "none";
+      bar.style.boxShadow       = "none";
     }
   });
 
@@ -1184,34 +1119,32 @@ function validatePasswordForm() {
 
   pwMismatch.textContent = mismatch ? "Passwords do not match." : "";
 
-  const canSubmit =
+  confirmPasswordBtn.disabled = !(
     current.length > 0 &&
-    newPw.length > 0 &&
+    newPw.length   > 0 &&
     confirm.length > 0 &&
     !mismatch &&
-    strength >= 2;
-
-  confirmPasswordBtn.disabled = !canSubmit;
+    strength >= 2
+  );
 }
 
 
 /* =========================================================
-   EYE TOGGLE — SHARED HANDLER
+   EYE TOGGLE
    ========================================================= */
 
 document.querySelectorAll(".pw-eye-btn").forEach(btn => {
   btn.addEventListener("click", () => {
-    const targetId = btn.dataset.target;
-    const input    = document.getElementById(targetId);
+    const input = document.getElementById(btn.dataset.target);
     if (!input) return;
-    input.type = input.type === "password" ? "text" : "password";
+    input.type      = input.type === "password" ? "text" : "password";
     btn.textContent = input.type === "password" ? "👁" : "🙈";
   });
 });
 
 
 /* =========================================================
-   NEW PASSWORD INPUT — LIVE FEEDBACK
+   NEW PASSWORD — LIVE FEEDBACK
    ========================================================= */
 
 pwNew?.addEventListener("input", () => {
@@ -1222,8 +1155,8 @@ pwNew?.addEventListener("input", () => {
   validatePasswordForm();
 });
 
-pwCurrent?.addEventListener("input",  validatePasswordForm);
-pwConfirm?.addEventListener("input",  validatePasswordForm);
+pwCurrent?.addEventListener("input", validatePasswordForm);
+pwConfirm?.addEventListener("input", validatePasswordForm);
 
 
 /* =========================================================
@@ -1232,9 +1165,9 @@ pwConfirm?.addEventListener("input",  validatePasswordForm);
 
 confirmPasswordBtn?.addEventListener("click", async () => {
   pwErrorBanner.classList.remove("visible");
-  pwErrorBanner.textContent = "";
-  confirmPasswordBtn.disabled = true;
-  confirmPasswordBtn.textContent = "Updating…";
+  pwErrorBanner.textContent       = "";
+  confirmPasswordBtn.disabled     = true;
+  confirmPasswordBtn.textContent  = "Updating…";
 
   try {
     const token = localStorage.getItem("token");
@@ -1243,7 +1176,7 @@ confirmPasswordBtn?.addEventListener("click", async () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: token
+        token
       },
       body: JSON.stringify({
         current_password: pwCurrent.value,
@@ -1256,14 +1189,13 @@ confirmPasswordBtn?.addEventListener("click", async () => {
       throw new Error(data.message || "Failed to update password.");
     }
 
-    /* SUCCESS */
     pwFormState.hidden    = true;
     pwSuccessState.hidden = false;
 
   } catch (err) {
     pwErrorBanner.textContent = err.message;
     pwErrorBanner.classList.add("visible");
-    confirmPasswordBtn.disabled = false;
+    confirmPasswordBtn.disabled    = false;
     confirmPasswordBtn.textContent = "Update Password";
   }
 });
@@ -1273,7 +1205,7 @@ confirmPasswordBtn?.addEventListener("click", async () => {
    PASSWORD MODAL — EVENT LISTENERS
    ========================================================= */
 
-changePasswordBtn?.addEventListener("click",  openPasswordModal);
+changePasswordBtn?.addEventListener("click",   openPasswordModal);
 cancelPasswordModal?.addEventListener("click", closePasswordModal);
 cancelPasswordForm?.addEventListener("click",  closePasswordModal);
 pwSuccessDone?.addEventListener("click",       closePasswordModal);
