@@ -185,6 +185,11 @@ launcherForm.addEventListener(
           "token",
           data.token
         );
+ 
+        localStorage.setItem(
+           "sessionToken",
+           data.token
+        ); 
 
         localStorage.setItem(
           "user",
@@ -317,7 +322,7 @@ registerSubmitButton.addEventListener(
   const loginResponse =
   await fetch(
 
-    "http://localhost:3000/api/auth/login",
+    "/api/auth/login",
 
     {
       method: "POST",
@@ -346,6 +351,11 @@ registerSubmitButton.addEventListener(
     "token",
     loginData.token
   );
+
+  localStorage.setItem(
+     "sessionToken",
+     loginData.token
+  ); 
 
   localStorage.setItem(
     "user",
