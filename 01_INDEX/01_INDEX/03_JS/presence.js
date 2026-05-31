@@ -64,7 +64,9 @@ function initializePresence() {
   presence_startIdleDetection();
 
   /* Mark offline when tab closes or user navigates away */
-  window.addEventListener("beforeunload", presence_handleUnload);
+  window.addEventListener("beforeunload", (e) => {
+  presence_handleUnload(e);
+});
 
   /* Mark online when tab regains focus */
   document.addEventListener("visibilitychange", presence_handleVisibilityChange);
