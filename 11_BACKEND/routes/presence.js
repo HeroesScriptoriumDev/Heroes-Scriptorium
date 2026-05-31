@@ -1,20 +1,7 @@
-/* =========================================================
-   PRESENCE ROUTES
-   FILE: routes/presence.js
-
-   ROUTES:
-   PUT    /api/presence/status          — set online_status
-   POST   /api/presence/heartbeat       — update last_active
-   GET    /api/presence/:userId         — get a user's presence
-   GET    /api/presence/sessions/mine   — get current user's sessions
-   DELETE /api/presence/sessions/:id    — revoke one session
-   POST   /api/presence/sessions/revoke-all — revoke all other sessions
-   ========================================================= */
-
 const express        = require("express");
 const router         = express.Router();
 const db             = require("../db");
-const authMiddleware = require("../middleware/auth");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const VALID_STATUSES = ["online", "away", "busy", "invisible", "offline"];
 
