@@ -39,7 +39,7 @@ router.post(
 
 router.post(
   "/logout",
-  authMiddleware, authcontroller.logoutUser
+  authMiddleware, authController.logoutUser
 );
 
 module.exports = router;
