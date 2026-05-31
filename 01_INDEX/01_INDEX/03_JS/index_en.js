@@ -282,7 +282,6 @@ registerSubmitButton.addEventListener(
 
       const response =
       await fetch(
-
         "/api/auth/register",
 
         {
@@ -420,7 +419,7 @@ async function loadUpdates() {
     // LOOP THROUGH UPDATES
     // ===========================================
 
-    updates.slice(0, MAX_UPDATES)).forEach((update) => {
+    updates.slice(0, MAX_UPDATES).forEach(update) => {
 
       const updateCard =
       document.createElement("div");
