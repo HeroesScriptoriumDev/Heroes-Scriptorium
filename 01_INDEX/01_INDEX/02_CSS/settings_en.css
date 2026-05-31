@@ -1259,7 +1259,11 @@ body.mode-dm {
 
   color: var(--text-muted);
 
-  font-style: italic;
+  font-style: normal;
+
+  font-size: 16px;
+
+  line-height: 1.7;
 }
 
 
