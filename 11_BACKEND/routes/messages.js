@@ -160,7 +160,6 @@ router.post("/threads", authMiddleware, async (req, res) => {
     code: err.code,
     stack: err.stack
   });
-}
   } finally {
     client.release();
   }
