@@ -94,6 +94,8 @@ router.get("/threads", authMiddleware, async (req, res) => {
 
 router.post("/threads", authMiddleware, async (req, res) => {
   const client = await db.connect();
+  console.log("REQ.USERID:", req.userID);
+  console.log("REQ.USER:", req.user);
   try {
 
     await client.query("BEGIN");
