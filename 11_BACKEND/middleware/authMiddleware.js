@@ -23,19 +23,15 @@ module.exports = function (
 
         }
 
-        const payload =
-            jwt.verify(
+        const payload = jwt.verify(
+    token,
+    process.env.JWT_SECRET
+);
 
-                token,
+request.user = payload.user;
+request.userId = payload.user.id;
 
-                process.env.JWT_SECRET
-
-            );
-
-        request.user =
-            payload.user;
-
-        next();
+next();
 
     } catch (error) {
 
