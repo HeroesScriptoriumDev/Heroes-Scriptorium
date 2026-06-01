@@ -21,7 +21,11 @@ const settingsRoutes = require("./routes/settings");
 const characterRoutes = require("./routes/characters");
 
 const presenceRoutes = require("./routes/presence");
-app.use("/api/presence", presenceRoutes);
+
+const messageRoutes = require("./routes/messages");
+
+const searchRoutes = require("./routes/search");
+
 
 // =====================================================
 // MIDDLEWARE
@@ -41,6 +45,22 @@ app.use(
   "/api/characters",
   characterRoutes
 );
+
+app.use(
+  "/api/presence", 
+  presenceRoutes
+);
+
+app.use(
+  "/api/messages",
+  messageRoutes
+);
+
+app.use(
+  "/api/search",
+  searchRoutes
+);
+
 
 
 // =====================================================
