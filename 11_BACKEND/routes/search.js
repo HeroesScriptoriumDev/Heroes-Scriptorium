@@ -11,8 +11,8 @@ const authMiddleware = require("../middleware/authMiddleware");
 router.get("/users", authMiddleware, async (req, res) => {
   try {
 
-    const q     = (req.query.q     || "").trim();
-    const role  = (req.query.role  || "").trim();
+    const q     = (req.query.q || "").trim();
+    const role  = (req.query.role || "").trim();
     const limit = Math.min(parseInt(req.query.limit, 10) || 20, 50);
 
     if (q.length < 2) {
@@ -25,7 +25,7 @@ router.get("/users", authMiddleware, async (req, res) => {
           u.username,
           u.online_status,
           p.display_name,
-          p.profile_title  AS title,
+          p.profile_title AS title,
           p.bio,
           p.pronouns,
           p.roles
@@ -33,7 +33,7 @@ router.get("/users", authMiddleware, async (req, res) => {
         JOIN user_profiles p ON p.user_id = u.id
        WHERE u.id != $1
          AND (
-           u.username    ILIKE $2
+           u.username ILIKE $2
            OR p.display_name ILIKE $2
          )
          AND (
@@ -49,13 +49,17 @@ router.get("/users", authMiddleware, async (req, res) => {
 
     return res.json({ users: result.rows });
 
- } catch (err) {
-  console.error("SEARCH ERROR FULL:", err);
-  return res.status(500).json({
-    message: err.message,
-    detail: err.detail,
-    code: err.code
-  });
-}
+  } catch (err) {
+
+    console.error("SEARCH ERROR FULL:", err);
+
+    return res.status(500).json({
+      message: err.message,
+      detail: err.detail,
+      code: err.code
+    });
+
+  }
+}); 
 
 module.exports = router;
