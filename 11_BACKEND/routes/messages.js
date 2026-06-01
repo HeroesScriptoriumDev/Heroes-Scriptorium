@@ -149,10 +149,18 @@ router.post("/threads", authMiddleware, async (req, res) => {
     await client.query("COMMIT");
     return res.status(201).json({ thread_id: threadId, existing: false });
 
-  } catch (err) {
-    await client.query("ROLLBACK");
-    console.error("CREATE THREAD ERROR:", err);
-    return res.status(500).json({ message: "Failed to create thread." });
+ } catch (err) {
+  await client.query("ROLLBACK");
+
+  console.error("CREATE THREAD ERROR:", err);
+
+  return res.status(500).json({
+    message: err.message,
+    detail: err.detail,
+    code: err.code,
+    stack: err.stack
+  });
+}
   } finally {
     client.release();
   }
