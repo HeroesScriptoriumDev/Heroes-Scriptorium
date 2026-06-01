@@ -49,11 +49,14 @@ router.get("/users", authMiddleware, async (req, res) => {
 
     return res.json({ users: result.rows });
 
-  } catch (err) {
-    console.error("SEARCH ERROR:", err);
-    return res.status(500).json({ message: "Search failed." });
-  }
-});
+ } catch (err) {
+  console.error("SEARCH ERROR FULL:", err);
+  return res.status(500).json({
+    message: err.message,
+    detail: err.detail,
+    code: err.code
+  });
+}
 
 
 module.exports = router;
