@@ -984,6 +984,16 @@ body.mode-dm {
     0 0 0 3px rgba(212,175,55,0.08);
 }
 
+.form-input option {
+  background: #16110d;
+  color: #f4ede2;
+}
+
+.form-input optgroup {
+  background: #221b16;
+  color: #d4af37;
+  font-weight: bold;
+}
 
 .form-textarea{
 
