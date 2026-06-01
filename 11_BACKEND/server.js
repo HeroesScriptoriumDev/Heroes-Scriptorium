@@ -26,7 +26,7 @@ const messageRoutes = require("./routes/messages");
 
 const searchRoutes = require("./routes/search");
 
-const publicProfileRoute - require("./routes/publicProfile");
+const publicProfileRoute = require("./routes/publicProfile");
 
 
 // =====================================================
