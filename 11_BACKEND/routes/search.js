@@ -32,7 +32,7 @@ router.get("/users", authMiddleware, async (req, res) => {
     FROM users u
 LEFT JOIN user_profiles p ON p.user_id = u.id
 `);
-     console.log("Search Results:", results.rows);
+     console.log("Search Results:", result.rows);
     return res.json({ users: result.rows });
 
   } catch (err) {
