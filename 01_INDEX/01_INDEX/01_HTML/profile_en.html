@@ -298,7 +298,7 @@
 
   </div>
 
-  <button class="bottom-icon-btn" title="Messages">✉</button>
+  <button class="bottom-icon-btn" id="mailBtn" title="Messages">✉</button>
 
   <div class="bottom-notif-btn" title="Notifications">
     🔔
@@ -313,6 +313,148 @@
       <button class="btn-launch-vtt" disabled>⚔️ Launch VTT</button>
     </div>
   </div>
+
+
+  <!-- =====================================================
+     USER SEARCH MODAL
+     ===================================================== -->
+<div class="modal-overlay" id="searchModal" aria-hidden="true">
+  <div class="modal modal-search" role="dialog" aria-modal="true" aria-labelledby="searchModalTitle">
+
+    <div class="search-modal-bar"></div>
+
+    <div class="search-modal-header">
+      <div class="search-modal-header-icon">🔍</div>
+      <div class="search-modal-header-text">
+        <h2 class="modal-title" id="searchModalTitle">Find Adventurers</h2>
+        <p class="modal-desc">Search by username, display name, or role.</p>
+      </div>
+      <button class="pw-close-btn" id="closeSearchModal" type="button" aria-label="Close">✕</button>
+    </div>
+
+    <div class="search-modal-body">
+
+      <div class="search-input-row">
+        <input
+          class="search-input"
+          id="searchInput"
+          type="text"
+          placeholder="Search adventurers..."
+          autocomplete="off"
+        />
+        <select class="search-role-filter" id="searchRoleFilter">
+          <option value="">All Roles</option>
+          <option value="Player">Player</option>
+          <option value="Dungeon Master">Dungeon Master</option>
+          <option value="Worldbuilder">Worldbuilder</option>
+          <option value="Lorekeeper">Lorekeeper</option>
+        </select>
+      </div>
+
+      <div class="search-results" id="searchResults">
+        <div class="search-empty-state">
+          <div class="search-empty-icon">⚔️</div>
+          <div class="search-empty-text">Enter a name to begin your search.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     MESSAGING MODAL
+     ===================================================== -->
+<div class="modal-overlay" id="messagesModal" aria-hidden="true">
+  <div class="modal modal-messages" role="dialog" aria-modal="true" aria-labelledby="messagesModalTitle">
+
+    <div class="search-modal-bar"></div>
+
+    <!-- THREAD LIST PANEL -->
+    <div class="msg-panel msg-threads-panel" id="msgThreadsPanel">
+
+      <div class="msg-panel-header">
+        <h2 class="modal-title" id="messagesModalTitle">Messages</h2>
+        <div class="msg-header-actions">
+          <button class="msg-new-btn" id="msgNewBtn" type="button" title="New Message">✏️</button>
+          <button class="pw-close-btn" id="closeMessagesModal" type="button" aria-label="Close">✕</button>
+        </div>
+      </div>
+
+      <div class="msg-search-wrap">
+        <input class="msg-thread-search" id="msgThreadSearch" type="text" placeholder="Search conversations..." />
+      </div>
+
+      <div class="msg-threads-list" id="msgThreadsList">
+        <div class="msg-empty-state">
+          <div class="msg-empty-icon">✉️</div>
+          <div class="msg-empty-text">No messages yet.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CONVERSATION PANEL -->
+    <div class="msg-panel msg-convo-panel" id="msgConvoPanel" hidden>
+
+      <div class="msg-panel-header">
+        <button class="msg-back-btn" id="msgBackBtn" type="button">← Back</button>
+        <div class="msg-convo-title" id="msgConvoTitle">Conversation</div>
+        <button class="pw-close-btn" id="closeMessagesConvo" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <div class="msg-messages-wrap" id="msgMessagesWrap">
+        <div class="msg-loading">Loading messages...</div>
+      </div>
+
+      <div class="msg-compose-wrap">
+        <textarea
+          class="msg-compose-input"
+          id="msgComposeInput"
+          placeholder="Write a message..."
+          rows="2"
+        ></textarea>
+        <button class="msg-send-btn" id="msgSendBtn" type="button">Send</button>
+      </div>
+
+    </div>
+
+    <!-- NEW THREAD PANEL -->
+    <div class="msg-panel msg-new-panel" id="msgNewPanel" hidden>
+
+      <div class="msg-panel-header">
+        <button class="msg-back-btn" id="msgNewBackBtn" type="button">← Back</button>
+        <div class="msg-convo-title">New Message</div>
+        <button class="pw-close-btn" id="closeMessagesNew" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <div class="msg-new-body">
+
+        <div class="msg-new-field">
+          <label class="pw-label">To</label>
+          <input class="search-input" id="msgRecipientSearch" type="text" placeholder="Search for a user..." autocomplete="off" />
+          <div class="msg-recipient-results" id="msgRecipientResults"></div>
+          <div class="msg-selected-recipients" id="msgSelectedRecipients"></div>
+        </div>
+
+        <div class="msg-new-field" id="msgGroupNameField" style="display:none;">
+          <label class="pw-label">Group Name</label>
+          <input class="search-input" id="msgGroupName" type="text" placeholder="Name this group..." />
+        </div>
+
+        <div class="msg-new-field">
+          <label class="pw-label">Message</label>
+          <textarea class="msg-compose-input" id="msgNewContent" placeholder="Write your first message..." rows="3"></textarea>
+        </div>
+
+        <button class="btn-primary msg-send-new-btn" id="msgSendNewBtn" type="button" disabled>Send Message</button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
 
   <div class="toast" id="toast"></div>
 
