@@ -19,34 +19,20 @@ router.get("/users", authMiddleware, async (req, res) => {
       return res.json({ users: [] });
     }
 
-   const result = await db.query(
-  `SELECT
-      u.id,
-      u.username,
-      u.online_status,
-      p.display_name,
-      p.title,
-      p.bio,
-      p.pronouns
+   const result = await db.query(`
+    SELECT
+        u.id,
+        u.username,
+        u.online_status,
+        p.display_name,
+        p.title,
+        p.bio,
+        p.pronouns
     FROM users u
-    JOIN user_profiles p ON p.user_id = u.id
-   WHERE u.id != $1
-     AND (
-       u.username ILIKE $2
-       OR p.display_name ILIKE $2
-     )
-   ORDER BY
-     CASE WHEN u.username ILIKE $3 THEN 0 ELSE 1 END,
-     u.username ASC
-   LIMIT $4`,
-  [
-    req.userId,
-    `%${q}%`,
-    `${q}%`,
-    limit
-  ]
-);
-
+    JOIN user_profiles p
+        ON p.user_id = u.id
+`);
+     
     return res.json({ users: result.rows });
 
   } catch (err) {
