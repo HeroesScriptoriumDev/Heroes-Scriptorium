@@ -19,19 +19,30 @@ router.get("/users", authMiddleware, async (req, res) => {
       return res.json({ users: [] });
     }
 
-   const result = await db.query(`
-    SELECT
-        u.id,
-        u.username,
-        u.online_status,
-        p.display_name,
-        p.title,
-        p.bio,
-        p.pronouns
-        
-    FROM users u
-LEFT JOIN user_profiles p ON p.user_id = u.id
-`);
+   const result = await db.query(
+  `
+  SELECT
+      u.id,
+      u.username,
+      u.online_status,
+      p.display_name,
+      p.title,
+      p.bio,
+      p.pronouns
+  FROM users u
+  LEFT JOIN user_profiles p
+      ON p.user_id = u.id
+  WHERE
+      u.username ILIKE $1
+      OR p.display_name ILIKE $1
+  ORDER BY u.username ASC
+  LIMIT $2
+  `,
+  [
+    `%${q}%`,
+    limit
+  ]
+);
      console.log("Search Results:", result.rows);
     return res.json({ users: result.rows });
 
