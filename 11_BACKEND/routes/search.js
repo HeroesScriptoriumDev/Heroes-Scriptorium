@@ -28,11 +28,11 @@ router.get("/users", authMiddleware, async (req, res) => {
         p.title,
         p.bio,
         p.pronouns
+        
     FROM users u
-    JOIN user_profiles p
-        ON p.user_id = u.id
+LEFT JOIN user_profiles p ON p.user_id = u.id
 `);
-     
+     console.log("Search Results:", results.rows);
     return res.json({ users: result.rows });
 
   } catch (err) {
