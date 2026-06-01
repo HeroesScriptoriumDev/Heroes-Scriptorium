@@ -26,6 +26,8 @@ const messageRoutes = require("./routes/messages");
 
 const searchRoutes = require("./routes/search");
 
+const publicProfileRoute - require("./routes/publicProfile");
+
 
 // =====================================================
 // MIDDLEWARE
@@ -59,6 +61,11 @@ app.use(
 app.use(
   "/api/search",
   searchRoutes
+);
+
+app.use(
+  "/api/public-profile",
+  publicProfileRoute
 );
 
 
