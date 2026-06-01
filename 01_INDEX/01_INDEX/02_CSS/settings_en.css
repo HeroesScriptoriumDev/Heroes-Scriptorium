@@ -987,6 +987,7 @@ body.mode-dm {
 .form-input option {
   background: #16110d;
   color: #f4ede2;
+  padding-left: 18px;
 }
 
 .form-input optgroup {
