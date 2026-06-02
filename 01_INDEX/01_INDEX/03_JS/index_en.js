@@ -181,38 +181,37 @@ launcherForm.addEventListener(
 
       if (response.ok) {
 
-        localStorage.setItem(
-          "token",
-          data.token
-        );
- 
-        localStorage.setItem(
-           "sessionToken",
-           data.token
-        ); 
+  localStorage.setItem("token",        data.token);
+  localStorage.setItem("sessionToken", data.token);
+  localStorage.setItem("user",         JSON.stringify(data.user));
 
-        localStorage.setItem(
-          "user",
-          JSON.stringify(data.user)
-        );
+  if (!data.user.profile_setup_completed) {
+    window.location.href = "/01_HTML/profile_setup_en.html";
+    return;
+  }
 
-        if (
-  data.user.profile_setup_completed
-) {
+  /* Fetch landing page preference */
+  try {
+    const settingsRes = await fetch("/api/settings", {
+      headers: { token: data.token }
+    });
+    const settings = await settingsRes.json();
+    const landing  = settings.landing_page || "home";
 
-  window.location.href =
-  "/01_HTML/home_en.html";
+    const destinations = {
+      home:       "/01_HTML/home_en.html",
+      profile:    "/01_HTML/profile_en.html",
+      characters: "/01_HTML/characters_en.html",
+      campaigns:  "/01_HTML/campaigns_en.html"
+    };
+
+    window.location.href = destinations[landing] || "/01_HTML/home_en.html";
+
+  } catch {
+    window.location.href = "/01_HTML/home_en.html";
+  }
 
 }
-
-else {
-
-  window.location.href =
-  "/01_HTML/profile_setup_en.html";
-
-}
-
-      }
 
       else {
 
