@@ -198,15 +198,6 @@ await pool.query(
 
 /* =========================================================
    GET PROFILE
-   ---------------------------------------------------------
-   Used by:
-   - settings page
-   - profile page
-   - sidebar hydration
-   - future dashboard systems
-
-   Returns:
-   - authenticated user profile data
    ========================================================= */
 
 exports.getProfile =
@@ -270,21 +261,23 @@ async (req, res) => {
        PROFILE DATA
        ===================================================== */
 
-    const profile =
-      result.rows[0];
+    const profile = result.rows[0];
 
-
-    /* =====================================================
-       SUCCESS RESPONSE
-       ===================================================== */
-
-    res.json({
-
-      success: true,
-
-      profile
-
-    });
+     const calculateXP = req.app.locals.calculateXP;
+     const calculateLevel = req.app.locals.calculateLevel;
+     const xp = calculateXP(profile);
+     const levelData = calculateLevel(xp);
+     res.json({
+        success: true,
+        profile: {
+           ...profile,
+           xp: levelData.xp,
+           level: levelData.level,
+           level_title: levelData.title,
+           xp_for_next: levelData.xp_for_next,
+           progress: levelData.progress
+        }
+     }); 
 
   }
 
