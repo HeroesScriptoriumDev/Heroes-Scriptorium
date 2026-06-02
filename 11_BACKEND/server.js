@@ -125,7 +125,9 @@ function calculateLevel(xp) {
       const currentIndex = thresholds.indexOf(tier);
       const nextTier = thresholds[currentIndex - 1] || null;
       const xpForNext = nextTier ? nextTier.xp : null;
-      const xpProgress = nextTier ? Math.round(((xp = tier.up_ / (nextTier.xp - tier.xp)) * 100) : 100;
+      const xpProgress = nextTier
+        ? Math.round(((xp - tier.xp) / (nextTier.xp - tier.xp)) * 100)
+        : 100;
 
       return {
         level: tier.level,
