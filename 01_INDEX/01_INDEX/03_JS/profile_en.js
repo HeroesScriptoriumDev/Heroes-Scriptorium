@@ -227,11 +227,24 @@ function populateProfile(user) {
     ? new Date(user.created_at).getFullYear()
     : "—";
 
-  profileReputation.textContent   = "0";
-  profileCampaignCount.textContent = "0";
-  profileFriendCount.textContent  = "0";
-  profileForumPostCount.textContent = "0";
-  profileLevel.textContent        = "Lvl 1";
+  profileReputation.textContent   = user.reputation ?? "0";
+  profileCampaignCount.textContent = user.campaign_count ?? "0";
+  profileFriendCount.textContent  = user.friend_count ?? "0";
+  profileForumPostCount.textContent = user_forum_post_count ?? "0";
+  
+  const levelEl = document.getElementById("profileLevel");
+   if (levelEL) {
+      levelEl.textContent = `Lvl ${user.level || 1}`;
+      levelEl.title       = `${user.level_title || "Initiate"} — ${user.xp || 0} XP`;
+   }
+
+  const xpBar   = document.getElementById("xpProgressBar");
+  const xpLabel = document.getElementById("xpProgressLabel");
+  if (xpBar)   xpBar.style.width   = `${user.progress || 0}%`;
+  if (xpLabel) xpLabel.textContent =
+    user.xp_for_next
+      ? `${user.xp} / ${user.xp_for_next} XP`
+      : `${user.xp} XP — Max Level`;
 
   fetchCharacterCount();
 
