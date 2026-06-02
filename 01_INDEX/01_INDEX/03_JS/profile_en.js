@@ -230,10 +230,10 @@ function populateProfile(user) {
   profileReputation.textContent   = user.reputation ?? "0";
   profileCampaignCount.textContent = user.campaign_count ?? "0";
   profileFriendCount.textContent  = user.friend_count ?? "0";
-  profileForumPostCount.textContent = user_forum_post_count ?? "0";
+  profileForumPostCount.textContent = user.forum_post_count ?? "0";
   
   const levelEl = document.getElementById("profileLevel");
-   if (levelEL) {
+   if (levelEl) {
       levelEl.textContent = `Lvl ${user.level || 1}`;
       levelEl.title       = `${user.level_title || "Initiate"} — ${user.xp || 0} XP`;
    }
@@ -249,8 +249,6 @@ function populateProfile(user) {
   fetchCharacterCount();
 
   document.body.classList.add("loaded");
-
-  /* Status display is owned by presence.js — do not set it here */
 }
 
 
