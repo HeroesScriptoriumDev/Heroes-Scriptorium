@@ -121,7 +121,7 @@ function calculateLevel(xp) {
   ];
 
   for (const tier of thresholds) {
-    if (xp >= tier.up) {
+    if (xp >= tier.xp) {
       const currentIndex = thresholds.indexOf(tier);
       const nextTier = thresholds[currentIndex - 1] || null;
       const xpForNext = nextTier ? nextTier.xp : null;
@@ -138,6 +138,7 @@ function calculateLevel(xp) {
       };
     }
   }
+}
 
   app.locals.calculateXP = calculateXP;
   app.locals.calculateLevel = calculateLevel;
