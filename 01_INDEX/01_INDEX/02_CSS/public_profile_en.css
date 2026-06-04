@@ -12,6 +12,31 @@ body {
 
 }
 
+#home-btn,
+#player-switch-btn,
+#profile-btn,
+#settings-btn {
+  width: 11.25%;
+  height: 5%;
+  top: 4%;
+}
+
+#home-btn {
+  left: 3.5%
+}
+
+#player-switch-btn {
+  left: 17.25%;
+}
+
+#profile-btn {
+  left: 71.5%
+}
+
+#settings-btn {
+  left: 85%;
+}
+
 .profile-page {
 
     display: flex;
