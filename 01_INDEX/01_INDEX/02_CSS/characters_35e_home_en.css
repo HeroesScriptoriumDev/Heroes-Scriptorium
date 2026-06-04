@@ -104,11 +104,30 @@ body {
   box-shadow: 0 0 16px rgba(200,164,90,0.2);
 }
 
-#home-btn          { top: 47px; left: 90px;   width: 290px; height: 73px; }
-#player-switch-btn { top: 47px; left: 440px;  width: 290px; height: 73px; }
-#profile-btn       { top: 47px; left: 1827px; width: 290px; height: 73px; }
-#settings-btn      { top: 47px; left: 2175px; width: 290px; height: 73px; }
+#home-btn,
+#player-switch-btn,
+#profile-btn,
+#settings-btn {
+  width: 11.25%;
+  height: 5%;
+  top: 4%;
+}
 
+#home-btn {
+  left: 3.5%
+}
+
+#player-switch-btn {
+  left: 17.25%;
+}
+
+#profile-btn {
+  left: 71.5%
+}
+
+#settings-btn {
+  left: 85%;
+}
 
 /* =========================================================
    05. PAGE WRAPPER & HEADER
