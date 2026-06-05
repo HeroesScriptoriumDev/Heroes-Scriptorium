@@ -162,8 +162,8 @@ body.mode-dm {
 #profile-btn,
 #settings-btn {
   width: 11.25%;
-  height: 5%;
-  top: 4%;
+  height: 52px;
+  top: 34px;
 }
 
 #home-btn {
