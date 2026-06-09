@@ -1,0 +1,109 @@
+<!Doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Heroes Tavern</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Uncial+Antiqua&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tavern_en.css" />
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="top-navigation">
+    <button class="navigation-btn" id="home-btn" onclick="navigate('home')"></button>
+    <button class="navigation-btn" id="player-switch-btn" onclick="navigate('player')"></button>
+    <button class="navigation-btn" id="profile-btn" onclick="navigate('profile')"></button>
+    <button class="navigation-btn" id="settings-btn" onclick="navigate('settings')"></button>
+  </nav>
+  <!-- End Navigation -->
+
+  <!-- Page Layout -->
+  <div class="page-layout">
+    <!-- Left Sidebar -->
+    <aside class="details-sidebar-left">
+      <div class="details-sidebar" id="upcoming-sessions">
+        <h3 class="sessions-details-title">Upcoming Sessions</h3>
+        <div class="upcoming-session-information">
+          <!-- See loadUpcomingSessions() in tavern_en.js for populated information -->
+        </div>
+      </div>
+      <div class="details-sidebar" id="enrolled-sessions">
+        <h3 class="campaigns-session-title">Campaign Status</h3>
+        <div class="campaign-information">
+          <!-- See loadEnrolledCampaigns() in tavern_en.js for populated information -->
+        </div>
+      </div>
+      <div class="details-sidebar" id="downtime-activities">
+        <h3 class="downtime-reminders-title">Downtime Activities</h3>
+        <div class="downtime-information">
+          <!-- See loadAvailableDowntimeActivities() in tavern_en.js for populated information -->
+        </div>
+      </div>
+      <div class="details-sidebar" id="online-friends">
+        <h3 class="online-friends-title">Online Friends</h3>
+        <div class="online-friends-information">
+          <!-- See loadOnlineFriends() in tavern_en.js for populated information -->
+        </div>
+      </div>
+    </aside>
+    <!-- End Left Sidebar -->
+    <!-- Center Content -->
+    <aside class="page-content-center">
+      <div class="tavern-hub">
+        <div class="tavern-radical">
+          <div class="tavern-node node-top-left" onclick="navigate('calendar')">
+            <h4 class="node-title">Calendar<br>&amp; Schedule</h4>
+            <p class="node-description">Plan sessions & upcoming events.</p>
+          </div>
+          <div class="tavern-node node-top-right" onclick="navigate('messages')">
+            <h4 class="node-title">Messages<br>&amp; Mail</h4>
+            <p class="node-description">Read messages & stay in touch with allies.</p>
+          </div>
+          <div class="tavern-node node-middle-left" onclick="navigate('party')">
+            <h4 class="node-title">Party<br>&amp; Management</h4>
+            <p class="node-description">Manage your party, invites, & applications.</p>
+          </div>
+          <div class="tavern-node node-center has-image" onclick="navigate('vtt')">
+            <img class="node-bg" src="https://i.imgur.com/qvcKVh8.png" />
+          </div>
+          <div class="tavern-node node-middle-right" onclick="navigate('journal')">
+            <h4 class="node-title">Journal<br>&amp; Notes</h4>
+            <p class="node-description">Write notes, keep logs, & track your stories.</p>
+          </div>
+          <div class="tavern-node node-bottom-center" onclick="navigate('lore')">
+            <h4 class="node-title">Lore<br>&amp; World</h4>
+            <p class="node-description">Explore lore, factions, & world information.</p>
+          </div>
+          <div class="tavern-node node-bottom-right" onclick="navigate('resources')">
+            <h4 class="node-title">Resources<br>&amp; Tools</h4>
+            <p class="node-description">Access generators, trackers, & useful tools.</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <!-- End Center Content
+      <!-- Right Sidebar -->
+    <aside class="details-sidebar-right">
+      <div class="details-sidebar" id="recent-activity">
+        <h3 class="recent-activity-title">Recent Activity</h3>
+        <div class="recent-activity-information">
+          <!-- See loadRecentActivity() in tavern_en.js for populated information -->
+        </div>
+      </div>
+      <div class="details-sidebar" id="upcoming-events">
+        <h3 class="upcoming-events-title">Upcoming Events</h3>
+        <div class="upcoming-events-information">
+          <!-- See loadUpcomingEvents() in tavern_en.js for populated information -->
+        </div>
+      </div>
+    </aside>
+    <!-- End Right Sidebar -->
+  </div>
+  <!-- End Page Layout -->
+</body>
+
+</html>
