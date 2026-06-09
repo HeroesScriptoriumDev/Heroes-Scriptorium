@@ -67,52 +67,6 @@ const MOCK = {
 };
 
 
-function navigate(destination){
-
-  switch(destination){
-
-    /* =====================================================
-       HOME
-       ===================================================== */
-
-    case "home":
-      localStorage.setItem("mode", "player");
-      window.location.href = "home_en.html";
-    break;
-
-
-    /* =====================================================
-       PLAYER MODE
-       ===================================================== */
-
-    case "player":
-      localStorage.setItem("mode", "dm");
-      window.location.href = "dm_home_en.html";
-    break;
-
-
-    /* =====================================================
-       PROFILE
-       ===================================================== */
-
-    case "profile":
-
-      window.location.href =
-        "profile_en.html";
-
-      break;
-
-
-    /* =====================================================
-       SETTINGS
-       ===================================================== */
-
-    case "settings":
-
-      window.location.href =
-        "settings_en.html";
-
-      break;
 
 
 // ── Init ──────────────────────────────────────────────────────────────────
@@ -324,9 +278,69 @@ async function loadUpcomingEvents() {
 }
 
 // ── Navigation ────────────────────────────────────────────────────────────
-function navigate(page) {
-  // Replace with your router: window.location.href = `/pages/${page}.html`;
-  console.log('[Tavern] Navigate:', page);
+function navigate(destination) {
+  switch (destination) {
+    case "home":
+      localStorage.setItem("mode", "player");
+      window.location.href = "home_en.html";
+      break;
+
+    case "player":
+      localStorage.setItem("mode", "dm");
+      window.location.href = "dm_home_en.html";
+      break;
+
+    case "profile":
+      window.location.href = "profile_en.html";
+      break;
+
+    case "settings":
+      window.location.href = "settings_en.html";
+      break;
+
+    case "calendar":
+      window.location.href = "calendar_en.html";
+      break;
+
+    case "messages":
+      window.location.href = "messages_en.html";
+      break;
+
+    case "party":
+      window.location.href = "party_en.html";
+      break;
+
+    case "vtt":
+      window.location.href = "vtt_en.html";
+      break;
+
+    case "journal":
+      window.location.href = "journal_en.html";
+      break;
+
+    case "lore":
+      window.location.href = "lore_en.html";
+      break;
+
+    case "resources":
+      window.location.href = "resources_en.html";
+      break;
+
+    case "downtime":
+      window.location.href = "downtime_en.html";
+      break;
+
+    case "friends":
+      window.location.href = "friends_en.html";
+      break;
+
+    case "activity":
+      window.location.href = "activity_en.html";
+      break;
+
+    default:
+      console.warn("[Tavern] Unknown navigation destination:", destination);
+  }
 }
 
 // ── Utilities ─────────────────────────────────────────────────────────────
