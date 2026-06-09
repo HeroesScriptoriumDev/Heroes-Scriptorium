@@ -46,9 +46,7 @@ router.get("/", async (req, res) => {
     const { rows } = await db.query(
       `SELECT
          u.id,
-         u.username,
-         u.display_name,
-         u.avatar,
+         u.username AS display_name,
          u.online_status,
          u.last_seen,
          f.created_at AS friends_since
@@ -61,7 +59,7 @@ router.get("/", async (req, res) => {
        )
        WHERE (f.requester_id = $1 OR f.addressee_id = $1)
          AND f.status = 'accepted'
-       ORDER BY u.display_name ASC`,
+       ORDER BY u.username ASC`,
       [userId]
     );
 
@@ -84,9 +82,7 @@ router.get("/requests", async (req, res) => {
          f.id         AS request_id,
          f.created_at AS requested_at,
          u.id,
-         u.username,
-         u.display_name,
-         u.avatar,
+         u.username AS display_name,
          u.online_status
        FROM friends f
        JOIN users u ON u.id = f.requester_id
