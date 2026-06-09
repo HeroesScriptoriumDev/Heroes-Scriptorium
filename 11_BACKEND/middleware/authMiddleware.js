@@ -10,8 +10,15 @@ module.exports = function (
 
     try {
 
-        const token =
-            request.header("token");
+        let token = request.header("token");
+
+if (!token) {
+    const authHeader = request.header("Authorization");
+
+    if (authHeader) {
+        token = authHeader.replace("Bearer ", "");
+    }
+}
 
         if (!token) {
 
