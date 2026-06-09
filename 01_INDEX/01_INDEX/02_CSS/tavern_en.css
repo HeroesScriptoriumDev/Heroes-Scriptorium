@@ -54,14 +54,12 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  background-image: url('https://i.imgur.com/mHJdnF0.png');
+  background-image: url('../07_ASSETS/01_IMAGES/01_BACKGROUNDS/7DBF3B54-4F9D-48A8-A489-BF6840C98617.png');
   background-size: 100% 100%;
   background-position: center top;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
-
-/*  Will need this for when not in CodePen
 
 body.mode-player {
   background-image: url('../07_ASSETS/01_IMAGES/01_BACKGROUNDS/62245C55-9A94-4AAA-BA38-B17FCD771F9E.png');
@@ -70,8 +68,6 @@ body.mode-player {
 body.mode-dm-home {
   background-image: url('../07_ASSETS/01_IMAGES/01_BACKGROUNDS/5D0ECE72-97FE-4456-8014-6CD4A6B50FAA.png');
 }
-
-*/
 
 /* ── Navigation ── */
 
