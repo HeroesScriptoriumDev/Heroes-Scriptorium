@@ -1142,7 +1142,12 @@ body.mode-dm {
 }
 
 .search-result-actions {
-  display: flex; flex-direction: column; gap: 6px; flex-shrink: 0;
+  width: 120px; 
+  display: flex; 
+   flex-direction: 
+      column; gap: 
+      6px; 
+   flex-shrink: 0;
 }
 
 .search-result-actions .btn-msg {
