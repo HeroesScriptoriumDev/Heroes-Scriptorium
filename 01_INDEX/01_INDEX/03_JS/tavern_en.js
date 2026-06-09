@@ -210,17 +210,33 @@ async function loadOnlineFriends() {
     sorted.filter(f => f.online_status === 'online').length;
 
   hdr.innerHTML = `
-    <span class="friends-count">${onlineCount} online</span>
-    <button class="friends-view-all"
-            onclick="navigate('friends')">
-      View All
-    </button>
-  `;
+  <span class="friends-count">
+    ${
+      onlineCount === 0
+        ? 'No friends online'
+        : onlineCount === 1
+        ? '1 friend online'
+        : `${onlineCount} friends online`
+    }
+  </span>
+
+  <button class="friends-view-all"
+          onclick="navigate('friends')">
+    View All
+  </button>
+`;
 
   container.appendChild(hdr);
 
   // Show first 4 friends
-  sorted.slice(0, 4).forEach(f => {
+  // Show up to 4 friends, prioritizing online, then away, then offline
+  const visibleFriends = [
+    ...sorted.filter(f => f.online_status === 'online'),
+    ...sorted.filter(f => f.online_status === 'away'),
+    ...sorted.filter(f => f.online_status === 'offline')
+  ].slice(0, 4);
+
+visibleFriends.forEach(f => {
 
     const dotClass =
       f.online_status === 'online'
