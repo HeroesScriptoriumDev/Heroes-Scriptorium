@@ -174,41 +174,92 @@ async function loadAvailableDowntimeActivities() {
 }
 
 // ── 4. Online Friends ─────────────────────────────────────────────────────
+```javascript
 async function loadOnlineFriends() {
   const container = document.querySelector('.online-friends-information');
   if (!container) return;
-  const data = await API.fetch('/player/friends') ?? MOCK.friends;
+
+  const response = await API.fetch('/friends');
+
   container.innerHTML = '';
 
-  const sorted = [...data].sort((a,b) => {
-    const o = { online:0, away:1, offline:2 };
-    return (o[a.status]??3) - (o[b.status]??3);
+  if (!response || !response.friends || !response.friends.length) {
+    container.innerHTML = emptyState('No friends added.');
+    return;
+  }
+
+  const data = response.friends;
+
+  // Sort online first, then away, then offline
+  const sorted = [...data].sort((a, b) => {
+    const order = {
+      online: 0,
+      away: 1,
+      offline: 2
+    };
+
+    return (
+      (order[a.online_status] ?? 3) -
+      (order[b.online_status] ?? 3)
+    );
   });
 
-  // Header with View All
+  // Header
   const hdr = div('friends-header');
-  const onlineCount = sorted.filter(f => f.status === 'online').length;
+
+  const onlineCount =
+    sorted.filter(f => f.online_status === 'online').length;
+
   hdr.innerHTML = `
     <span class="friends-count">${onlineCount} online</span>
-    <button class="friends-view-all" onclick="navigate('friends')">View All</button>
+    <button class="friends-view-all"
+            onclick="navigate('friends')">
+      View All
+    </button>
   `;
+
   container.appendChild(hdr);
 
-  // Show online + away only (up to 4) to keep compact
-  sorted.filter(f => f.status !== 'offline').slice(0, 4).forEach(f => {
-    const dotClass = f.status === 'online' ? 'dot-online' : f.status === 'away' ? 'dot-away' : 'dot-offline';
+  // Show first 4 friends
+  sorted.slice(0, 4).forEach(f => {
+
+    const dotClass =
+      f.online_status === 'online'
+        ? 'dot-online'
+        : f.online_status === 'away'
+        ? 'dot-away'
+        : 'dot-offline';
+
+    const initial =
+      f.display_name
+        ? f.display_name.charAt(0).toUpperCase()
+        : '?';
+
     const el = div('sidebar-friend-item');
+
     el.innerHTML = `
-      <div class="friend-avatar avatar-placeholder">${f.avatarUrl ? `<img src="${esc(f.avatarUrl)}" alt="">` : esc(f.displayName.charAt(0))}</div>
-      <div class="friend-info" style="flex:1">
-        <div class="friend-name">${esc(f.displayName)}</div>
-        <div class="friend-location">${esc(f.location)}</div>
+      <div class="friend-avatar avatar-placeholder">
+        ${initial}
       </div>
+
+      <div class="friend-info" style="flex:1">
+        <div class="friend-name">
+          ${esc(f.display_name)}
+        </div>
+
+        <div class="friend-location">
+          ${capitalize(f.online_status)}
+        </div>
+      </div>
+
       <span class="friend-dot ${dotClass}"></span>
     `;
+
     container.appendChild(el);
   });
 }
+```
+
 
 // ── 5. Recent Activity ────────────────────────────────────────────────────
 async function loadRecentActivity() {
