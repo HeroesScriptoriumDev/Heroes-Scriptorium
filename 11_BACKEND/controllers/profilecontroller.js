@@ -7,16 +7,6 @@ const pool = require("../db");
 
 /* =========================================================
    COMPLETE PROFILE SETUP
-   ---------------------------------------------------------
-   Used after:
-   - registration
-   - onboarding wizard
-
-   This finalizes:
-   - display name
-   - bio
-   - preferences
-   - profile completion state
    ========================================================= */
 
 exports.completeProfileSetup =
@@ -125,11 +115,6 @@ await pool.query(
 
     /* =====================================================
        CREATE COMMUNITY UPDATE
-       -----------------------------------------------------
-       This powers:
-       - activity feeds
-       - community updates
-       - onboarding announcements
        ===================================================== */
 
     await pool.query(
@@ -223,6 +208,7 @@ async (req, res) => {
     users.username,
     users.email,
     users.created_at,
+    users.friends_count,
     user_profiles.display_name,
     user_profiles.title,
     user_profiles.bio,
