@@ -687,7 +687,7 @@ function renderSearchResults(users) {
                     : "offline";
 
     return `
-      <div class="search-result-card">
+      <div class="search-result-card" data-user-id="${u.id}">
         <div class="search-result-avatar">🧙</div>
         <div class="search-result-info">
           <div class="search-result-name">${escHtml(name)}</div>
@@ -702,10 +702,18 @@ function renderSearchResults(users) {
           <a class="btn-profile" href="/01_HTML/public_profile_en.html?id=${u.id}">
             View Profile
           </a>
+          <div class="search-result-friend-actions">
+            <span style="color:var(--text-muted);font-size:0.75rem;">Loading...</span>
+          </div>
         </div>
       </div>`;
 
   }).join("");
+
+  users.forEach(u => {
+    const name = u.display_name || u.username;
+    augmentSearchCardWithFriendBtn(u.id, name);
+  });
 
 }
 
