@@ -13,10 +13,16 @@ const API = {
     try {
       const controller = new AbortController();
       const t = setTimeout(() => controller.abort(), this.TIMEOUT_MS);
-      const res = await fetch(this.BASE_URL + endpoint, {
-        signal: controller.signal,
-        headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
-      });
+      const token = localStorage.getItem('token');
+
+const res = await fetch(this.BASE_URL + endpoint, {
+  signal: controller.signal,
+  headers: {
+    'Accept': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest',
+    'Authorization': `Bearer ${token}`
+  }
+});
       clearTimeout(t);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
