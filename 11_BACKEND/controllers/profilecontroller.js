@@ -208,7 +208,7 @@ async (req, res) => {
     users.username,
     users.email,
     users.created_at,
-    users.friends_count,
+    users.friend_count,
     user_profiles.display_name,
     user_profiles.title,
     user_profiles.bio,
