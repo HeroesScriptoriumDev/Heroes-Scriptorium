@@ -66,6 +66,55 @@ const MOCK = {
   ],
 };
 
+
+function navigate(destination){
+
+  switch(destination){
+
+    /* =====================================================
+       HOME
+       ===================================================== */
+
+    case "home":
+      localStorage.setItem("mode", "player");
+      window.location.href = "home_en.html";
+    break;
+
+
+    /* =====================================================
+       PLAYER MODE
+       ===================================================== */
+
+    case "player":
+      localStorage.setItem("mode", "dm");
+      window.location.href = "dm_home_en.html";
+    break;
+
+
+    /* =====================================================
+       PROFILE
+       ===================================================== */
+
+    case "profile":
+
+      window.location.href =
+        "profile_en.html";
+
+      break;
+
+
+    /* =====================================================
+       SETTINGS
+       ===================================================== */
+
+    case "settings":
+
+      window.location.href =
+        "settings_en.html";
+
+      break;
+
+
 // ── Init ──────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
   await Promise.all([
