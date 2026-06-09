@@ -281,12 +281,10 @@ async function loadUpcomingEvents() {
 function navigate(destination) {
   switch (destination) {
     case "home":
-      localStorage.setItem("mode", "player");
       window.location.href = "home_en.html";
       break;
 
     case "player":
-      localStorage.setItem("mode", "dm");
       window.location.href = "dm_home_en.html";
       break;
 
