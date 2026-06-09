@@ -229,9 +229,8 @@ function navigate(destination){
 
     case "tavern":
 
-      showTemporaryMessage(
-        "Tavern hub not yet implemented."
-      );
+      window.location.href =
+        "tavern_en.html";
 
       break;
 
