@@ -9,10 +9,7 @@
   --bg-secondary: #171310;
   --bg-tertiary:  #221b16;
 
-  /* CARD BACKGROUNDS
-     rgba(0,0,0,X) = pure black semi-transparent
-     Increase alpha (0.72 → 0.85) for more opaque cards
-     Decrease alpha (0.72 → 0.50) for more see-through cards */
+  /* CARD BACKGROUNDS */
   --card-bg:          rgba(0, 0, 0, 0.72);
   --card-bg-hover:    rgba(0, 0, 0, 0.82);
   --card-border:      rgba(212, 175, 55, 0.18);
@@ -66,9 +63,6 @@
 
 /* =========================================================
    03. BODY & BACKGROUND
-   ---------------------------------------------------------
-   The background image is applied directly to body so it
-   fills the full viewport and stays fixed as you scroll.
    ========================================================= */
 
 body {
@@ -217,10 +211,6 @@ body.mode-dm {
 
 /* =========================================================
    07. CARD SYSTEM (.p-card)
-   ---------------------------------------------------------
-   Every panel on the page uses this base class.
-   Matches the .s-card style from settings_en.css but with
-   the blacker --card-bg variable defined above.
    ========================================================= */
 
 .p-card {
@@ -284,10 +274,6 @@ body.mode-dm {
 
 /* =========================================================
    08. HERO BANNER
-   ---------------------------------------------------------
-   Full-width banner at the top of the main area.
-   Left panel = bio quote text.
-   Right panel = atmospheric image slice.
    ========================================================= */
 
 .hero-banner {
@@ -343,8 +329,6 @@ body.mode-dm {
 
 /* =========================================================
    09. ROW LAYOUTS
-   ---------------------------------------------------------
-   Three grid patterns used inside .main-area.
    ========================================================= */
 
 /* Row 2: Active Campaigns (60%) + Recent Activity (40%) */
@@ -371,9 +355,6 @@ body.mode-dm {
 
 /* =========================================================
    10. SIDEBAR — IDENTITY BLOCK
-   ---------------------------------------------------------
-   Avatar, level badge, name, title, status, roles.
-   Matches the left sidebar style in settings_en.css.
    ========================================================= */
 
 .identity-card {
@@ -476,9 +457,6 @@ body.mode-dm {
 
 /* =========================================================
    11. SIDEBAR — STATS BLOCK
-   ---------------------------------------------------------
-   Row list of member stats. Matches .stats-block in
-   settings_en.css pattern.
    ========================================================= */
 
 .stats-card {
@@ -505,8 +483,6 @@ body.mode-dm {
 
 /* =========================================================
    12. SIDEBAR — CURRENTLY ACTIVE
-   ---------------------------------------------------------
-   Shows the campaign the user is actively running/playing.
    ========================================================= */
 
 .active-campaign-row {
@@ -569,8 +545,6 @@ body.mode-dm {
 
 /* =========================================================
    14. SIDEBAR — EDIT PROFILE BUTTON
-   ---------------------------------------------------------
-   Matches .sidebar-secondary-btn from settings_en.css
    ========================================================= */
 
 .btn-edit-profile {
@@ -601,8 +575,6 @@ body.mode-dm {
 
 /* =========================================================
    15. ACTIVE CAMPAIGNS
-   ---------------------------------------------------------
-   List of campaigns the user is participating in.
    ========================================================= */
 
 .campaigns-list { display: flex; flex-direction: column; gap: 10px; }
@@ -676,8 +648,6 @@ body.mode-dm {
 
 /* =========================================================
    17. VAULT / NOTES / LOOT CARDS
-   ---------------------------------------------------------
-   Cards with a centered big-number stat + breakdown list.
    ========================================================= */
 
 .vault-stat-wrap {
@@ -778,9 +748,6 @@ body.mode-dm {
 
 /* =========================================================
    22. EMPTY STATES & PLACEHOLDERS
-   ---------------------------------------------------------
-   Matches .empty-state and .placeholder-panel from
-   settings_en.css for visual consistency.
    ========================================================= */
 
 .empty-state {
@@ -805,8 +772,6 @@ body.mode-dm {
 
 /* =========================================================
    23. VIEW ALL BUTTON
-   ---------------------------------------------------------
-   Matches .btn-secondary small style from settings_en.css.
    ========================================================= */
 
 .btn-view-all {
@@ -823,11 +788,6 @@ body.mode-dm {
 
 /* =========================================================
    24. BOTTOM BAR
-   ---------------------------------------------------------
-   Fixed floating bar at the bottom of the screen.
-   Left: status + mail + bell
-   Center: next session info
-   Right: Launch VTT button
    ========================================================= */
 
 .bottom-bar {
@@ -898,8 +858,6 @@ body.mode-dm {
 
 /* =========================================================
    25. TOAST
-   ---------------------------------------------------------
-   Matches .toast from settings_en.css exactly.
    ========================================================= */
 
 .toast {
@@ -924,8 +882,6 @@ body.mode-dm {
 
 /* =========================================================
    26. RESPONSIVE BREAKPOINTS
-   ---------------------------------------------------------
-   Mirrors the breakpoints in settings_en.css.
    ========================================================= */
 
 /* Below 1500px: 4-col row collapses to 2 columns */
@@ -1590,4 +1546,427 @@ body.mode-dm {
   padding: 28px;
   text-align: center;
   box-shadow: var(--shadow-soft);
+}
+
+/* =========================================================
+   FRIENDS SYSTEM — CSS ADDITIONS
+   Append to profile_en.css (and any shared stylesheet
+   that covers pages using the friends modal)
+   ========================================================= */
+
+
+/* =========================================================
+   FRIENDS MODAL — SHELL
+   Matches .modal-messages sizing/structure
+   ========================================================= */
+
+.modal-friends {
+  text-align: left;
+  padding: 0;
+  overflow: hidden;
+  max-width: 500px;
+  width: 100%;
+  min-height: 480px;
+  max-height: 700px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* =========================================================
+   FRIENDS TABS
+   ========================================================= */
+
+.friends-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  flex-shrink: 0;
+}
+
+.friends-tab {
+  flex: 1;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-family: "Cinzel", serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.friends-tab:hover {
+  color: var(--text-secondary);
+}
+
+.friends-tab.active {
+  color: var(--gold-primary);
+  border-bottom-color: var(--gold-primary);
+}
+
+
+/* =========================================================
+   FRIENDS MODAL BODY
+   ========================================================= */
+
+.friends-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.friends-modal-body > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.friends-search-wrap {
+  padding: 14px 20px 10px;
+  flex-shrink: 0;
+}
+
+.friends-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 20px 16px;
+}
+
+
+/* =========================================================
+   FRIENDS ROW (friend in the list)
+   ========================================================= */
+
+.friends-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background var(--transition-fast);
+}
+
+.friends-row:last-child {
+  border-bottom: none;
+}
+
+.friends-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.friends-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.friends-name {
+  font-weight: 600;
+  font-size: 0.88rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.friends-status-text {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.friends-status-text.online { color: #4caf50; }
+.friends-status-text.away   { color: #e8a020; }
+.friends-status-text.busy   { color: #c0392b; }
+.friends-status-text.offline { color: var(--text-muted); }
+
+.friends-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.friends-action-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.btn-msg-friend:hover {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.3);
+  color: var(--gold-primary);
+}
+
+.btn-remove-friend:hover {
+  background: rgba(180, 71, 71, 0.15);
+  border-color: rgba(180, 71, 71, 0.35);
+  color: var(--danger);
+}
+
+
+/* =========================================================
+   FRIEND REQUEST ROW
+   ========================================================= */
+
+.friends-request-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.friends-request-row:last-child {
+  border-bottom: none;
+}
+
+.friends-request-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.friends-req-btn {
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-family: "Cinzel", serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.friends-req-btn.btn-accept {
+  background: rgba(76, 175, 80, 0.18);
+  border-color: rgba(76, 175, 80, 0.3);
+  color: #4caf50;
+}
+.friends-req-btn.btn-accept:hover {
+  background: rgba(76, 175, 80, 0.28);
+}
+
+.friends-req-btn.btn-decline {
+  background: rgba(180, 71, 71, 0.14);
+  border-color: rgba(180, 71, 71, 0.25);
+  color: var(--danger);
+}
+.friends-req-btn.btn-decline:hover {
+  background: rgba(180, 71, 71, 0.24);
+}
+
+
+/* =========================================================
+   EMPTY / LOADING STATES
+   ========================================================= */
+
+.friends-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.friends-empty-icon { font-size: 2rem; opacity: 0.35; }
+.friends-empty-text { font-style: italic; font-size: 0.88rem; }
+.friends-loading    { text-align: center; color: var(--text-muted); font-style: italic; padding: 32px 0; }
+
+
+/* =========================================================
+   FRIEND BUTTONS IN SEARCH RESULT CARDS
+   ========================================================= */
+
+.search-result-friend-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 6px;
+  width: 100%;
+}
+
+.fr-btn {
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  font-family: "Cinzel", serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  text-align: center;
+  border: 1px solid transparent;
+  width: 100%;
+}
+
+.fr-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* Add Friend */
+.fr-btn-add {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.25);
+  color: var(--gold-primary);
+}
+.fr-btn-add:hover {
+  background: rgba(212, 175, 55, 0.22);
+}
+
+/* Pending (sent, waiting) */
+.fr-btn-pending {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+/* Cancel pending */
+.fr-btn-cancel {
+  background: rgba(180, 71, 71, 0.1);
+  border-color: rgba(180, 71, 71, 0.2);
+  color: var(--danger);
+}
+.fr-btn-cancel:hover {
+  background: rgba(180, 71, 71, 0.2);
+}
+
+/* Accept incoming */
+.fr-btn-accept {
+  background: rgba(76, 175, 80, 0.14);
+  border-color: rgba(76, 175, 80, 0.28);
+  color: #4caf50;
+}
+.fr-btn-accept:hover {
+  background: rgba(76, 175, 80, 0.24);
+}
+
+/* Decline incoming */
+.fr-btn-decline {
+  background: rgba(180, 71, 71, 0.1);
+  border-color: rgba(180, 71, 71, 0.2);
+  color: var(--danger);
+}
+.fr-btn-decline:hover {
+  background: rgba(180, 71, 71, 0.2);
+}
+
+/* Already friends (disabled display) */
+.fr-btn-friends {
+  background: rgba(76, 175, 80, 0.08);
+  border-color: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+/* Remove / Unfriend */
+.fr-btn-remove {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+}
+.fr-btn-remove:hover {
+  border-color: rgba(180, 71, 71, 0.3);
+  color: var(--danger);
+}
+
+/* Block */
+.fr-btn-block {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  font-size: 0.63rem;
+}
+.fr-btn-block:hover {
+  border-color: rgba(180, 71, 71, 0.25);
+  color: var(--danger);
+}
+
+/* Blocked state */
+.fr-btn-blocked {
+  background: rgba(180, 71, 71, 0.08);
+  border-color: rgba(180, 71, 71, 0.18);
+  color: var(--danger);
+}
+
+/* Unblock */
+.fr-btn-unblock {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+}
+.fr-btn-unblock:hover {
+  border-color: rgba(212, 175, 55, 0.25);
+  color: var(--gold-primary);
+}
+
+
+/* =========================================================
+   CLOSE BUTTON 
+   ========================================================= */
+
+.pw-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background var(--transition-fast);
+  flex-shrink: 0;
+}
+.pw-close-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+
+/* =========================================================
+   MODAL TITLE / DESC (shared — likely already present)
+   ========================================================= */
+
+.modal-title {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gold-primary);
+  margin: 0 0 4px;
+}
+
+.modal-desc {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0;
 }
