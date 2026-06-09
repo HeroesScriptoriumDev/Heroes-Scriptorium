@@ -28,6 +28,8 @@ const searchRoutes = require("./routes/search");
 
 const publicProfileRoute = require("./routes/publicProfile");
 
+const friendsRouter = require('./routes/friends');
+
 
 // =====================================================
 // MIDDLEWARE
@@ -36,6 +38,7 @@ const publicProfileRoute = require("./routes/publicProfile");
 app.use(cors());
 
 app.use(express.json());
+
 
 
 // =====================================================
@@ -178,6 +181,11 @@ app.use(
 app.use(
   "/api/public-profile",
   publicProfileRoute
+);
+
+app.use(
+  "/api/friends",
+  friendsRouter
 );
 
 
