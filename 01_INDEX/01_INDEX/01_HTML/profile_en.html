@@ -294,6 +294,8 @@
     </button>
   </div>
 
+  <button class="bottom-icon-btn" id="friendsBtn" title="Friends">👥</button>
+
   <button class="bottom-icon-btn" id="mailBtn" title="Messages">✉</button>
 
   <div class="bottom-notif-btn" title="Notifications">
@@ -454,10 +456,44 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="friendsModal" aria-hidden="true">
+  <div class="modal modal-friends" role="dialog" aria-modal="true" aria-labelledby="friendsModalTitle">
+    <div class="search-modal-bar"></div>
+    <div class="search-modal-header">
+      <div class="search-modal-header-icon">👥</div>
+      <div class="search-modal-header-text">
+        <h2 class="modal-title" id="friendsModalTitle">Friends</h2>
+        <p class="modal-desc">Manage your adventuring companions.</p>
+      </div>
+      <button class="pw-close-btn" id="closeFriendsModal" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="friends-tabs">
+      <button class="friends-tab active" id="friendsTabList" type="button">Friends</button>
+      <button class="friends-tab" id="friendsTabRequests" type="button">Requests</button>
+    </div>
+    <div class="friends-modal-body">
+      <div id="friendsPanelList">
+        <div class="friends-search-wrap">
+          <input class="search-input" id="friendsSearchInput" type="text" placeholder="Search friends..." autocomplete="off" />
+        </div>
+        <div class="friends-scroll-area" id="friendsListWrap">
+          <div class="friends-loading">Loading...</div>
+        </div>
+      </div>
+      <div id="friendsPanelRequests" hidden>
+        <div class="friends-scroll-area" id="friendsRequestsWrap">
+          <div class="friends-loading">Loading...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
   <div class="toast" id="toast"></div>
 
   <script src="../03_JS/presence.js"></script>
   <script src="../03_JS/messaging.js"></script>
+  <script src="../03_JS/friends.js"></script>
   <script src="../03_JS/profile_en.js"></script>
 </body>
 </html>
