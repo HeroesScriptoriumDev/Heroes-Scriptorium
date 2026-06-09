@@ -95,7 +95,7 @@ html, body {
 }
 
 #home-btn,
-#player-switch-btn,
+#dm-switch-btn,
 #profile-btn,
 #settings-btn {
   width: 11.25%;
@@ -107,7 +107,7 @@ html, body {
   left: 3.5%
 }
 
-#player-switch-btn {
+#dm-switch-btn {
   left: 17.25%;
 }
 
