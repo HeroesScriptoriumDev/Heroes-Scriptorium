@@ -174,7 +174,6 @@ async function loadAvailableDowntimeActivities() {
 }
 
 // ── 4. Online Friends ─────────────────────────────────────────────────────
-```javascript
 async function loadOnlineFriends() {
   const container = document.querySelector('.online-friends-information');
   if (!container) return;
@@ -258,7 +257,6 @@ async function loadOnlineFriends() {
     container.appendChild(el);
   });
 }
-```
 
 
 // ── 5. Recent Activity ────────────────────────────────────────────────────
