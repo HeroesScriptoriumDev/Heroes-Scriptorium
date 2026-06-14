@@ -73,4 +73,46 @@ router.get('/my', authenticateToken, async (req, res) => {
   }
 });
 
+// GET /api/campaigns/my-vtts
+router.get('/my-vtts', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const result = await pool.query(
+      `SELECT 
+        c.id,
+        c.campaign_name AS name,
+        c.status,
+        c.max_players,
+        c.image_url,
+        cm.role,
+        u.username AS dm,
+        (SELECT COUNT(*) FROM campaign_members WHERE campaign_id = c.id AND status = 'active') AS players_current
+       FROM campaigns c
+       JOIN campaign_members cm ON cm.campaign_id = c.id
+       JOIN users u ON u.id = c.dm_user_id
+       WHERE cm.user_id = $1 AND cm.status = 'active'`,
+      [userId]
+    );
+
+    const vtts = result.rows.map(row => ({
+      id: row.id,
+      name: row.name,
+      dm: row.dm,
+      nextSession: null, // TODO: wire up once the session/calendar system exists
+      playersCurrent: parseInt(row.players_current, 10),
+      playersMax: row.max_players,
+      status: row.status,
+      sessionType: row.role === 'dm' ? 'dm' : 'player',
+      image: row.image_url || ""
+    }));
+
+    res.json({ vtts });
+  } catch (err) {
+    console.error('Error fetching VTTs:', err);
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
+
+
 module.exports = router;
