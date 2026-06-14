@@ -443,3 +443,121 @@ function nextDateString(n) {
 function minutesAgo(n) { return new Date(Date.now() - n*60000); }
 function hoursAgo(n)   { return new Date(Date.now() - n*3600000); }
 function daysAgo(n)    { return new Date(Date.now() - n*86400000); }
+
+
+
+function openCampaignModal() {
+  document.getElementById('campaign-modal-overlay').style.display = 'flex';
+  document.getElementById('join-campaign-message').textContent = '';
+  loadMyCampaigns();
+}
+
+function closeCampaignModal() {
+  document.getElementById('campaign-modal-overlay').style.display = 'none';
+}
+
+async function joinCampaign() {
+  const codeInput = document.getElementById('campaign-code-input');
+  const messageEl = document.getElementById('join-campaign-message');
+  const code = codeInput.value.trim();
+
+  if (!code) {
+    messageEl.textContent = 'Please enter a campaign code.';
+    messageEl.className = 'join-message error';
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/campaigns/join', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({ campaign_code: code })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      messageEl.textContent = `Joined "${data.campaign.name}" successfully!`;
+      messageEl.className = 'join-message success';
+      codeInput.value = '';
+      loadMyCampaigns();
+    } else {
+      messageEl.textContent = data.error || 'Failed to join campaign.';
+      messageEl.className = 'join-message error';
+    }
+  } catch (err) {
+    console.error(err);
+    messageEl.textContent = 'Something went wrong. Please try again.';
+    messageEl.className = 'join-message error';
+  }
+}
+
+async function loadMyCampaigns() {
+  const listEl = document.getElementById('my-campaigns-list');
+  listEl.innerHTML = '<p class="loading-text">Loading...</p>';
+
+  try {
+    const response = await fetch('/api/campaigns/my', {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.campaigns || data.campaigns.length === 0) {
+      listEl.innerHTML = '<p class="empty-text">You are not part of any campaigns yet.</p>';
+      return;
+    }
+
+    listEl.innerHTML = '';
+    data.campaigns.forEach(campaign => {
+      const card = document.createElement('div');
+      card.className = 'campaign-card';
+
+      const info = document.createElement('div');
+      info.className = 'campaign-card-info';
+      info.innerHTML = `
+        <span class="campaign-card-name">${campaign.campaign_name}</span>
+        <span class="campaign-card-role">${campaign.role.toUpperCase()}</span>
+      `;
+      card.appendChild(info);
+
+      if (campaign.role !== 'dm') {
+        const quitBtn = document.createElement('button');
+        quitBtn.className = 'quit-campaign-btn';
+        quitBtn.textContent = 'Leave';
+        quitBtn.onclick = () => quitCampaign(campaign.id);
+        card.appendChild(quitBtn);
+      }
+
+      listEl.appendChild(card);
+    });
+  } catch (err) {
+    console.error(err);
+    listEl.innerHTML = '<p class="empty-text">Failed to load campaigns.</p>';
+  }
+}
+
+async function quitCampaign(campaignId) {
+  if (!confirm('Are you sure you want to leave this campaign?')) return;
+
+  try {
+    const response = await fetch(`/api/campaigns/${campaignId}/leave`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      loadMyCampaigns();
+    } else {
+      alert(data.error || 'Failed to leave campaign.');
+    }
+  } catch (err) {
+    console.error(err);
+    alert('Something went wrong.');
+  }
+}
