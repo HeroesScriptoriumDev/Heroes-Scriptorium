@@ -63,7 +63,7 @@
             <h4 class="node-title">Messages<br>&amp; Mail</h4>
             <p class="node-description">Read messages & stay in touch with allies.</p>
           </div>
-          <div class="tavern-node node-middle-left" onclick="navigate('party')">
+          <div class="tavern-node node-middle-left" onclick="openCampaignModal()">
             <h4 class="node-title">Party<br>&amp; Management</h4>
             <p class="node-description">Manage your party, invites, & applications.</p>
           </div>
@@ -104,6 +104,32 @@
     <!-- End Right Sidebar -->
   </div>
   <!-- End Page Layout -->
+
+
+
+  <!-- Campaign Management Modal -->
+<div class="modal-overlay" id="campaign-modal-overlay" style="display: none;">
+  <div class="modal-box campaign-modal">
+    <button class="modal-close-btn" onclick="closeCampaignModal()">&times;</button>
+    <h2 class="modal-title">Party &amp; Management</h2>
+
+    <div class="join-campaign-section">
+      <h3>Join a Campaign</h3>
+      <div class="join-campaign-row">
+        <input type="text" id="campaign-code-input" placeholder="Enter campaign code" />
+        <button id="join-campaign-btn" onclick="joinCampaign()">Join</button>
+      </div>
+      <p id="join-campaign-message"></p>
+    </div>
+
+    <div class="my-campaigns-section">
+      <h3>Your Campaigns</h3>
+      <div class="my-campaigns-list" id="my-campaigns-list">
+        <!-- populated by loadMyCampaigns() -->
+      </div>
+    </div>
+  </div>
+</div>
 
   <script src="../03_JS/tavern_en.js"></script>
 </body>
