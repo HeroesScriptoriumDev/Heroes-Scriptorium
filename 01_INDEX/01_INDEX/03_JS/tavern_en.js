@@ -380,7 +380,7 @@ function navigate(destination) {
       break;
 
     case "vtt":
-      window.location.href = "vtt__manager_en.html";
+      window.location.href = "vtt_manager_en.html";
       break;
 
     case "journal":
