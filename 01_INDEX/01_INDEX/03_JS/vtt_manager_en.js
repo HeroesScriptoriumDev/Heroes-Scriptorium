@@ -9,8 +9,6 @@ let vtts = [];
 // Used if backend returns nothing
 // =====================================
 
-const mockVTTs = [
-  { id: 1,  name: "The Ashen Crown",                 dm: "theDev",            nextSession: "June 18 • 7 PM", playersCurrent: 5, playersMax: 6, status: "active",   sessionType: "dm",       image: "" },
 // =====================================
 // PAGE ELEMENTS
 // =====================================
