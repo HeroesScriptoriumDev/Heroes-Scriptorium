@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>VTT Manager</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../02_CSS/vtt_manager_en.css" />
+
+</head>
+
+<body>
+
+  <div class="hs-bg"></div>
+  <div class="hs-bg-overlay"></div>
+
+  <!-- ========================= -->
+  <!-- Navigation -->
+  <!-- ========================= -->
+
+  <nav class="top-navigation">
+
+    <button class="navigation-btn" id="home-btn" onclick="navigate('home')">
+    </button>
+
+    <button class="navigation-btn" id="player-switch-btn" onclick="navigate('player')">
+    </button>
+
+    <button class="navigation-btn" id="profile-btn" onclick="navigate('profile')">
+    </button>
+
+    <button class="navigation-btn" id="settings-btn" onclick="navigate('settings')">
+    </button>
+
+  </nav>
+
+  <!-- ========================= -->
+  <!-- Main Body -->
+  <!-- ========================= -->
+
+  <div class="page-wrapper">
+
+    <div class="content-grid">
+
+      <aside class="p-card sidebar-card next-session-card">
+
+        <h3 class="sidebar-title">Next Session</h3>
+
+        <div class="next-session-body" id="nextSessionBody">
+
+          <div class="next-session-empty" id="nextSessionEmpty" style="display:none;">
+            <div class="next-session-empty-icon">📅</div>
+            <p class="next-session-empty-text">No upcoming sessions.</p>
+          </div>
+
+          <div class="next-session-info" id="nextSessionInfo" style="display:none;">
+            <div class="next-session-campaign" id="nsCampaignName">—</div>
+
+            <div class="next-session-row">
+              <span class="ns-dot" id="nsTypeDot"></span>
+              <span class="next-session-type" id="nsSessionType">—</span>
+            </div>
+
+            <div class="next-session-row">
+              <span class="ns-label">Date:</span>
+              <span id="nsDate">—</span>
+            </div>
+
+            <div class="next-session-row">
+              <span class="ns-label">Time:</span>
+              <span id="nsTime">—</span>
+            </div>
+
+            <div class="next-session-row">
+              <span class="ns-label">DM:</span>
+              <span id="nsDM">—</span>
+            </div>
+
+            <div class="next-session-countdown" id="nsCountdown">—</div>
+          </div>
+
+        </div>
+
+        <button class="sidebar-action-btn" onclick="goToCalendar()">
+          📅 View Full Calendar
+        </button>
+
+      </aside>
+
+      <div class="p-card vtt-list-card">
+
+        <!-- Header -->
+
+        <div class="list-header">
+
+          <h2 class="list-title">
+            Your Virtual Tables
+          </h2>
+
+          <div class="list-controls">
+
+            <select class="filter-select" id="filterSelect">
+
+              <option value="all">
+                All VTTs
+              </option>
+
+              <option value="active">
+                Active VTTs
+              </option>
+
+              <option value="inactive">
+                Inactive VTTs
+              </option>
+
+            </select>
+
+            <div class="search-wrap">
+
+              <span class="search-icon">
+                🔍
+              </span>
+
+              <input class="search-input" id="searchInput" type="text" placeholder="Search...">
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Campaign Grid -->
+
+        <div class="vtt-grid" id="vttGrid">
+
+        </div>
+
+      </div>
+
+      <aside class="p-card sidebar-card mini-calendar-card">
+
+        <div class="mini-cal-header">
+          <button class="mini-cal-nav" id="miniCalPrev" aria-label="Previous month">‹</button>
+          <h3 class="sidebar-title mini-cal-title" id="miniCalMonthLabel">—</h3>
+          <button class="mini-cal-nav" id="miniCalNext" aria-label="Next month">›</button>
+        </div>
+
+        <div class="mini-cal-weekdays">
+          <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+        </div>
+
+        <div class="mini-cal-grid" id="miniCalGrid"></div>
+
+        <div class="mini-cal-legend" id="miniCalLegend">
+          <span class="legend-item"><span class="legend-dot dm"></span>DM Session</span>
+          <span class="legend-item"><span class="legend-dot player"></span>Player Session</span>
+          <span class="legend-item"><span class="legend-dot oneshot"></span>One-Shot</span>
+          <span class="legend-item"><span class="legend-dot roleplay"></span>Roleplay</span>
+          <span class="legend-item"><span class="legend-dot cancelled"></span>Cancelled</span>
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+<script src="../03_JS/vtt_manager_en.js"></script>
+</body>
+
+</html>
