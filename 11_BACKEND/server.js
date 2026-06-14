@@ -30,6 +30,8 @@ const publicProfileRoute = require("./routes/publicProfile");
 
 const friendsRouter = require('./routes/friends');
 
+const campaignsRouter = require('./routes/campaigns');
+
 
 // =====================================================
 // MIDDLEWARE
@@ -187,6 +189,12 @@ app.use(
   "/api/friends",
   friendsRouter
 );
+
+app.use(
+  "/api/campaigns",
+  campaignsRouter
+);
+
 
 
 
