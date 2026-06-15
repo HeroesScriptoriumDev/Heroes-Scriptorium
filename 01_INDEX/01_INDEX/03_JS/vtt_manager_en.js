@@ -287,24 +287,6 @@ function removeCampaign(id) {
   renderVTTs();
 }
 
-/* =========================================================
-   VTT MANAGER — SIDEBAR ADDITIONS
-   Append to vtt_manager_en.js
-   Adds: Next Session sidebar logic, Mini Calendar
-   rendering with color-coded session dots, navigation.
-   ========================================================= */
-
-/* =========================================================
-   SESSION DATA (MOCK)
-   ---------------------------------------------------------
-   Each entry: { date: "YYYY-MM-DD", type, campaign, dm, time }
-   type ∈ "dm" | "player" | "oneshot" | "roleplay" | "cancelled"
-
-   FUTURE API:
-   const response = await fetch("/api/sessions?month=2026-06");
-   const sessionData = await response.json();
-   ========================================================= */
-
 const SESSION_YEAR = 2026;
  
 const MONTH_NAME_TO_INDEX = {
