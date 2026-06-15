@@ -568,3 +568,24 @@ function parseSessionDate(dateStr) {
 function goToCalendar() {
   window.location.href = "session_calendar_en.html";
 }
+
+// ── Navigation ────────────────────────────────────────────────────────────
+function navigate(destination) {
+  switch (destination) {
+    case "home":
+      window.location.href = "home_en.html";
+      break;
+
+    case "player":
+      window.location.href = "home_en.html";
+      break;
+
+    case "profile":
+      window.location.href = "profile_en.html";
+      break;
+
+    case "settings":
+      window.location.href = "settings_en.html";
+      break;
+    }
+}
