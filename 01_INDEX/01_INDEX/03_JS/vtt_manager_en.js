@@ -257,7 +257,7 @@ filterSelect.addEventListener("change", renderVTTs);
 // =====================================
 
 function launchVTT(id) {
-  console.log("Launching VTT:", id);
+  window.location.href = `vtt_en.html?campaign=${id}`;
 
   //
   // future
