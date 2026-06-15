@@ -114,5 +114,27 @@ router.get('/my-vtts', authenticateToken, async (req, res) => {
   }
 });
 
+// DELETE /api/campaigns/:id/leave
+router.delete('/:id/leave', authenticateToken, async (req, res) => {
+  const campaignId = req.params.id;
+  const userId = req.user.id;
+
+  try {
+    const result = await pool.query(
+      `DELETE FROM campaign_members 
+       WHERE campaign_id = $1 AND user_id = $2 AND role != 'dm'`,
+      [campaignId, userId]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Membership not found, or DMs cannot leave their own campaign.' });
+    }
+
+    res.json({ message: 'Left campaign successfully.' });
+  } catch (err) {
+    console.error('Error leaving campaign:', err);
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
 
 module.exports = router;
