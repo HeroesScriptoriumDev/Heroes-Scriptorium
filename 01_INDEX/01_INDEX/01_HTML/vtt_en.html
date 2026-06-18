@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heroes VTT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../02_CSS/vtt_en.css">
+</head>
+<body>
+
+  <!-- ========================= -->
+  <!-- Loading Overlay           -->
+  <!-- ========================= -->
+  <div id="loading-overlay">
+    <div class="loading-logo">HEROES <span>⚔</span> VTT</div>
+    <div class="loading-sub">Heroes Scriptorium Virtual Tabletop Application</div>
+    <div class="loading-bar-track">
+      <div class="loading-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- ========================= -->
+  <!-- App Shell                 -->
+  <!-- ========================= -->
+  <div id="app" class="dm-mode">
+
+    <!-- Toolbar -->
+    <header id="toolbar">
+      <div class="toolbar-brand">HEROES <span>⚔</span> VTT</div>
+      <div class="toolbar-sep"></div>
+
+      <div class="tool-group dm-only">
+        <button class="tool-btn active" id="tool-select"    title="Select / Move"    onclick="setTool('select')">⬚</button>
+        <button class="tool-btn"        id="tool-move"      title="Pan Camera"       onclick="setTool('move')">✥</button>
+        <button class="tool-btn"        id="tool-measure"   title="Measure"          onclick="setTool('measure')">📐</button>
+        <button class="tool-btn"        id="tool-fog"       title="Fog of War"       onclick="setTool('fog')">🌫</button>
+        <button class="tool-btn"        id="tool-ping"      title="Ping / Marker"    onclick="setTool('ping')">📍</button>
+        <button class="tool-btn"        id="tool-calibrate" title="Calibrate Grid"   onclick="setTool('calibrate')">⊹</button>
+      </div>
+
+      <div class="toolbar-sep dm-only"></div>
+
+      <div class="scene-selector dm-only">
+        <span class="scene-label">SCENE</span>
+        <select id="toolbar-scene-select" onchange="switchScene(this.value)"></select>
+      </div>
+
+      <div class="toolbar-sep"></div>
+
+      <div class="tool-group">
+        <button class="tool-btn active" id="tog-grid"  title="Toggle Grid"        onclick="toggleGrid()">⊞</button>
+        <button class="tool-btn active dm-only" id="tog-fog" title="Toggle Fog"   onclick="toggleFogDisplay()">◑</button>
+        <button class="tool-btn active" id="tog-names" title="Toggle Token Names" onclick="toggleNames()">Aa</button>
+      </div>
+
+      <div class="toolbar-sep"></div>
+
+      <div class="tool-group">
+        <button class="tool-btn" title="Zoom Out"   onclick="adjustZoom(-0.15)">−</button>
+        <span class="zoom-display" id="zoom-display">100%</span>
+        <button class="tool-btn" title="Zoom In"    onclick="adjustZoom(0.15)">+</button>
+        <button class="tool-btn" title="Reset Zoom" onclick="resetView()">⊙</button>
+      </div>
+
+      <div class="toolbar-spacer"></div>
+
+      <div class="mode-toggle" id="role-indicator">
+        <span id="mode-label">—</span>
+      </div>
+
+      <div class="session-pill">
+        <div class="session-dot online"></div>
+        <span>Export Table</span>
+      </div>
+    </header>
+
+    <!-- Left Panel -->
+    <aside id="left-panel">
+
+      <!-- DM Sidebar -->
+      <section id="dm-sidebar" class="left-panel-view">
+        <div class="sidebar-tabs">
+          <button class="sidebar-tab active" onclick="setSidebarTab('scenes', this)">Scenes</button>
+          <button class="sidebar-tab"        onclick="setSidebarTab('chars', this)">Characters</button>
+          <button class="sidebar-tab"        onclick="setSidebarTab('fog', this)">Fog</button>
+          <button class="sidebar-tab"        onclick="setSidebarTab('table', this)">Table</button>
+        </div>
+
+        <!-- Scenes Tab -->
+        <div id="sidebar-scenes" class="sidebar-content">
+          <div class="sidebar-section-header">
+            Scenes
+            <button class="sidebar-add-btn" onclick="newScene()">+</button>
+          </div>
+          <div id="scenes-list"></div>
+
+          <div class="sidebar-section-header">
+            Tokens on Scene
+            <button class="sidebar-add-btn" onclick="spawnTokenPrompt()">+</button>
+          </div>
+          <div id="scene-token-list"></div>
+        </div>
+
+        <!-- Characters Tab -->
+        <div id="sidebar-chars" class="sidebar-content hidden">
+          <div class="sidebar-section-header">
+            Campaign Characters
+            <button class="sidebar-add-btn" onclick="linkCharacterPrompt()">+</button>
+          </div>
+          <div id="char-list"></div>
+        </div>
+
+        <!-- Fog Tab -->
+        <div id="sidebar-fog" class="sidebar-content hidden">
+          <div class="sidebar-section-header">Fog of War</div>
+          <div class="fog-legend">
+            <div><span class="fog-swatch hidden-fog"></span> Hidden</div>
+            <div><span class="fog-swatch dim-fog"></span> Explored</div>
+            <div><span class="fog-swatch clear-fog"></span> Visible</div>
+          </div>
+          <button class="open-sheet-btn"          onclick="clearAllFog()">🌑 Hide All</button>
+          <button class="open-sheet-btn green-btn" onclick="revealAllFog()">☀ Reveal All</button>
+          <button class="open-sheet-btn muted-btn" onclick="resetFog()">↺ Reset</button>
+          <div class="sidebar-section-header">Brush Size</div>
+          <div class="range-row">
+            <input type="range" id="fog-brush-size" min="1" max="6" value="2">
+            <span id="fog-brush-label">2</span>
+          </div>
+        </div>
+
+        <!-- Table Feed Tab -->
+        <div id="sidebar-table" class="sidebar-content hidden">
+          <div class="feed-header">
+            <div>
+              <div class="feed-title">Table Feed</div>
+              <div class="feed-subtitle">Chat, rolls, combat notes, and system events</div>
+            </div>
+          </div>
+          <div id="side-chat-log" class="side-chat-log"></div>
+          <form class="side-chat-form" onsubmit="sendFeedChat(event)">
+            <select id="feed-channel">
+              <option value="Table">Table</option>
+              <option value="In Character">In Character</option>
+              <option value="GM Whisper">GM Whisper</option>
+            </select>
+            <input id="feed-input" type="text" placeholder="Message or /roll 1d20+5">
+            <button type="submit">Send</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Player Sidebar -->
+      <section id="player-chat-sidebar" class="left-panel-view">
+        <div class="sidebar-tabs">
+          <button class="sidebar-tab active" onclick="setPlayerTab('party', this)">Party</button>
+          <button class="sidebar-tab"        onclick="setPlayerTab('table', this)">Table</button>
+        </div>
+        <div id="player-party" class="sidebar-content">
+          <div id="party-chat-log" class="side-chat-log"></div>
+          <form class="side-chat-form" onsubmit="sendPartyChat(event)">
+            <input id="party-chat-input" type="text" placeholder="Send a party message...">
+            <button type="submit">Send</button>
+          </form>
+        </div>
+        <div id="player-table" class="sidebar-content hidden">
+          <div id="player-table-log" class="side-chat-log"></div>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- Canvas -->
+    <main id="canvas-container">
+      <canvas id="vtt-canvas"></canvas>
+      <div id="measurement-display">0 ft.</div>
+      <div id="coords-display">x: 0, y: 0 | cell: 0,0</div>
+
+      <!-- Dice Tray -->
+      <div id="dice-tray" class="dice-tray collapsed">
+        <button class="dice-tray-toggle" onclick="toggleDiceTray()">🎲 Dice Tray</button>
+        <div class="dice-tray-body">
+          <div class="dice-title">Extended Roller</div>
+          <div class="dice-grid">
+            <button onclick="addDieToFormula('d4')">d4</button>
+            <button onclick="addDieToFormula('d6')">d6</button>
+            <button onclick="addDieToFormula('d8')">d8</button>
+            <button onclick="addDieToFormula('d10')">d10</button>
+            <button onclick="addDieToFormula('d12')">d12</button>
+            <button onclick="addDieToFormula('d20')">d20</button>
+            <button onclick="addDieToFormula('d100')">d100</button>
+            <button onclick="clearDiceFormula()">Clear</button>
+          </div>
+          <input id="dice-formula" type="text" value="1d20+5">
+          <div class="dice-actions">
+            <button onclick="rollDiceTray('public')">Public</button>
+            <button onclick="rollDiceTray('gm')">GM</button>
+            <button onclick="rollDiceTray('blind')">Blind</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="roll-toast-stack"></div>
+
+      <!-- Minimap -->
+      <div id="minimap-container">
+        <canvas id="minimap-canvas"></canvas>
+        <div class="minimap-label">MAP</div>
+      </div>
+
+      <!-- Context Menu -->
+      <div id="ctx-menu"></div>
+
+      <!-- HP Modal -->
+      <div id="hp-modal">
+        <div class="hp-modal-title">⚔ Adjust HP</div>
+        <input type="number" id="hp-modal-input" value="1" min="1" max="999">
+        <div class="hp-modal-row">
+          <button class="hp-modal-btn heal" onclick="applyHPModal('heal')">+ Heal</button>
+          <button class="hp-modal-btn dmg"  onclick="applyHPModal('damage')">− Damage</button>
+        </div>
+        <button class="hp-modal-close" onclick="closeHPModal()">Close</button>
+      </div>
+
+      <!-- Scene Modal -->
+      <div id="scene-modal">
+        <div class="hp-modal-title">🗺 New Scene</div>
+        <input type="text"   id="scene-modal-name"    placeholder="Scene name" />
+        <div class="hp-modal-row">
+          <input type="number" id="scene-modal-cols" placeholder="Columns" value="24" min="5" max="60" />
+          <input type="number" id="scene-modal-rows" placeholder="Rows"    value="16" min="5" max="60" />
+        </div>
+        <label class="scene-modal-color-label">Background Color</label>
+        <input type="color" id="scene-modal-bgcolor" value="#1a1008" />
+        <div class="scene-modal-upload-row">
+          <label class="scene-modal-upload-label" for="scene-modal-file">📁 Upload Map Image</label>
+          <input type="file" id="scene-modal-file" accept="image/*" style="display:none;" />
+          <span id="scene-modal-filename" class="scene-modal-filename">No file chosen</span>
+        </div>
+        <div id="scene-modal-upload-progress" class="scene-modal-progress" style="display:none;">
+          Uploading...
+        </div>
+        <div class="hp-modal-row">
+          <button class="hp-modal-btn heal" onclick="confirmNewScene()">Create</button>
+          <button class="hp-modal-btn dmg"  onclick="closeSceneModal()">Cancel</button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Right Panel — Inspector -->
+    <aside id="right-panel">
+      <div class="panel-header">
+        <div class="panel-title">⚔ Inspector</div>
+        <div class="panel-subtitle" id="panel-subtitle">No token selected</div>
+      </div>
+
+      <div id="panel-empty" class="panel-empty">
+        <div class="panel-empty-icon">⬚</div>
+        <div class="panel-empty-text">Click a token on the map to inspect it.</div>
+      </div>
+
+      <div id="panel-inspector" class="panel-body hidden">
+        <div class="token-portrait-row">
+          <div class="token-portrait" id="insp-portrait">?</div>
+          <div class="token-core">
+            <div class="token-name"  id="insp-name">-</div>
+            <div class="token-class" id="insp-class">-</div>
+            <div class="token-owner" id="insp-owner">-</div>
+          </div>
+        </div>
+
+        <div class="hp-section">
+          <div class="hp-label-row">
+            <span class="hp-label">Hit Points</span>
+            <span class="hp-value" id="insp-hp-value">- / -</span>
+          </div>
+          <div class="hp-bar-track">
+            <div class="hp-bar-fill" id="insp-hp-bar"></div>
+          </div>
+          <div class="hp-input-row">
+            <input type="number" id="insp-hp-input" class="hp-num-input" placeholder="Δ HP">
+            <button class="hp-adj-btn heal" onclick="quickHPAdjust('heal')">+ Heal</button>
+            <button class="hp-adj-btn dmg"  onclick="quickHPAdjust('damage')">− Dmg</button>
+          </div>
+        </div>
+
+        <section>
+          <div class="qr-header">Core Stats</div>
+          <div class="stat-grid" id="insp-stat-grid"></div>
+        </section>
+
+        <section>
+          <div class="qr-header">Recent Actions</div>
+          <div class="qr-grid" id="insp-recent-actions"></div>
+        </section>
+
+        <section class="skills-dropdown">
+          <button class="skills-toggle" onclick="toggleSkillsDropdown()">
+            <span>⚡ Skill Checks</span>
+            <span id="skills-arrow">▾</span>
+          </button>
+          <div class="skills-list" id="skills-list"></div>
+        </section>
+
+        <section>
+          <div class="qr-header">Conditions</div>
+          <div class="conditions-row" id="conditions-row"></div>
+        </section>
+
+        <section>
+          <div class="qr-header">Favorites</div>
+          <div class="favorite-grid" id="favorite-grid"></div>
+        </section>
+
+        <section class="action-section">
+          <button class="action-toggle" onclick="toggleActionSection('weapons-list')">
+            <span>⚔ Weapons</span><span>▾</span>
+          </button>
+          <div id="weapons-list" class="action-list"></div>
+        </section>
+
+        <section class="action-section">
+          <button class="action-toggle" onclick="toggleActionSection('spells-list')">
+            <span>✦ Spells</span><span>▾</span>
+          </button>
+          <div id="spells-list" class="action-list"></div>
+        </section>
+
+        <button class="open-sheet-btn" onclick="openLinkedSheet()">📋 Open Character Sheet</button>
+      </div>
+    </aside>
+
+  </div><!-- #app -->
+  <script><src="../03_JS/vtt_en.js"></script>
+</body>
+</html>
