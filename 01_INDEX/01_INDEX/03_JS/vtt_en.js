@@ -261,6 +261,7 @@ function switchScene(sceneId) {
 
   centerCamera();
   updateSceneTokenList();
+  saveVTTState();
   VTT.dirty = true;
 }
 
@@ -317,7 +318,8 @@ function confirmNewScene() {
     cols,
     rows,
     bgColor,
-    gridColor: "rgba(201,168,76,0.12)"
+    gridColor: "rgba(201,168,76,0.12)",
+    mapImageL window.pendingMapImage || null,
   };
 
   VTT.scenes.push(scene);
