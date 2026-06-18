@@ -156,6 +156,8 @@ async function loadVTTState() {
     }
 
     const data = await response.json();
+    console.log(data);
+    console.log("Role:", data.role);
     VTT.userRole = data.role;
     const state = data.vtt_state;
 
