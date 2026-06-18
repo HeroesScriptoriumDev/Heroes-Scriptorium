@@ -515,6 +515,25 @@ function render() {
 }
 
 function drawMapTexture(cfg) {
+
+  if (cfg.mapImage) {
+
+    if (!cfg._image) {
+      cfg._image = new Image();
+      cfg._image.src = cfg.mapImage;
+    }
+
+    if (cfg._image.complete) {
+      ctx.drawImage(
+        cfg._image,
+        0,
+        0,
+        cfg.cols * GRID_SIZE,
+        cfg.rows * GRID_SIZE
+      );
+    }
+  }
+
   ctx.save();
   ctx.globalAlpha = 0.03;
   ctx.strokeStyle = "#ffffff";
