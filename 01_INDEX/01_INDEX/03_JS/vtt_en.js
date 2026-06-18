@@ -319,7 +319,7 @@ function confirmNewScene() {
     rows,
     bgColor,
     gridColor: "rgba(201,168,76,0.12)",
-    mapImageL window.pendingMapImage || null,
+    mapImage: window.pendingMapImage || null,
   };
 
   VTT.scenes.push(scene);
