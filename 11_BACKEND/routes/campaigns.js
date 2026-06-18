@@ -144,9 +144,13 @@ router.get('/:id/vtt-state', authenticateToken, async (req, res) => {
 
   try {
     const memberCheck = await pool.query(
-      `SELECT id FROM campaign_members WHERE campaign_id = $1 AND user_id = $2 AND status = 'active'`,
-      [campaignId, userId]
-    );
+  `SELECT role
+   FROM campaign_members
+   WHERE campaign_id = $1
+     AND user_id = $2
+     AND status = 'active'`,
+  [campaignId, userId]
+);
 
     if (memberCheck.rows.length === 0) {
       return res.status(403).json({ error: 'You are not a member of this campaign.' });
@@ -161,7 +165,10 @@ router.get('/:id/vtt-state', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'Campaign not found.' });
     }
 
-    res.json({ vtt_state: result.rows[0].vtt_state || null });
+    res.json({
+  role: memberCheck.rows[0].role,
+  vtt_state: result.rows[0].vtt_state || null
+});
   } catch (err) {
     console.error('Error loading VTT state:', err);
     res.status(500).json({ error: 'Server error.' });
