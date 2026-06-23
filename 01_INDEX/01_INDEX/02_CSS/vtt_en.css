@@ -1438,6 +1438,265 @@ input, select { outline: none; }
 
 .export-btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
+
+/* =========================================================
+   ADDITIONS — append to bottom of vtt_en.css
+   ========================================================= */
+
+/* =========================================================
+   SCENE LIST — delete button
+   ========================================================= */
+
+.scene-card-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.scene-card-row .scene-card {
+  flex: 1;
+  min-width: 0;
+}
+
+.scene-delete-btn {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-3);
+  font-size: 0.75rem;
+  line-height: 1;
+  transition: all var(--transition);
+}
+
+.scene-delete-btn:hover {
+  background: rgba(224, 82, 82, 0.15);
+  border-color: rgba(224, 82, 82, 0.35);
+  color: var(--red);
+}
+
+/* =========================================================
+   SCENE MODAL — map dimension inputs + grid preview
+   ========================================================= */
+
+.scene-modal-section-label {
+  font-family: "Cinzel", serif;
+  font-size: 0.62rem;
+  color: var(--text-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.scene-modal-hint {
+  font-family: "Crimson Text", serif;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.7rem;
+  color: var(--text-3);
+  opacity: 0.7;
+}
+
+.scene-modal-dims-row {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+.scene-modal-dim-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.scene-modal-dim-field.scene-modal-dim-unit {
+  flex: 0 0 64px;
+}
+
+.scene-modal-dim-label {
+  font-family: "Cinzel", serif;
+  font-size: 0.58rem;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.scene-modal-dim-field input[type="number"],
+.scene-modal-dim-field select {
+  width: 100%;
+  padding: 6px 8px;
+  background: var(--bg-4);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.78rem;
+}
+
+.scene-modal-dim-field select {
+  font-family: "Cinzel", serif;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.scene-modal-grid-preview {
+  min-height: 20px;
+  padding: 5px 8px;
+  background: rgba(201, 168, 76, 0.06);
+  border: 1px solid rgba(201, 168, 76, 0.18);
+  border-radius: var(--radius);
+  color: var(--gold-2);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  transition: all var(--transition);
+}
+
+.scene-modal-grid-preview:empty {
+  display: none;
+}
+
+/* =========================================================
+   PLAYER CHARACTER PICKER — right panel
+   ========================================================= */
+
+.char-picker-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 12px;
+  width: 100%;
+}
+
+.char-picker-title {
+  color: var(--gold-2);
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.char-picker-subtitle {
+  color: var(--text-3);
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+.char-picker-select {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: "Crimson Text", serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.char-picker-select:focus {
+  border-color: rgba(201, 168, 76, 0.4);
+  outline: none;
+}
+
+.char-picker-preview {
+  width: 100%;
+}
+
+.char-picker-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: linear-gradient(135deg, #1a0a2e, #2d1060);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  border-radius: var(--radius);
+  animation: toast-in 180ms ease;
+}
+
+.char-picker-avatar {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid rgba(201, 168, 76, 0.4);
+  color: var(--gold-2);
+  font-family: "Cinzel", serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.char-picker-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.char-picker-name {
+  color: var(--gold-2);
+  font-family: "Cinzel", serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.char-picker-meta {
+  color: var(--text-2);
+  font-size: 0.72rem;
+  margin-top: 1px;
+}
+
+.char-picker-hp {
+  color: var(--text-3);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.65rem;
+  margin-top: 2px;
+}
+
+.char-picker-btn {
+  width: 100%;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #2a1a40, #44236e);
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  border-radius: var(--radius);
+  color: var(--gold-2);
+  font-family: "Cinzel", serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 150ms ease;
+}
+
+.char-picker-btn:hover {
+  background: linear-gradient(135deg, #3a2a50, #54337e);
+  border-color: var(--gold);
+}
+
+.char-picker-note {
+  color: var(--text-3);
+  font-size: 0.68rem;
+  text-align: center;
+}
+
+.char-picker-link {
+  color: var(--gold-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.char-picker-link:hover {
+  color: var(--accent);
+}
+
 /* =========================================================
    ANIMATIONS
    ========================================================= */
