@@ -1,7 +1,3 @@
-/* =========================================================
-   HEROES VTT — COMPLETE JAVASCRIPT
-   ========================================================= */
-
 const GRID_SIZE         = 64;
 const FEET_PER_CELL     = 5;
 const MIN_ZOOM          = 0.2;
@@ -64,6 +60,24 @@ VTT.campaignId  = urlParams.get("campaign");
 let isPanning   = false;
 let panStart    = { x: 0, y: 0 };
 let panCamStart = { x: 0, y: 0 };
+
+/* =========================================================
+   AUTH HELPER — reads token the way authMiddleware expects
+   ========================================================= */
+
+function getAuthHeaders(extra = {}) {
+  const token = localStorage.getItem("token");
+  return {
+    "Content-Type": "application/json",
+    ...(token ? { token } : {}),
+    ...extra
+  };
+}
+
+function getAuthHeadersNoContentType() {
+  const token = localStorage.getItem("token");
+  return token ? { token } : {};
+}
 
 /* =========================================================
    INIT
@@ -129,14 +143,14 @@ function applyRoleView() {
 }
 
 /* =========================================================
-   PERSISTENCE
+   PERSISTENCE — uses correct "token" header
    ========================================================= */
 
 async function loadVTTState() {
   if (!VTT.campaignId) { console.warn("No campaign ID."); return false; }
   try {
     const res  = await fetch(`/api/campaigns/${VTT.campaignId}/vtt-state`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      headers: getAuthHeadersNoContentType()
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data  = await res.json();
@@ -169,7 +183,7 @@ async function saveVTTState() {
   try {
     const res = await fetch(`/api/campaigns/${VTT.campaignId}/vtt-state`, {
       method:  "PUT",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("token")}` },
+      headers: getAuthHeaders(),
       body:    JSON.stringify({ vtt_state: state })
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -232,10 +246,13 @@ function getSceneTokens() { return VTT.tokens.filter(t => t.sceneId === VTT.curr
 function renderScenesList() {
   const list = document.getElementById("scenes-list"); if (!list) return;
   list.innerHTML = VTT.scenes.map(s => `
-    <button class="scene-card ${s.id === VTT.currentSceneId ? "active" : ""}"
-      data-scene-id="${s.id}" onclick="switchScene('${s.id}')">
-      <span>🗺</span><strong>${s.name}</strong>
-    </button>`).join("");
+    <div class="scene-card-row">
+      <button class="scene-card ${s.id === VTT.currentSceneId ? "active" : ""}"
+        data-scene-id="${s.id}" onclick="switchScene('${s.id}')">
+        <span>🗺</span><strong>${s.name}</strong>
+      </button>
+      <button class="scene-delete-btn" title="Delete scene" onclick="deleteScenePrompt('${s.id}')">✕</button>
+    </div>`).join("");
 }
 
 function renderSceneSelector() {
@@ -246,16 +263,47 @@ function renderSceneSelector() {
 
 function newScene() {
   document.getElementById("scene-modal-name").value    = "";
-  document.getElementById("scene-modal-cols").value    = 24;
-  document.getElementById("scene-modal-rows").value    = 16;
+  document.getElementById("scene-modal-cols").value    = "";
+  document.getElementById("scene-modal-rows").value    = "";
+  document.getElementById("scene-modal-map-width").value  = "";
+  document.getElementById("scene-modal-map-height").value = "";
+  document.getElementById("scene-modal-unit").value    = "ft";
   document.getElementById("scene-modal-bgcolor").value = "#1a1008";
   document.getElementById("scene-modal-filename").textContent = "No file chosen";
   document.getElementById("scene-modal-file").value = "";
   document.getElementById("scene-modal-upload-progress").style.display = "none";
+  document.getElementById("scene-modal-grid-preview").textContent = "";
   document.getElementById("scene-modal").classList.add("open");
 }
 
 function closeSceneModal() { document.getElementById("scene-modal").classList.remove("open"); }
+
+/* Auto-calculate grid from map dimensions + unit */
+function recalcSceneGrid() {
+  const mapW    = parseFloat(document.getElementById("scene-modal-map-width").value);
+  const mapH    = parseFloat(document.getElementById("scene-modal-map-height").value);
+  const unit    = document.getElementById("scene-modal-unit").value;
+  const preview = document.getElementById("scene-modal-grid-preview");
+
+  // Convert everything to feet for grid math
+  const toFeet = { ft: 1, m: 3.281, yd: 3, mi: 5280 };
+  const factor  = toFeet[unit] || 1;
+  const fps     = 5; // feet per square — standard D&D
+
+  if (!mapW || !mapH || mapW <= 0 || mapH <= 0) {
+    preview.textContent = "";
+    return;
+  }
+
+  const cols = Math.max(5, Math.min(60, Math.round((mapW * factor) / fps)));
+  const rows = Math.max(5, Math.min(60, Math.round((mapH * factor) / fps)));
+
+  document.getElementById("scene-modal-cols").value = cols;
+  document.getElementById("scene-modal-rows").value = rows;
+
+  const unitLabel = { ft: "ft", m: "m", yd: "yd", mi: "mi" }[unit];
+  preview.textContent = `→ ${cols} × ${rows} squares (5 ft/sq) — map is ${mapW}×${mapH} ${unitLabel}`;
+}
 
 async function confirmNewScene() {
   const name    = document.getElementById("scene-modal-name").value.trim() || "New Scene";
@@ -263,6 +311,11 @@ async function confirmNewScene() {
   const rows    = Math.max(5, Math.min(60, parseInt(document.getElementById("scene-modal-rows").value, 10) || 16));
   const bgColor = document.getElementById("scene-modal-bgcolor").value || "#1a1008";
   const file    = document.getElementById("scene-modal-file").files[0];
+
+  // Store map dimensions metadata on the scene for reference
+  const mapWidth  = parseFloat(document.getElementById("scene-modal-map-width").value)  || null;
+  const mapHeight = parseFloat(document.getElementById("scene-modal-map-height").value) || null;
+  const mapUnit   = document.getElementById("scene-modal-unit").value || "ft";
 
   const btn = document.querySelector("#scene-modal .hp-modal-btn.heal");
   btn.disabled = true; btn.textContent = "Creating...";
@@ -277,7 +330,8 @@ async function confirmNewScene() {
 
   const scene = {
     id: "scene_" + Date.now(), name, cols, rows, bgColor,
-    gridColor: "rgba(201,168,76,0.12)", gridSize: 64, feetPerSquare: 5, imageUrl
+    gridColor: "rgba(201,168,76,0.12)", gridSize: 64, feetPerSquare: 5, imageUrl,
+    mapWidth, mapHeight, mapUnit
   };
   VTT.scenes.push(scene);
   VTT.fog[scene.id] = new Uint8Array(cols * rows);
@@ -288,6 +342,46 @@ async function confirmNewScene() {
   btn.disabled = false; btn.textContent = "Create";
   closeSceneModal();
   addFeedEntry("system", "Scenes", `New scene created: ${name}.${imageUrl ? " Map image uploaded." : ""}`);
+}
+
+/* =========================================================
+   SCENE DELETION
+   ========================================================= */
+
+function deleteScenePrompt(sceneId) {
+  const cfg = getSceneConfig(sceneId); if (!cfg) return;
+  if (VTT.scenes.length === 1) {
+    alert("You cannot delete the last scene. Create another scene first.");
+    return;
+  }
+  if (!confirm(`Delete scene "${cfg.name}"? All tokens on this scene will be removed. This cannot be undone.`)) return;
+  deleteScene(sceneId);
+}
+
+function deleteScene(sceneId) {
+  const cfg = getSceneConfig(sceneId); if (!cfg) return;
+
+  // Remove tokens on this scene
+  VTT.tokens = VTT.tokens.filter(t => t.sceneId !== sceneId);
+
+  // Remove fog data
+  delete VTT.fog[sceneId];
+
+  // Remove scene
+  VTT.scenes = VTT.scenes.filter(s => s.id !== sceneId);
+
+  // If we deleted the active scene, switch to first available
+  if (VTT.currentSceneId === sceneId) {
+    VTT.currentSceneId = VTT.scenes[0].id;
+    VTT.mapCols = VTT.scenes[0].cols;
+    VTT.mapRows = VTT.scenes[0].rows;
+  }
+
+  renderScenesList();
+  renderSceneSelector();
+  switchScene(VTT.currentSceneId);
+  saveVTTState();
+  addFeedEntry("system", "Scenes", `Scene deleted: ${cfg.name}.`);
 }
 
 /* =========================================================
@@ -587,7 +681,7 @@ async function loadAvailableCharacters() {
   if (!VTT.campaignId) return;
   try {
     const res = await fetch(`/api/campaigns/${VTT.campaignId}/my-characters`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      headers: getAuthHeadersNoContentType()
     });
     if (!res.ok) return;
     const data = await res.json();
@@ -597,28 +691,63 @@ async function loadAvailableCharacters() {
 
 function renderCharacterPicker() {
   const empty = document.getElementById("panel-empty"); if (!empty) return;
-  if (!VTT.availableCharacters.length) {
-    empty.innerHTML = `<div class="panel-empty-icon">⬚</div><div class="panel-empty-text">No characters found.<br>Create a character first.</div>`;
+
+  if (!VTT.availableCharacters || !VTT.availableCharacters.length) {
+    empty.innerHTML = `
+      <div class="char-picker-wrap">
+        <div class="panel-empty-icon">⬚</div>
+        <div class="panel-empty-text">No characters found in this campaign.<br>
+          <a href="/characters_en.html" class="char-picker-link">Create a character first</a>
+        </div>
+      </div>`;
     return;
   }
-  const existing = VTT.tokens.find(t =>
+
+  // Check if the player already has a token on this scene
+  const existingToken = VTT.tokens.find(t =>
     t.sceneId === VTT.currentSceneId &&
     VTT.availableCharacters.some(c => c.id === t.characterId)
   );
-  if (existing) {
-    empty.innerHTML = `<div class="panel-empty-icon">⚔</div><div class="panel-empty-text">Click your token on the map to inspect it.</div>`;
+  if (existingToken) {
+    empty.innerHTML = `
+      <div class="char-picker-wrap">
+        <div class="panel-empty-icon">⚔</div>
+        <div class="panel-empty-text">You're in the scene.<br>Click your token on the map to inspect it.</div>
+      </div>`;
     return;
   }
+
   const opts = VTT.availableCharacters.map(c =>
-    `<option value="${c.id}">${c.character_name} (${c.class||"?"} ${c.level||1})</option>`
+    `<option value="${c.id}">${c.character_name} — ${c.class||"?"} ${c.level||1}</option>`
   ).join("");
+
   empty.innerHTML = `
-    <div class="char-picker-title">Choose Your Character</div>
-    <select class="char-picker-select" id="char-picker-select">
-      <option value="">— Select a character —</option>${opts}
-    </select>
-    <button class="char-picker-btn" onclick="spawnPlayerToken()">Enter Scene</button>
-    <div class="char-picker-note">Your token will be placed at the scene center.</div>`;
+    <div class="char-picker-wrap">
+      <div class="char-picker-title">⚔ Enter the Scene</div>
+      <div class="char-picker-subtitle">Choose which character you're playing today</div>
+      <select class="char-picker-select" id="char-picker-select">
+        <option value="">— Select a character —</option>${opts}
+      </select>
+      <div id="char-picker-preview" class="char-picker-preview"></div>
+      <button class="char-picker-btn" onclick="spawnPlayerToken()">Enter Scene</button>
+    </div>`;
+
+  document.getElementById("char-picker-select").addEventListener("change", function() {
+    const charId = this.value;
+    const preview = document.getElementById("char-picker-preview");
+    if (!charId) { preview.innerHTML = ""; return; }
+    const c = VTT.availableCharacters.find(x => x.id === charId);
+    if (!c) { preview.innerHTML = ""; return; }
+    preview.innerHTML = `
+      <div class="char-picker-card">
+        <div class="char-picker-avatar" style="background:linear-gradient(135deg,${darkenHex(c.color||"#7b5ea7",30)},${c.color||"#7b5ea7"})">${(c.character_name||"?").slice(0,2).toUpperCase()}</div>
+        <div class="char-picker-info">
+          <div class="char-picker-name">${c.character_name}</div>
+          <div class="char-picker-meta">${c.race||"Unknown"} ${c.class||"Unknown"} · Level ${c.level||1}</div>
+          <div class="char-picker-hp">HP ${c.hp_current||c.hp_max||"?"} / ${c.hp_max||"?"} &nbsp;·&nbsp; AC ${c.ac||"?"}</div>
+        </div>
+      </div>`;
+  });
 }
 
 function spawnPlayerToken() {
@@ -1029,6 +1158,13 @@ function attachEvents() {
   document.getElementById("scene-modal-file").addEventListener("change", e=>{
     const file=e.target.files[0];
     document.getElementById("scene-modal-filename").textContent=file?file.name:"No file chosen";
+  });
+
+  // Scene modal — recalc grid when map dimensions or unit change
+  ["scene-modal-map-width","scene-modal-map-height","scene-modal-unit"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", recalcSceneGrid);
+    if (el) el.addEventListener("change", recalcSceneGrid);
   });
 
   canvas.addEventListener("mousedown", event=>{
