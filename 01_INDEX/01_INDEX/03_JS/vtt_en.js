@@ -172,14 +172,22 @@ async function loadVTTState() {
 
 async function saveVTTState() {
   if (!VTT.campaignId) return;
+
+  // Strip non-serializable fields (_img cache) from scenes before saving
+  const cleanScenes = VTT.scenes.map(s => {
+    const { _img, ...rest } = s;
+    return rest;
+  });
+
   const state = {
     currentSceneId: VTT.currentSceneId,
-    scenes:         VTT.scenes,
+    scenes:         cleanScenes,
     tokens:         VTT.tokens,
     characters:     VTT.characters,
     fog:            {}
   };
   VTT.scenes.forEach(s => { state.fog[s.id] = Array.from(VTT.fog[s.id] || []); });
+
   try {
     const res = await fetch(`/api/campaigns/${VTT.campaignId}/vtt-state`, {
       method:  "PUT",
