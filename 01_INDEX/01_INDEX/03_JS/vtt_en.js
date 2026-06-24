@@ -823,34 +823,35 @@ function spawnPlayerToken() {
   if (!char) { alert("Character not found. Please try again."); return; }
 
   const vttChar = {
-    id:               String(char.id),
-    name:             char.character_name,
-    initials:         (char.character_name || "??").slice(0, 2).toUpperCase(),
-    race:             char.race             || "Unknown",
-    class:            char.class            || "Unknown",
-    level:            char.level            || 1,
-    playerName:       char.player_name      || "Player",
-    color:            char.color            || "#7b5ea7",
-    hpCurrent:        char.hp_current       || char.hp_max || 10,
-    hpMax:            char.hp_max           || 10,
-    ac:               char.ac               || 10,
-    bab:              char.bab              || 0,
-    str:              char.str              || 10,
-    dex:              char.dex              || 10,
-    con:              char.con              || 10,
-    int:              char.int              || 10,
-    wis:              char.wis              || 10,
-    cha:              char.cha              || 10,
-    fortTotal:        char.fort_total       || 0,
-    refTotal:         char.ref_total        || 0,
-    willTotal:        char.will_total       || 0,
-    initiativeTotal:  char.initiative_total || 0,
-    conditions:       [],
-    recentActions:    [],
-    skills:           char.skills    || {},
-    weapons:          char.weapons   || [],
-    spells:           char.spells    || [],
-    favorites:        char.favorites || [],
+  id:               String(char.id),
+  dbId:             char.id,
+  name:             char.character_name,
+  initials:         (char.character_name || "??").slice(0, 2).toUpperCase(),
+  race:             char.race             || "Unknown",
+  class:            char.class            || "Unknown",
+  level:            Number(char.level)    || 1,
+  playerName:       char.player_name      || "Player",
+  color:            char.color            || "#7b5ea7",
+  hpCurrent:        Number(char.hp_current || char.hp_max || 10),
+  hpMax:            Number(char.hp_max    || 10),
+  ac:               Number(char.ac        || 10),
+  bab:              Number(char.bab       || 0),
+  str:              Number(char.str       || 10),
+  dex:              Number(char.dex       || 10),
+  con:              Number(char.con       || 10),
+  intStat:          Number(char.int       || 10),   // 'int' is reserved — stored as intStat
+  wis:              Number(char.wis       || 10),
+  cha:              Number(char.cha       || 10),
+  fortTotal:        Number(char.fort_total       || 0),
+  refTotal:         Number(char.ref_total        || 0),
+  willTotal:        Number(char.will_total       || 0),
+  initiativeTotal:  Number(char.initiative_total || 0),
+  conditions:       [],
+  recentActions:    [],
+  skills:           char.skills   || {},
+  weapons:          char.weapons  || [],
+  spells:           char.spells   || [],
+  favorites:        char.favorites|| []
     // Store the original DB id for sheet linking
     dbId:             char.id
   };
@@ -891,16 +892,24 @@ function populateInspector(char, token) {
 
 function populateStats(char) {
   const stats = [
-    {label:"AC",value:char.ac},{label:"HP",value:`${char.hpCurrent}/${char.hpMax}`},
-    {label:"Init",value:formatMod(char.initiativeTotal)},{label:"BAB",value:formatMod(char.bab)},
-    {label:"Fort",value:formatMod(char.fortTotal)},{label:"Ref",value:formatMod(char.refTotal)},
-    {label:"Will",value:formatMod(char.willTotal)},{label:"STR",value:char.str},{label:"DEX",value:char.dex}
+    { label: "AC",   value: char.ac },
+    { label: "HP",   value: `${char.hpCurrent}/${char.hpMax}` },
+    { label: "Init", value: formatMod(char.initiativeTotal) },
+    { label: "BAB",  value: formatMod(char.bab) },
+    { label: "Fort", value: formatMod(char.fortTotal) },
+    { label: "Ref",  value: formatMod(char.refTotal) },
+    { label: "Will", value: formatMod(char.willTotal) },
+    { label: "STR",  value: char.str },
+    { label: "DEX",  value: char.dex },
+    { label: "CON",  value: char.con },
+    { label: "INT",  value: char.intStat },   // was char.int
+    { label: "WIS",  value: char.wis },
+    { label: "CHA",  value: char.cha }
   ];
   document.getElementById("insp-stat-grid").innerHTML = stats.map(s =>
     `<div class="stat-pill"><div class="stat-pill-value">${s.value}</div><div class="stat-pill-label">${s.label}</div></div>`
   ).join("");
 }
-
 function populateRecentActions(char) {
   const recent = char.recentActions&&char.recentActions.length ? char.recentActions : [
     {name:"Initiative",formula:`1d20${formatMod(char.initiativeTotal)}`,tag:"roll"},
@@ -1436,11 +1445,53 @@ let _lastSyncedSceneId = null;
 let _sceneSyncInterval  = null;
 
 function startSceneSync() {
-  // DM doesn't need to poll — they ARE the source of truth
-  if (VTT.userRole === "dm") return;
-
+  if (VTT.userRole === "dm") {
+    // DM polls for player-spawned tokens every 4 seconds
+    setInterval(syncTokensFromServer, 4000);
+    return;
+  }
+  // Player polls for scene switches every 4 seconds
   _lastSyncedSceneId = VTT.currentSceneId;
   _sceneSyncInterval = setInterval(syncSceneFromServer, 4000);
+}
+
+async function syncTokensFromServer() {
+  if (!VTT.campaignId) return;
+  try {
+    const res = await fetch(`/api/campaigns/${VTT.campaignId}/vtt-state`, {
+      headers: getAuthHeadersNoContentType()
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const state = data.vtt_state;
+    if (!state) return;
+
+    let changed = false;
+
+    // Merge in any characters the DM doesn't have yet (player-spawned)
+    (state.characters || []).forEach(incoming => {
+      if (!VTT.characters.find(c => String(c.id) === String(incoming.id))) {
+        VTT.characters.push(incoming);
+        changed = true;
+      }
+    });
+
+    // Merge in any tokens the DM doesn't have yet
+    (state.tokens || []).forEach(incoming => {
+      if (!VTT.tokens.find(t => t.id === incoming.id)) {
+        VTT.tokens.push(incoming);
+        changed = true;
+      }
+    });
+
+    if (changed) {
+      updateSceneTokenList();
+      renderCharacters();
+      VTT.dirty = true;
+    }
+  } catch (err) {
+    console.error("syncTokensFromServer:", err);
+  }
 }
 
 async function syncSceneFromServer() {
