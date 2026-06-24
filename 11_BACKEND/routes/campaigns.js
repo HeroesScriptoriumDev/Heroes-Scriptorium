@@ -207,4 +207,62 @@ router.put('/:id/vtt-state', authenticateToken, async (req, res) => {
   }
 });
 
+// GET /api/campaigns/:id/my-characters
+router.get('/:id/my-characters', authenticateToken, async (req, res) => {
+  const campaignId = req.params.id;
+  const userId = req.user.id;
+
+  try {
+    const memberCheck = await pool.query(
+      `SELECT role FROM campaign_members 
+       WHERE campaign_id = $1 AND user_id = $2 AND status = 'active'`,
+      [campaignId, userId]
+    );
+    if (memberCheck.rows.length === 0) {
+      return res.status(403).json({ error: 'Not a member of this campaign.' });
+    }
+
+    const result = await pool.query(
+      `SELECT id, character_name, player_name, edition, sheet_data
+       FROM characters
+       WHERE user_id = $1 AND is_deleted = false
+       ORDER BY character_name ASC`,
+      [userId]
+    );
+
+    const characters = result.rows.map(row => {
+      const s = row.sheet_data || {};
+      return {
+        id:               row.id,
+        character_name:   row.character_name  || "Unnamed Character",
+        player_name:      row.player_name     || s["player-name"] || "",
+        edition:          row.edition         || "",
+        race:             s.raceSelect        || "Unknown",
+        class:            s.classSelect       || "Unknown",
+        level:            parseInt(s.levelSelect               || 1,  10),
+        hp_current:       parseInt(s.hitPointsTotal            || 10, 10),
+        hp_max:           parseInt(s.hitPointsTotal            || 10, 10),
+        ac:               parseInt(s.acTotal                   || 10, 10),
+        bab:              parseInt(s.baseAttackBonusTotal       || 0,  10),
+        fort_total:       parseInt(s.savingThrowFortitudeTotal  || 0,  10),
+        ref_total:        parseInt(s.savingThrowReflexTotal     || 0,  10),
+        will_total:       parseInt(s.savingThrowWillTotal       || 0,  10),
+        initiative_total: parseInt(s.initiativeTotal            || 0,  10),
+        str: parseInt(s.strengthTotal     || 10, 10),
+        dex: parseInt(s.dexterityTotal    || 10, 10),
+        con: parseInt(s.constitutionTotal || 10, 10),
+        int: parseInt(s.intelligenceTotal || 10, 10),
+        wis: parseInt(s.wisdomTotal       || 10, 10),
+        cha: parseInt(s.charismaTotal     || 10, 10),
+        color: s.color || "#7b5ea7",
+      };
+    });
+
+    res.json({ characters });
+  } catch (err) {
+    console.error('Error fetching characters for VTT:', err);
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
+
 module.exports = router;
