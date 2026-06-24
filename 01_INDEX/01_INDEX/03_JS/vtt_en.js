@@ -105,6 +105,7 @@ async function init() {
   centerCamera();
   startRenderLoop();
   startAutoSave();
+  startSceneSync();
 
   if (VTT.userRole === "player") {
     await loadAvailableCharacters();
@@ -1336,6 +1337,68 @@ function serializeCombined(data,fmt,ts){if(fmt==="json")return JSON.stringify({e
 
 let _JSZipCache=null;
 async function loadJSZip(){if(_JSZipCache)return _JSZipCache;return new Promise((res,rej)=>{const s=document.createElement("script");s.src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js";s.onload=()=>{_JSZipCache=window.JSZip;res(window.JSZip);};s.onerror=()=>rej(new Error("JSZip load failed"));document.head.appendChild(s);});}
+
+
+/* =========================================================
+   SCENE SYNC — player auto-follows DM's active scene
+   ========================================================= */
+
+let _lastSyncedSceneId = null;
+let _sceneSyncInterval  = null;
+
+function startSceneSync() {
+  // DM doesn't need to poll — they ARE the source of truth
+  if (VTT.userRole === "dm") return;
+
+  _lastSyncedSceneId = VTT.currentSceneId;
+  _sceneSyncInterval = setInterval(syncSceneFromServer, 4000);
+}
+
+async function syncSceneFromServer() {
+  if (!VTT.campaignId) return;
+  try {
+    const res = await fetch(`/api/campaigns/${VTT.campaignId}/vtt-state`, {
+      headers: getAuthHeadersNoContentType()
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const state = data.vtt_state;
+    if (!state) return;
+
+    const dmSceneId = state.currentSceneId;
+
+    // Only act if the DM has switched to a different scene than we're on
+    if (dmSceneId && dmSceneId !== VTT.currentSceneId) {
+
+      // Merge any new scenes the DM may have created since we loaded
+      state.scenes.forEach(incoming => {
+        if (!VTT.scenes.find(s => s.id === incoming.id)) {
+          VTT.scenes.push(incoming);
+          VTT.fog[incoming.id] = state.fog && state.fog[incoming.id]
+            ? new Uint8Array(state.fog[incoming.id])
+            : new Uint8Array(incoming.cols * incoming.rows);
+        } else {
+          // Update existing scene config (imageUrl may have changed, etc.)
+          const local = VTT.scenes.find(s => s.id === incoming.id);
+          const { _img, ...updates } = incoming; // don't clobber live image cache
+          Object.assign(local, updates);
+        }
+      });
+
+      // Also sync tokens and characters so new spawns appear
+      VTT.tokens     = state.tokens     || VTT.tokens;
+      VTT.characters = state.characters || VTT.characters;
+
+      // Switch to the DM's scene
+      renderSceneSelector();
+      switchScene(dmSceneId);
+      addFeedEntry("system", "Scene", `DM moved to a new scene.`);
+      _lastSyncedSceneId = dmSceneId;
+    }
+  } catch (err) {
+    console.error("syncSceneFromServer:", err);
+  }
+}
 
 /* =========================================================
    BOOT
