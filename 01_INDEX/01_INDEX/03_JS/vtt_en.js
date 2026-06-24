@@ -717,7 +717,9 @@ function tokenAt(wx, wy) {
   return null;
 }
 
-function findCharByToken(token) { return VTT.characters.find(c => c.id === token.characterId); }
+function findCharByToken(token) {
+  return VTT.characters.find(c => String(c.id) === String(token.characterId));
+}
 
 function selectToken(tokenId) {
   VTT.selectedTokenId = tokenId; VTT.dirty = true;
@@ -1255,6 +1257,26 @@ function linkCharacterPrompt() { alert("Character linking browser coming soon.")
    ========================================================= */
 
 function attachEvents() {
+  window.addEventListener("mouseup", () => {
+    isPanning = false;
+    VTT.fogPainting = false;
+
+    if (VTT.dragging) {
+      saveVTTState();
+    }
+
+    VTT.dragging = null;
+    if (VTT.measuring) {
+      VTT.measuring = false;
+      setTimeout(() => {
+        document.getElementById("measurement-display").style.display = "none";
+      },
+    900);
+    }
+    canvas.style.cursor = "default";
+    VTT.dirty = true;
+  });
+      
   window.addEventListener("resize", ()=>{resizeCanvas();VTT.dirty=true;});
   document.getElementById("fog-brush-size").addEventListener("input", e=>{
     VTT.fogBrushSize=parseInt(e.target.value,10);
@@ -1466,7 +1488,7 @@ async function syncTokensFromServer() {
 
     let changed = false;
 
-    // Merge in any characters the DM doesn't have yet (player-spawned)
+    // Merge characters the DM doesn't have yet
     (state.characters || []).forEach(incoming => {
       if (!VTT.characters.find(c => String(c.id) === String(incoming.id))) {
         VTT.characters.push(incoming);
@@ -1474,17 +1496,35 @@ async function syncTokensFromServer() {
       }
     });
 
-    // Merge in any tokens the DM doesn't have yet
+    // Merge tokens — add new ones AND update positions of existing ones
     (state.tokens || []).forEach(incoming => {
-      if (!VTT.tokens.find(t => t.id === incoming.id)) {
+      const existing = VTT.tokens.find(t => t.id === incoming.id);
+      if (!existing) {
+        // New token — add it
         VTT.tokens.push(incoming);
         changed = true;
+      } else {
+        // Existing token — sync position if it moved
+        if (existing.x !== incoming.x || existing.y !== incoming.y) {
+          existing.x = incoming.x;
+          existing.y = incoming.y;
+          changed = true;
+        }
       }
     });
 
+    // Also remove tokens that no longer exist in server state
+    // (handles the case where a player's token was deleted)
+    const serverTokenIds = new Set((state.tokens || []).map(t => t.id));
+    const before = VTT.tokens.length;
+    VTT.tokens = VTT.tokens.filter(t => {
+      // Keep DM-spawned tokens always; only remove player tokens that disappeared
+      return serverTokenIds.has(t.id) || !t.controllable;
+    });
+    if (VTT.tokens.length !== before) changed = true;
+
     if (changed) {
       updateSceneTokenList();
-      renderCharacters();
       VTT.dirty = true;
     }
   } catch (err) {
@@ -1503,12 +1543,11 @@ async function syncSceneFromServer() {
     const state = data.vtt_state;
     if (!state) return;
 
+    let changed = false;
+
+    // --- Scene switch ---
     const dmSceneId = state.currentSceneId;
-
-    // Only act if the DM has switched to a different scene than we're on
     if (dmSceneId && dmSceneId !== VTT.currentSceneId) {
-
-      // Merge any new scenes the DM may have created since we loaded
       state.scenes.forEach(incoming => {
         if (!VTT.scenes.find(s => s.id === incoming.id)) {
           VTT.scenes.push(incoming);
@@ -1516,22 +1555,53 @@ async function syncSceneFromServer() {
             ? new Uint8Array(state.fog[incoming.id])
             : new Uint8Array(incoming.cols * incoming.rows);
         } else {
-          // Update existing scene config (imageUrl may have changed, etc.)
           const local = VTT.scenes.find(s => s.id === incoming.id);
-          const { _img, ...updates } = incoming; // don't clobber live image cache
+          const { _img, ...updates } = incoming;
           Object.assign(local, updates);
         }
       });
-
-      // Also sync tokens and characters so new spawns appear
       VTT.tokens     = state.tokens     || VTT.tokens;
       VTT.characters = state.characters || VTT.characters;
-
-      // Switch to the DM's scene
       renderSceneSelector();
       switchScene(dmSceneId);
-      addFeedEntry("system", "Scene", `DM moved to a new scene.`);
+      addFeedEntry("system", "Scene", "DM moved to a new scene.");
       _lastSyncedSceneId = dmSceneId;
+      return; // full state applied, skip position merge
+    }
+
+    // --- Same scene: sync token positions (DM moved tokens) ---
+    (state.tokens || []).forEach(incoming => {
+      const existing = VTT.tokens.find(t => t.id === incoming.id);
+      if (!existing) {
+        // Token was added by DM since we last loaded — pull its character too
+        (state.characters || []).forEach(c => {
+          if (String(c.id) === String(incoming.characterId) &&
+              !VTT.characters.find(x => String(x.id) === String(c.id))) {
+            VTT.characters.push(c);
+          }
+        });
+        VTT.tokens.push(incoming);
+        changed = true;
+      } else {
+        // Don't snap a token the player is actively dragging
+        if (VTT.dragging && VTT.dragging.id === existing.id) return;
+        if (existing.x !== incoming.x || existing.y !== incoming.y) {
+          existing.x = incoming.x;
+          existing.y = incoming.y;
+          changed = true;
+        }
+      }
+    });
+
+    // Remove tokens the DM deleted
+    const serverIds = new Set((state.tokens || []).map(t => t.id));
+    const before = VTT.tokens.length;
+    VTT.tokens = VTT.tokens.filter(t => serverIds.has(t.id));
+    if (VTT.tokens.length !== before) changed = true;
+
+    if (changed) {
+      updateSceneTokenList();
+      VTT.dirty = true;
     }
   } catch (err) {
     console.error("syncSceneFromServer:", err);
