@@ -794,56 +794,84 @@ function renderCharacterPicker() {
     </div>`;
 
   document.getElementById("char-picker-select").addEventListener("change", function() {
-    const charId = this.value;
-    const preview = document.getElementById("char-picker-preview");
-    if (!charId) { preview.innerHTML = ""; return; }
-    const c = VTT.availableCharacters.find(x => x.id === charId);
-    if (!c) { preview.innerHTML = ""; return; }
-    preview.innerHTML = `
-      <div class="char-picker-card">
-        <div class="char-picker-avatar" style="background:linear-gradient(135deg,${darkenHex(c.color||"#7b5ea7",30)},${c.color||"#7b5ea7"})">${(c.character_name||"?").slice(0,2).toUpperCase()}</div>
-        <div class="char-picker-info">
-          <div class="char-picker-name">${c.character_name}</div>
-          <div class="char-picker-meta">${c.race||"Unknown"} ${c.class||"Unknown"} · Level ${c.level||1}</div>
-          <div class="char-picker-hp">HP ${c.hp_current||c.hp_max||"?"} / ${c.hp_max||"?"} &nbsp;·&nbsp; AC ${c.ac||"?"}</div>
-        </div>
-      </div>`;
-  });
+  const charId = this.value;
+  const preview = document.getElementById("char-picker-preview");
+  if (!charId) { preview.innerHTML = ""; return; }
+
+  // String comparison fix
+  const c = VTT.availableCharacters.find(x => String(x.id) === String(charId));
+  if (!c) { preview.innerHTML = ""; return; }
+
+  preview.innerHTML = `
+    <div class="char-picker-card">
+      <div class="char-picker-avatar" style="background:linear-gradient(135deg,${darkenHex(c.color||"#7b5ea7",30)},${c.color||"#7b5ea7"})">${(c.character_name||"?").slice(0,2).toUpperCase()}</div>
+      <div class="char-picker-info">
+        <div class="char-picker-name">${c.character_name}</div>
+        <div class="char-picker-meta">${c.race||"Unknown"} ${c.class||"Unknown"} · Level ${c.level||1}</div>
+        <div class="char-picker-hp">HP ${c.hp_current||c.hp_max||"?"} / ${c.hp_max||"?"} &nbsp;·&nbsp; AC ${c.ac||"?"}</div>
+      </div>
+    </div>`;
+});
 }
 
 function spawnPlayerToken() {
   const sel = document.getElementById("char-picker-select");
   if (!sel || !sel.value) { alert("Please select a character first."); return; }
-  const char = VTT.availableCharacters.find(c => c.id === sel.value); if (!char) return;
+
+  // Compare as strings — sel.value is always a string, DB id may be int
+  const char = VTT.availableCharacters.find(c => String(c.id) === String(sel.value));
+  if (!char) { alert("Character not found. Please try again."); return; }
+
   const vttChar = {
-    id:              char.id,
-    name:            char.character_name,
-    initials:        char.character_name.slice(0,2).toUpperCase(),
-    race:            char.race            || "Unknown",
-    class:           char.class           || "Unknown",
-    level:           char.level           || 1,
-    playerName:      char.playerName      || "Player",
-    color:           char.color           || "#7b5ea7",
-    hpCurrent:       char.hp_current      || char.hp_max || 10,
-    hpMax:           char.hp_max          || 10,
-    ac:              char.ac              || 10,
-    bab:             char.bab             || 0,
-    str: char.str||10, dex: char.dex||10, con: char.con||10,
-    int: char.int||10, wis: char.wis||10, cha: char.cha||10,
-    fortTotal:       char.fort_total      || 0,
-    refTotal:        char.ref_total       || 0,
-    willTotal:       char.will_total      || 0,
-    initiativeTotal: char.initiative_total|| 0,
-    conditions: [], recentActions: [],
-    skills: char.skills||{}, weapons: char.weapons||[], spells: char.spells||[], favorites: char.favorites||[]
+    id:               String(char.id),
+    name:             char.character_name,
+    initials:         (char.character_name || "??").slice(0, 2).toUpperCase(),
+    race:             char.race             || "Unknown",
+    class:            char.class            || "Unknown",
+    level:            char.level            || 1,
+    playerName:       char.player_name      || "Player",
+    color:            char.color            || "#7b5ea7",
+    hpCurrent:        char.hp_current       || char.hp_max || 10,
+    hpMax:            char.hp_max           || 10,
+    ac:               char.ac               || 10,
+    bab:              char.bab              || 0,
+    str:              char.str              || 10,
+    dex:              char.dex              || 10,
+    con:              char.con              || 10,
+    int:              char.int              || 10,
+    wis:              char.wis              || 10,
+    cha:              char.cha              || 10,
+    fortTotal:        char.fort_total       || 0,
+    refTotal:         char.ref_total        || 0,
+    willTotal:        char.will_total       || 0,
+    initiativeTotal:  char.initiative_total || 0,
+    conditions:       [],
+    recentActions:    [],
+    skills:           char.skills    || {},
+    weapons:          char.weapons   || [],
+    spells:           char.spells    || [],
+    favorites:        char.favorites || [],
+    // Store the original DB id for sheet linking
+    dbId:             char.id
   };
-  if (!VTT.characters.find(c => c.id === vttChar.id)) VTT.characters.push(vttChar);
+
+  // Add to campaign character roster if not already there
+  if (!VTT.characters.find(c => c.id === vttChar.id)) {
+    VTT.characters.push(vttChar);
+  }
+
   const cfg = getSceneConfig(VTT.currentSceneId);
   const gs  = cfg ? (cfg.gridSize || GRID_SIZE) : GRID_SIZE;
-  spawnTokenAt(vttChar.id, Math.floor(cfg.cols/2)*gs + gs/2, Math.floor(cfg.rows/2)*gs + gs/2);
+  spawnTokenAt(vttChar.id, Math.floor(cfg.cols / 2) * gs + gs / 2, Math.floor(cfg.rows / 2) * gs + gs / 2);
+
   saveVTTState();
   addFeedEntry("system", vttChar.name, "entered the scene.");
-  showPanelEmpty();
+
+  // Select the token we just spawned so the inspector opens immediately
+  const newToken = VTT.tokens.find(t =>
+    t.sceneId === VTT.currentSceneId && t.characterId === vttChar.id
+  );
+  if (newToken) selectToken(newToken.id);
 }
 
 function populateInspector(char, token) {
@@ -972,7 +1000,16 @@ function toggleSkillsDropdown() {
   list.classList.toggle("open"); arrow.textContent = list.classList.contains("open")?"▴":"▾";
 }
 function toggleActionSection(id) { document.getElementById(id).classList.toggle("open"); }
-function openLinkedSheet() { const c=getSelectedCharacter(); alert(c?`Opening sheet for ${c.name}.`:"No character selected."); }
+function openLinkedSheet() {
+  const char = getSelectedCharacter();
+  if (!char) { alert("No character selected."); return; }
+
+  // Use dbId if available (player characters), otherwise fall back to id
+  const sheetId = char.dbId || char.id;
+
+  // Open in new tab so the VTT session stays open
+  window.open(`/characters_en.html?id=${sheetId}`, "_blank");
+}
 
 /* =========================================================
    HP
