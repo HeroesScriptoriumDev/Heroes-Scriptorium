@@ -616,18 +616,70 @@ function drawPings() {
 function renderMinimap() {
   const cfg = getSceneConfig(VTT.currentSceneId); if (!cfg) return;
   const gs = cfg.gridSize || GRID_SIZE;
-  const w = (miniCanvas.width = miniCanvas.offsetWidth), h = (miniCanvas.height = miniCanvas.offsetHeight);
-  const sx = w / (cfg.cols*gs), sy = h / (cfg.rows*gs);
-  miniCtx.clearRect(0,0,w,h); miniCtx.fillStyle = cfg.bgColor; miniCtx.fillRect(0,0,w,h);
+
+  // Use fixed internal resolution — don't rely on offsetWidth which can be 0
+  const W = 120, H = 80;
+  miniCanvas.width  = W;
+  miniCanvas.height = H;
+
+  const scaleX = W / (cfg.cols * gs);
+  const scaleY = H / (cfg.rows * gs);
+
+  // Background
+  miniCtx.fillStyle = cfg.bgColor;
+  miniCtx.fillRect(0, 0, W, H);
+
+  // Draw map image if present
+  if (cfg.imageUrl) {
+    if (!cfg._img) {
+      cfg._img = new Image();
+      cfg._img.src = cfg.imageUrl;
+      cfg._img.onload = () => { VTT.dirty = true; };
+    }
+    if (cfg._img.complete && cfg._img.naturalWidth > 0) {
+      miniCtx.drawImage(cfg._img, 0, 0, W, H);
+    }
+  }
+
+  // Grid overlay (subtle)
+  miniCtx.strokeStyle = "rgba(201,168,76,0.15)";
+  miniCtx.lineWidth = 0.5;
+  for (let c = 0; c <= cfg.cols; c++) {
+    miniCtx.beginPath();
+    miniCtx.moveTo(c * scaleX * gs, 0);
+    miniCtx.lineTo(c * scaleX * gs, H);
+    miniCtx.stroke();
+  }
+  for (let r = 0; r <= cfg.rows; r++) {
+    miniCtx.beginPath();
+    miniCtx.moveTo(0, r * scaleY * gs);
+    miniCtx.lineTo(W, r * scaleY * gs);
+    miniCtx.stroke();
+  }
+
+  // Tokens
   getSceneTokens().forEach(token => {
     const char = findCharByToken(token); if (!char) return;
     miniCtx.beginPath();
-    miniCtx.arc(token.x*sx + (token.size*sx)/2, token.y*sy + (token.size*sy)/2, 3, 0, Math.PI*2);
-    miniCtx.fillStyle = char.color; miniCtx.fill();
+    miniCtx.arc(
+      token.x * scaleX + (token.size * scaleX) / 2,
+      token.y * scaleY + (token.size * scaleY) / 2,
+      3, 0, Math.PI * 2
+    );
+    miniCtx.fillStyle = char.color;
+    miniCtx.fill();
   });
-  const tl = screenToWorld(0,0), br = screenToWorld(canvas.width, canvas.height);
-  miniCtx.strokeStyle = "rgba(201,168,76,0.6)"; miniCtx.lineWidth = 1;
-  miniCtx.strokeRect(tl.x*sx, tl.y*sy, (br.x-tl.x)*sx, (br.y-tl.y)*sy);
+
+  // Viewport rectangle — shows where the main camera is looking
+  const tl = screenToWorld(0, 0);
+  const br = screenToWorld(canvas.width, canvas.height);
+  miniCtx.strokeStyle = "rgba(201,168,76,0.7)";
+  miniCtx.lineWidth = 1.5;
+  miniCtx.strokeRect(
+    tl.x * scaleX, tl.y * scaleY,
+    (br.x - tl.x) * scaleX,
+    (br.y - tl.y) * scaleY
+  );
 }
 
 /* =========================================================
