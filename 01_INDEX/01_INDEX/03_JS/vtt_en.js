@@ -852,8 +852,6 @@ function spawnPlayerToken() {
   weapons:          char.weapons  || [],
   spells:           char.spells   || [],
   favorites:        char.favorites|| []
-    // Store the original DB id for sheet linking
-    dbId:             char.id
   };
 
   // Add to campaign character roster if not already there
