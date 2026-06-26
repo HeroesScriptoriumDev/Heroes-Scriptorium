@@ -215,12 +215,10 @@ function navigate(destination){
        ===================================================== */
 
     case "library":
-
-      window.location.href = 
-        "https://srd.dndtools.org/";
-      );
-
-      break;
+      
+      window.location.href =
+      "https://srd.dndtools.org/";
+    break;
 
 
     /* =====================================================
