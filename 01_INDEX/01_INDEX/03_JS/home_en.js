@@ -253,9 +253,8 @@ function navigate(destination){
 
     case "vtt":
 
-      showTemporaryMessage(
-        "Virtual Tabletop not yet implemented."
-      );
+      window.location.href =
+        "vtt_manager_en.html";
 
       break;
 
