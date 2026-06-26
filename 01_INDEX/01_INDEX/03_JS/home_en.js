@@ -216,8 +216,8 @@ function navigate(destination){
 
     case "library":
 
-      showTemporaryMessage(
-        "Library system not yet implemented."
+      window.location.href = 
+        "https://srd.dndtools.org/";
       );
 
       break;
