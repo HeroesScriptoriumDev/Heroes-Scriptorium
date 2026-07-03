@@ -760,7 +760,7 @@ function renderCharacterPicker() {
       <div class="char-picker-wrap">
         <div class="panel-empty-icon">⬚</div>
         <div class="panel-empty-text">No characters found in this campaign.<br>
-          <a href="/characters_en.html" class="char-picker-link">Create a character first</a>
+          <a href="/new_character_35e_en.html" class="char-picker-link">Create a character first</a>
         </div>
       </div>`;
     return;
@@ -1017,7 +1017,7 @@ function openLinkedSheet() {
   const sheetId = char.dbId || char.id;
 
   // Open in new tab so the VTT session stays open
-  window.open(`/characters_en.html?id=${sheetId}`, "_blank");
+  window.open(`/new_character_35e_en.html?id=${sheetId}`, "_blank");
 }
 
 /* =========================================================
