@@ -162,45 +162,45 @@ html, body {
 }
 
 #library-btn {
-  top: 420px;
-  left: 552px;
+  top: 540px;
+  left: 440px;
   width: 180px;
-  height: 150px;
+  height: 180px;
 }
 
 #tavern-btn {
-  top: 560px;
-  left: 1275px;
+  top: 580px;
+  left: 1250px;
   width: 180px;
-  height: 150px;
+  height: 180px;
 }
 
 #characters-btn {
-  top: 420px;
-  left: 2026px;
+  top: 440px;
+  left: 1990px;
   width: 180px;
-  height: 150px;
+  height: 180px;
 }
 
 #vtt-btn {
-  top: 1075px;
-  left: 295px;
+  top: 1100px;
+  left: 285px;
   width: 180px;
-  height: 150px;
+  height: 180px;
 }
 
 #marketplace-btn {
-  top: 1110px;
-  left: 1285px;
+  top: 1130px;
+  left: 1260px;
   width: 180px;
-  height: 150px;
+  height: 180px;
 }
 
 #community-btn {
-  top: 1075px;
-  left: 2305px;
+  top: 1100px;
+  left: 2260px;
   width: 180px;
-  height: 150px;
+  height: 180px;
 }
 
 .tooltip {
