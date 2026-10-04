@@ -98,6 +98,7 @@ html, body {
 #player-switch-btn,
 #profile-btn,
 #settings-btn {
+  background: rgba(200, 164, 90, 0.12);
   width: 11.25%;
   height: 5%;
   top: 4%;
@@ -146,6 +147,15 @@ html, body {
     0 0 28px rgba(200, 164, 90, 0.5),
     inset 0 0 16px rgba(200, 164, 90, 0.1);
   cursor: pointer;
+}
+
+#library-btn,
+#tavern-btn,
+#characters-btn,
+vtt-btn,
+marketplace-btn,
+community-btn {
+  background: rgba(200, 164, 90, 0.12);
 }
 
 #library-btn {
